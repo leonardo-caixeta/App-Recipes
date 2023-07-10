@@ -6,6 +6,9 @@ import searchIcon from '../images/searchIcon.svg';
 
 export default function Header({ haveSearch, title }) {
   const [searchBar, setSearchBar] = useState(false);
+  const showSearchBar = () => (
+    searchBar === false ? setSearchBar(true) : setSearchBar(false)
+  );
   return (
     <div>
       <Link to="/profile">
@@ -20,12 +23,12 @@ export default function Header({ haveSearch, title }) {
         && (
           <label htmlFor="search-top-btn">
             <input
-              type="button"
+              type="image"
               src={ searchIcon }
               alt="search-icon"
               data-testid="search-top-btn"
               id="search-top-btn"
-              // onClick={ setSearchBar(!searchBar) }
+              onClick={ showSearchBar }
             />
           </label>
         )}
