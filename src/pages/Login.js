@@ -1,16 +1,25 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isDisable, setIsDisable] = useState(true);
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  const passwordLength = 6;
 
-  if (emailRegex.test(isDisable)) {
-    setIsDisable(true);
-    console.log(setou);
-  }
+  useMemo(() => {
+    if (emailRegex.test(email) && password.length > passwordLength) {
+      setIsDisable(false);
+    } else {
+      setIsDisable(true);
+    }
+  }, [email, password]);
+
+  const setUserInLocalStorage = () => {
+    localStorage.setItem('user', JSON.stringify({ email }));
+  };
 
   return (
     <div>
@@ -34,12 +43,15 @@ function Login() {
           value={ password }
         />
       </label>
-      <button
-        data-testid="login-submit-btn"
-        disabled={ isDisable }
-      >
-        Enter
-      </button>
+      <Link to="/meals">
+        <button
+          data-testid="login-submit-btn"
+          disabled={ isDisable }
+          onClick={ setUserInLocalStorage }
+        >
+          Enter
+        </button>
+      </Link>
     </div>
   );
 }
