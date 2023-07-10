@@ -5,6 +5,13 @@ function Login() {
   const [password, setPassword] = useState('');
   const [isDisable, setIsDisable] = useState(true);
 
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (emailRegex.test(isDisable)) {
+    setIsDisable(true);
+    console.log(setou);
+  }
+
   return (
     <div>
       <label htmlFor="email-input">
