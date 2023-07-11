@@ -18,7 +18,7 @@ function Login() {
   }, [email, password]);
 
   const setUserInLocalStorage = () => {
-    localStorage.setItem('user', email);
+    localStorage.setItem('user', JSON.stringify({ email }));
   };
 
   return (

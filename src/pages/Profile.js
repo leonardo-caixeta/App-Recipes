@@ -4,8 +4,15 @@ import Header from '../components/Header';
 import profileIcon from '../images/profileIcon.svg';
 
 export default function Profile() {
-  const loginEmail = localStorage.getItem('user');
-  console.log(loginEmail);
+  const loginEmail = JSON.parse(localStorage.getItem('user')).email;
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('doneRecipes');
+    localStorage.removeItem('favoriteRecipes');
+    localStorage.removeItem('inProgressRecipes');
+  };
+
   return (
     <>
       <Header haveSearch={ false } title="Profile" />
@@ -21,7 +28,13 @@ export default function Profile() {
             Favorite Recipes
           </Link>
         </section>
-        <button data-testid="profile-logout-btn">Logout</button>
+        <Link
+          to="/"
+          data-testid="profile-logout-btn"
+          onClick={ handleLogout }
+        >
+          Logout
+        </Link>
       </main>
       <Footer />
     </>
