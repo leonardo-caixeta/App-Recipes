@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 export default async function FetchDrinks(store) {
   const {
@@ -7,7 +7,7 @@ export default async function FetchDrinks(store) {
     searchResults,
     setSearchResults,
   } = store;
-  const history = useHistory();
+  console.log('entrou');
 
   if (searchInput.length > 1 && searchType === 'letter') {
     global.alert('Your search must have only 1 (one) character');
@@ -36,7 +36,7 @@ export default async function FetchDrinks(store) {
     }
   }
 
-  if (searchResults.length === 1) {
-    history.push(`/drinks/${searchResults.idDrink}`);
+  if (searchResults.drinks && searchResults.drinks.length === 1) {
+    <Redirect to={ `/drinks/${searchResults.idDrink}` } />;
   }
 }

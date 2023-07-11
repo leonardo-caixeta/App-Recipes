@@ -7,12 +7,14 @@ import FetchDrinks from '../funcs/FetchDrinks';
 
 function SearchBar({ food }) {
   const store = useContext(FoodContext);
-  const { setSearchType } = store;
+  const { setSearchType, searchResults } = store;
 
-  const doFetch = () => {
+  const doFetch = async () => {
     if (food === 'meal') {
-      FetchMeals(store);
-    } else FetchDrinks(store);
+      await FetchMeals(store);
+    } else await FetchDrinks(store);
+
+    console.log(searchResults);
   };
 
   return (
@@ -49,7 +51,7 @@ function SearchBar({ food }) {
       Busca pela primeira letra
       <button
         data-testid="exec-search-btn"
-        onClick={ doFetch }
+        onClick={ () => doFetch() }
       >
         Buscar
       </button>
