@@ -5,7 +5,7 @@ export default function Meals() {
   return (
     <div>
       <Header haveSearch title="Meals" />
-      <SearchBar />
+      <SearchBar food="meal" />
     </div>
   );
 }
