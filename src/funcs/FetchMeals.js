@@ -1,4 +1,4 @@
-// import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 export default async function FetchMeals(store) {
   const {
@@ -37,7 +37,7 @@ export default async function FetchMeals(store) {
   console.log(searchResults);
 
   if (searchResults.meals && searchResults.meals.length === 1) {
-    // <Redirect to='/profile' />;
+    <Redirect to="/profile" />;
     console.log('entrou');
   }
 }

@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import profileIcon from '../images/profileIcon.svg';
 
 export default function Profile() {
-  const loginEmail = JSON.parse(localStorage.getItem('user')).email;
+  const loginEmail = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
     localStorage.removeItem('user');
@@ -18,7 +18,7 @@ export default function Profile() {
       <Header haveSearch={ false } title="Profile" />
       <main>
         <img alt="Imagem do perfil" src={ profileIcon } />
-        <p data-testid="profile-email">{loginEmail}</p>
+        <p data-testid="profile-email">{loginEmail && loginEmail.email}</p>
         <section>
           <Link to="./done-recipes" data-testid="profile-done-btn">Done Recipes</Link>
           <Link
