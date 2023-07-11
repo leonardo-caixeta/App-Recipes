@@ -34,8 +34,10 @@ export default async function FetchMeals(store) {
       break;
     }
   }
+  console.log(searchResults);
+
   if (searchResults.meals && searchResults.meals.length === 1) {
-    // <Redirect to='/profile' />;
+    <Redirect to="/profile" />;
     console.log('entrou');
   }
 }
