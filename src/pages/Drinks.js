@@ -1,7 +1,9 @@
+import Header from '../components/Header';
+
 export default function Drinks() {
   return (
     <div>
-      Drinks
+      <Header haveSearch title="Drinks" />
     </div>
   );
 }
