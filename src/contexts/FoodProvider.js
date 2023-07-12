@@ -13,6 +13,7 @@ function FoodProvider({ children }) {
   const [categories, setCategories] = useState([]);
   const [recipes, setRecipes] = useState([]);
 
+  // temporário
   useEffect(() => {
     async function fetchRecipesData() {
       let endpoint = '';
