@@ -4,17 +4,17 @@ import PropTypes from 'prop-types';
 import FoodContext from '../contexts/FoodContext';
 import FetchMeals from '../funcs/FetchMeals';
 import FetchDrinks from '../funcs/FetchDrinks';
+import FirstRecipes from './FirstRecipes';
 
 function SearchBar({ food }) {
   const store = useContext(FoodContext);
-  const { setSearchType, searchResults } = store;
+  const { setSearchType } = store;
+  // const { searchResults } = store;
 
   const doFetch = async () => {
     if (food === 'meal') {
       await FetchMeals(store);
     } else await FetchDrinks(store);
-
-    console.log(searchResults);
   };
 
   return (
@@ -55,6 +55,7 @@ function SearchBar({ food }) {
       >
         Buscar
       </button>
+      <FirstRecipes />
     </div>
   );
 }

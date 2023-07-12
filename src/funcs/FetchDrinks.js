@@ -1,10 +1,7 @@
-import { Redirect } from 'react-router-dom';
-
 export default async function FetchDrinks(store) {
   const {
     searchType,
     searchInput,
-    searchResults,
     setSearchResults,
   } = store;
   console.log('entrou');
@@ -34,9 +31,5 @@ export default async function FetchDrinks(store) {
     default:
       break;
     }
-  }
-
-  if (searchResults.drinks && searchResults.drinks.length === 1) {
-    <Redirect to={ `/drinks/${searchResults.idDrink}` } />;
   }
 }

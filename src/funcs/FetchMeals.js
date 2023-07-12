@@ -1,12 +1,7 @@
-import useRedirectUser from '../hooks/useRedirectUser';
-
-// const messageError = 'Sorry, we havent found any recipes for these filters.';
-
 export default async function FetchMeals(store) {
   const {
     searchType,
     searchInput,
-    searchResults,
     setSearchResults,
   } = store;
 
@@ -36,8 +31,4 @@ export default async function FetchMeals(store) {
       break;
     }
   }
-  console.log('aqui embaixo');
-  const { idMeal } = searchResults.length === 1 && searchResults;
-  const path = searchResults.length === 1 && Object.keys(searchResults);
-  useRedirectUser(path, idMeal);
 }
