@@ -1,4 +1,6 @@
-import { Redirect } from 'react-router-dom';
+import useRedirectUser from '../hooks/useRedirectUser';
+
+// const messageError = 'Sorry, we havent found any recipes for these filters.';
 
 export default async function FetchMeals(store) {
   const {
@@ -34,8 +36,8 @@ export default async function FetchMeals(store) {
       break;
     }
   }
-  if (searchResults.meals && searchResults.meals.length === 1) {
-    // <Redirect to='/profile' />;
-    console.log('entrou');
-  }
+  console.log('aqui embaixo');
+  const { idMeal } = searchResults.length === 1 && searchResults;
+  const path = searchResults.length === 1 && Object.keys(searchResults);
+  useRedirectUser(path, idMeal);
 }
