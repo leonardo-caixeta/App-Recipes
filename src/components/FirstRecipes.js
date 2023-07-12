@@ -15,7 +15,7 @@ export default function FirstRecipes() {
 
   // não funciona de primeira
   // console.log(searchResults[path].map((info) => console.log(info.idMeal)));
-  // console.log(searchResults[path] === undefined);s
+  // console.log(searchResults[path] === undefined);
 
   if (searchResults[path] && searchResults[path] === 1) {
     console.log('history');
