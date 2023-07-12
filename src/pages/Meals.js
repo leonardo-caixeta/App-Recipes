@@ -6,7 +6,7 @@ export default function Meals() {
   return (
     <>
       <Header haveSearch title="Meals" />
-      <SearchBar food="meal" />
+      <SearchBar food="meals" />
 
       <Footer />
     </>
