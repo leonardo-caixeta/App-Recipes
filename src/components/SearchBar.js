@@ -7,7 +7,8 @@ import FetchDrinks from '../funcs/FetchDrinks';
 import FirstRecipes from './FirstRecipes';
 
 function SearchBar({ food }) {
-  const errorMessage = 'Sorry, we havent found any recipes for these filters.';
+  const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
+
   const store = useContext(FoodContext);
   const [renderRecipes, setRenderRecipes] = useState(false);
   const { setSearchType, searchInput, searchType, searchResults } = store;
@@ -67,7 +68,7 @@ function SearchBar({ food }) {
       >
         Buscar
       </button>
-      { renderRecipes && <FirstRecipes /> }
+      { renderRecipes && <FirstRecipes foodType={ food } /> }
     </div>
   );
 }
