@@ -10,7 +10,6 @@ import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import FoodProvider from './contexts/FoodProvider';
-import Recipes from './components/Recipes';
 
 function App() {
   return (
