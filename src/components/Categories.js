@@ -14,7 +14,9 @@ function Categories() {
   const path = window.location.pathname.replace(/\//g, '');
 
   const doFetch = async (category) => {
-    setToggleRenderFiltered(!toggleRenderFiltered);
+    if (toggleRenderFiltered) {
+      setToggleRenderFiltered(false);
+    } else setToggleRenderFiltered(true);
     if (path === 'meals') {
       setFilterCategories(await fetchFilterCategories(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`));
     } else {

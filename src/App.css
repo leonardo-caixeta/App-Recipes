@@ -7,12 +7,18 @@
   font-family: sans-serif;
   height: 100vh;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
 }
 
 .rocksGlass {
   animation: shake 1s infinite ease;
   max-height: 80vh;
+}
+
+.recipe-card {
+  display: flex;
+  flex-flow: column wrap;
+  overflow: hidden;
 }
 
 
@@ -21,6 +27,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 5%;
+  overflow: scroll;
   text-align: center;
   width: 100%;
 }
@@ -43,6 +50,10 @@
 
 
 @media ( max-width : 1080px ) {
+
+  body {
+    width: 100vw;
+  }
 
   .recipe-img {
     border-radius: 50%;
@@ -110,4 +121,8 @@
   100% {
     transform: rotate(-10deg);
   }
+}
+
+.info-img {
+  width: 75px;
 }
