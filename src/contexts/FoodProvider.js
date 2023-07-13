@@ -12,9 +12,7 @@ function FoodProvider({ children }) {
   const [searchResults, setSearchResults] = useState([]);
   const [categories, setCategories] = useState([]);
   const [recipes, setRecipes] = useState([]);
-  const [toggleRenderFiltered, setToggleRenderFiltered] = useState(false);
 
-  // RECEITAS
   useEffect(() => {
     async function fetchRecipesData() {
       let endpoint = '';
@@ -34,7 +32,6 @@ function FoodProvider({ children }) {
     fetchRecipesData();
   }, []);
 
-  // CATEGORIAS
   useEffect(() => {
     async function fetchCategoriesData() {
       let categoryEndpoint = '';
@@ -54,7 +51,6 @@ function FoodProvider({ children }) {
     fetchCategoriesData();
   }, []);
 
-  // RETORNO
   const store = useMemo(() => ({
     searchInput,
     setSearchInput,
@@ -66,8 +62,7 @@ function FoodProvider({ children }) {
     setRecipes,
     categories,
     setCategories,
-    toggleRenderFiltered,
-    setToggleRenderFiltered,
+
   }), [
     searchInput,
     setSearchInput,
@@ -79,8 +74,6 @@ function FoodProvider({ children }) {
     setRecipes,
     categories,
     setCategories,
-    toggleRenderFiltered,
-    setToggleRenderFiltered,
   ]);
 
   return (
