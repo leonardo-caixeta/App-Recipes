@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import FoodContext from '../contexts/FoodContext';
@@ -10,10 +10,7 @@ function SearchBar({ food }) {
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const store = useContext(FoodContext);
-  const [renderRecipes, setRenderRecipes] = useState(false);
   const { setSearchType, searchInput, searchType, searchResults } = store;
-
-  useMemo(() => setRenderRecipes(true), [searchResults]);
 
   const doFetch = async () => {
     if (searchInput.length > 1 && searchType === 'letter') {
@@ -68,7 +65,7 @@ function SearchBar({ food }) {
       >
         Buscar
       </button>
-      { renderRecipes && <FirstRecipes foodType={ food } /> }
+      { searchResults && <FirstRecipes foodType={ food } /> }
     </div>
   );
 }
