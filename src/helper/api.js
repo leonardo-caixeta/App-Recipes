@@ -21,3 +21,14 @@ export async function fetchCategories(categoryEndpoint) {
     return [];
   }
 }
+
+export async function fetchFilterCategories(api) {
+  try {
+    const response = await fetch(api);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching filter categories:', error);
+    return [];
+  }
+}

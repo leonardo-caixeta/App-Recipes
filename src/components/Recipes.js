@@ -5,7 +5,6 @@ import FoodContext from '../contexts/FoodContext';
 
 function Recipes() {
   const { recipes } = useContext(FoodContext);
-  console.log(recipes);
   return (
     <div className="recipes-container">
       <Categories />
