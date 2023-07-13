@@ -1,3 +1,8 @@
+body {
+  box-sizing: border-box;
+  height: 100vh;
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;
@@ -7,7 +12,7 @@
   font-family: sans-serif;
   height: 100vh;
   justify-content: center;
-  width: 100%;
+  width: 100vw;
 }
 
 .rocksGlass {
@@ -15,13 +20,75 @@
   max-height: 80vh;
 }
 
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+
+.recipes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 5%;
+  text-align: center;
+  width: 100%;
+}
+
+
+.recipe-img {
+  border-radius: 50%;
+  height: 200px;
+  width: 200px;
+}
+
+.category-buttons {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  height: 2rem;
+  justify-content: center;
+  margin-bottom: 5%;
+  text-align: center;
+  width: 90vw;
+}
+
+.recipes-cards-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+@media ( max-width : 1080px ) {
+
+  body {
+    width: 100vw;
+  }
+
+  .recipe-img {
+    border-radius: 50%;
+    height: 150px;
+    width: 50%;
+  }
+}
+
+@media screen and ( max-width : 768px ) {
+
+  .recipe-img {
+    border-radius: 50%;
+    height: 100px;
+    width: 80%;
+  }
+}
+
+
 /*
 #iceLeft {
   animation: clink .8s infinite ease;
   opacity: 0.6;
   transform-origin: 36px 66px;
 }
-
 #iceRight {
   animation: clink .8s .2s infinite ease;
   opacity: 0.6;
@@ -73,4 +140,8 @@ footer {
   100% {
     transform: rotate(-10deg);
   }
+}
+
+.info-img {
+  width: 75px;
 }
