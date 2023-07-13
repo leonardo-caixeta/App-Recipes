@@ -1,8 +1,9 @@
 import { useHistory } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import FoodContext from '../contexts/FoodContext';
 
-// código só funciona após o clique do botão "Buscar"
+const magicNumber = 12;
 
 export default function FirstRecipes({ foodType }) {
   const { searchResults } = useContext(FoodContext);
@@ -10,15 +11,8 @@ export default function FirstRecipes({ foodType }) {
   const path = Object.keys(searchResults)[0];
   const history = useHistory();
 
-  console.log(searchResults, 'searchResults');
-
-  // não funciona de primeira
-  // console.log(searchResults[path].map((info) => console.log(info.idMeal)));
-  console.log(searchResults[path]);
-
   useEffect(() => {
     if (searchResults[path] && searchResults[path].length === 1) {
-      console.log('history');
       history.push(`/${path}/${
         foodType === 'meals'
           ? searchResults[path][0].idMeal
@@ -28,19 +22,51 @@ export default function FirstRecipes({ foodType }) {
   }, [searchResults]);
 
   return (
-    <div>
-      {/* {
-        searchResults.length < 1
-          ? (
-            <div>
-
-            </div>
-          )
-          : (
-            <Redirect to="" />
-          )
-      } */}
-      olá
-    </div>
+    searchResults[path]
+    && (
+      <div>
+        {
+          (foodType === 'meals')
+            ? searchResults[path].slice(0, magicNumber).map((info, index) => (
+              <div
+                key={ index }
+                data-testid={ `${index}-recipe-card` }
+              >
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ info.strMealThumb }
+                  alt={ info.strCategory }
+                />
+                <p
+                  data-testid={ `${index}-card-name` }
+                >
+                  { info.strMeal }
+                </p>
+              </div>
+            ))
+            : searchResults[path].slice(0, magicNumber).map((info, index) => (
+              <div
+                key={ index }
+                data-testid={ `${index}-recipe-card` }
+              >
+                <img
+                  data-testid={ `${index}-card-img` }
+                  src={ info.strDrinkThumb }
+                  alt={ info.strCategory }
+                />
+                <p
+                  data-testid={ `${index}-card-name` }
+                >
+                  { info.strDrink }
+                </p>
+              </div>
+            ))
+        }
+      </div>
+    )
   );
 }
+
+FirstRecipes.propTypes = {
+  foodType: PropTypes.string.isRequired,
+};
