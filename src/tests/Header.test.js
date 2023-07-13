@@ -1,13 +1,19 @@
 import { screen, fireEvent } from '@testing-library/react';
 import Header from '../components/Header';
+import Provider from '../contexts/FoodProvider';
 import renderWithRouter from '../renderWithRouter';
 
 describe('Testando o arquivo Header.js', () => {
-  test('Teste se o arquivo Header.js renderiza corretamente', () => {
-    renderWithRouter(<Header title="Comidas" haveSearch />);
-    screen.debug();
+  test('Barra de busca não deve ser renderizada na tela antes do click', () => {
+    const { history } = renderWithRouter(
+      <Provider>
+        <Header title="Comidas" haveSearch />
+      </Provider>,
+    );
+    const { pathname } = history.location;
+    expect(pathname).toBe('/');
 
-    // Seleção
+    //     // Seleção
     const profileIcon = screen.getByTestId('profile-top-btn');
     const searchIcon = screen.getByTestId('search-top-btn');
     const pageTitle = screen.getByTestId('page-title');
@@ -25,11 +31,22 @@ describe('Testando o arquivo Header.js', () => {
     expect(pageTitle).toBeInTheDocument();
   });
 
-  test('Verifica se ao clicar no icone de perfil, o usuário é redirecionado para a página de perfil', () => {
-    const { history } = renderWithRouter(<Header title="Comidas" haveSearch />);
+  test('Verifica se os inputs se comportam da maneira esperada.', () => {
+    const { history } = renderWithRouter(
+      <Provider>
+        <Header title="Comidas" haveSearch />
+      </Provider>,
+    );
 
     const profileIcon = screen.getByTestId('profile-top-btn');
     fireEvent.click(profileIcon);
+
+    const searchIconElement = screen.getByTestId('search-top-btn'); // Seleciona o icone de busca
+    fireEvent.click(searchIconElement); // Clica no icone de busca  para que a barra de busca apareça
+    const searchBar = screen.getByTestId('search-input'); // Seleciona a barra de busca
+    fireEvent.change(searchBar, { target: { value: 'test' } }); // Digita 'test' na barra de busca
+    expect(searchBar.value).toBe('test'); // Verifica se o valor digitado é 'test'
+
     const { pathname } = history.location;
     expect(pathname).toBe('/profile');
   });
