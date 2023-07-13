@@ -1,3 +1,8 @@
+body {
+  box-sizing: border-box;
+  height: 100vh;
+}
+
 .meals {
   align-items: center;
   background: #0fa36b;
@@ -17,7 +22,7 @@
 
 .recipe-card {
   display: flex;
-  flex-flow: column wrap;
+  flex-direction: column;
   overflow: hidden;
 }
 
@@ -27,7 +32,6 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 5%;
-  overflow: scroll;
   text-align: center;
   width: 100%;
 }
@@ -40,14 +44,21 @@
 }
 
 .category-buttons {
+  align-items: flex-start;
   display: flex;
   flex-direction: row;
+  height: 2rem;
   justify-content: center;
   margin-bottom: 5%;
   text-align: center;
-  width: 100%;
+  width: 90vw;
 }
 
+.recipes-cards-container {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}
 
 @media ( max-width : 1080px ) {
 
