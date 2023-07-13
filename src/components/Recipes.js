@@ -4,13 +4,13 @@ import Categories from './Categories';
 import FoodContext from '../contexts/FoodContext';
 
 function Recipes() {
-  const { recipes } = useContext(FoodContext);
+  const { recipes, toggleRenderFiltered } = useContext(FoodContext);
   return (
     <div className="recipes-container">
       <Categories />
       <br />
       <br />
-      {recipes.map((recipe, index) => (
+      {toggleRenderFiltered === false && recipes.map((recipe, index) => (
         <div
           key={ index }
           data-testid={ `${index}-recipe-card` }

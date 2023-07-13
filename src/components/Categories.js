@@ -5,12 +5,16 @@ import { fetchFilterCategories } from '../helper/api';
 const magicNumber = 12;
 
 function Categories() {
-  const { categories } = useContext(FoodContext);
+  const {
+    categories,
+    toggleRenderFiltered,
+    setToggleRenderFiltered } = useContext(FoodContext);
   const [filterCategories, setFilterCategories] = useState();
 
   const path = window.location.pathname.replace(/\//g, '');
 
   const doFetch = async (category) => {
+    setToggleRenderFiltered(!toggleRenderFiltered);
     if (path === 'meals') {
       setFilterCategories(await fetchFilterCategories(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`));
     } else {
@@ -19,41 +23,53 @@ function Categories() {
   };
 
   return (
-    <div className="category-buttons">
-      {categories.map((category, index) => (
-        <button
-          key={ index }
-          data-testid={ `${category.strCategory}-category-filter` }
-          className="category-button"
-          onClick={ () => doFetch(category.strCategory) }
-        >
-          {category.strCategory}
-        </button>
-      ))}
-      {
-        filterCategories
-          && (
-            filterCategories[path]
-              .slice(0, magicNumber)
-              .map((info, index) => (
-                <div
-                  key={ index }
-                  className="recipe-card"
-                >
-                  <img
-                    src={ info.strMealThumb || info.strDrinkThumb }
-                    alt="info"
-                    className="info-img"
+    <>
+      <div className="category-buttons">
+        {categories.map((category, index) => (
+          <button
+            key={ index }
+            data-testid={ `${category.strCategory}-category-filter` }
+            className="category-button"
+            onClick={ () => doFetch(category.strCategory) }
+          >
+            {category.strCategory}
+          </button>
+        ))}
+        {
+          (filterCategories && toggleRenderFiltered)
+            && (
+              filterCategories[path]
+                .slice(0, magicNumber)
+                .map((info, index) => (
+                  <div
+                    key={ index }
+                    className="recipe-card"
+                    data-testid={ `${index}-recipe-card` }
 
-                  />
-                  <p>
-                    {info.strMeal || info.strDrink}
-                  </p>
-                </div>
-              ))
-          )
-      }
-    </div>
+                  >
+                    <img
+                      src={ info.strMealThumb || info.strDrinkThumb }
+                      alt="info"
+                      className="info-img"
+                      data-testid={ `${index}-card-img` }
+                    />
+                    <p data-testid={ `${index}-card-name` }>
+                      {info.strMeal || info.strDrink}
+                    </p>
+                    {console.log(info)}
+                  </div>
+                ))
+            )
+        }
+      </div>
+      <button
+        className="category-buttons"
+        onClick={ () => setToggleRenderFiltered(false) }
+        data-testid="All-category-filter"
+      >
+        All
+      </button>
+    </>
   );
 }
 
