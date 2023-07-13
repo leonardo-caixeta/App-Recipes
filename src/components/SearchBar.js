@@ -1,21 +1,34 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import FoodContext from '../contexts/FoodContext';
 import FetchMeals from '../funcs/FetchMeals';
 import FetchDrinks from '../funcs/FetchDrinks';
+import FirstRecipes from './FirstRecipes';
 
 function SearchBar({ food }) {
+  const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
+
   const store = useContext(FoodContext);
-  const { setSearchType, searchResults } = store;
+  const [renderRecipes, setRenderRecipes] = useState(false);
+  const { setSearchType, searchInput, searchType, searchResults } = store;
+
+  useMemo(() => setRenderRecipes(true), [searchResults]);
 
   const doFetch = async () => {
-    if (food === 'meal') {
+    if (searchInput.length > 1 && searchType === 'letter') {
+      return global.alert('Your search must have only 1 (one) character');
+    }
+    if (food === 'meals') {
       await FetchMeals(store);
     } else await FetchDrinks(store);
-
-    console.log(searchResults);
   };
+
+  useMemo(() => {
+    if (searchResults[food] === null) {
+      global.alert(errorMessage);
+    }
+  }, [searchResults]);
 
   return (
     <div>
@@ -55,6 +68,7 @@ function SearchBar({ food }) {
       >
         Buscar
       </button>
+      { renderRecipes && <FirstRecipes foodType={ food } /> }
     </div>
   );
 }
