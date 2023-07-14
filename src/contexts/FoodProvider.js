@@ -12,6 +12,7 @@ function FoodProvider({ children }) {
   const [searchResults, setSearchResults] = useState([]);
   const [categories, setCategories] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [toggleRenderFiltered, setToggleRenderFiltered] = useState(false);
 
   useEffect(() => {
     async function fetchRecipesData() {
@@ -62,6 +63,8 @@ function FoodProvider({ children }) {
     setRecipes,
     categories,
     setCategories,
+    toggleRenderFiltered,
+    setToggleRenderFiltered,
 
   }), [
     searchInput,
@@ -74,6 +77,8 @@ function FoodProvider({ children }) {
     setRecipes,
     categories,
     setCategories,
+    toggleRenderFiltered,
+    setToggleRenderFiltered,
   ]);
 
   return (
