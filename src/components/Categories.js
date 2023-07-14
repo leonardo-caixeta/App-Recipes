@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import FoodContext from '../contexts/FoodContext';
 import { fetchFilterCategories } from '../helper/api';
+import MapRecipes from '../funcs/MapRecipes';
 
 const magicNumber = 12;
 
@@ -39,29 +40,10 @@ function Categories() {
         ))}
         {
           (filterCategories && toggleRenderFiltered)
-            && (
-              filterCategories[path]
-                .slice(0, magicNumber)
-                .map((info, index) => (
-                  <div
-                    key={ index }
-                    className="recipe-card"
-                    data-testid={ `${index}-recipe-card` }
-
-                  >
-                    <img
-                      src={ info.strMealThumb || info.strDrinkThumb }
-                      alt="info"
-                      className="info-img"
-                      data-testid={ `${index}-card-img` }
-                    />
-                    <p data-testid={ `${index}-card-name` }>
-                      {info.strMeal || info.strDrink}
-                    </p>
-                    {console.log(info)}
-                  </div>
-                ))
-            )
+            && (<MapRecipes
+              recipe={ filterCategories[path]
+                .slice(0, magicNumber) }
+            />)
         }
       </div>
       <button
