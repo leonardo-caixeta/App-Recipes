@@ -1,10 +1,18 @@
 import Header from '../components/Header';
+import DoneRecipesCards from '../components/DoneRecipesCards';
 
 export default function DoneRecipes() {
   return (
-    <div>
-      DoneRecipes
+    <>
       <Header haveSearch={ false } title="Done Recipes" />
-    </div>
+      <main>
+        <section>
+          <button data-testid="filter-by-all-btn">All</button>
+          <button data-testid="filter-by-meal-btn">Meals</button>
+          <button data-testid="filter-by-drink-btn">Drinks</button>
+        </section>
+        <DoneRecipesCards />
+      </main>
+    </>
   );
 }

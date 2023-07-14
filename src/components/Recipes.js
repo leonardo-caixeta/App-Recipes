@@ -5,7 +5,7 @@ import Categories from './Categories';
 import FoodContext from '../contexts/FoodContext';
 
 function Recipes() {
-  const { recipes, setDetailId } = useContext(FoodContext);
+  const { recipes, setDetailId, toggleRenderFiltered } = useContext(FoodContext);
   const { pathname } = window.location;
 
   const getRecipePath = (recipe) => {
