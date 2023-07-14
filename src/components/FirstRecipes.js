@@ -2,6 +2,7 @@ import { useHistory } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FoodContext from '../contexts/FoodContext';
+import MapedRecipes from './MapedRecipes';
 
 const magicNumber = 12;
 
@@ -23,47 +24,7 @@ export default function FirstRecipes({ foodType }) {
 
   return (
     searchResults[path]
-    && (
-      <div>
-        {
-          (foodType === 'meals')
-            ? searchResults[path].slice(0, magicNumber).map((info, index) => (
-              <div
-                key={ index }
-                data-testid={ `${index}-recipe-card` }
-              >
-                <img
-                  data-testid={ `${index}-card-img` }
-                  src={ info.strMealThumb }
-                  alt={ info.strCategory }
-                />
-                <p
-                  data-testid={ `${index}-card-name` }
-                >
-                  { info.strMeal }
-                </p>
-              </div>
-            ))
-            : searchResults[path].slice(0, magicNumber).map((info, index) => (
-              <div
-                key={ index }
-                data-testid={ `${index}-recipe-card` }
-              >
-                <img
-                  data-testid={ `${index}-card-img` }
-                  src={ info.strDrinkThumb }
-                  alt={ info.strCategory }
-                />
-                <p
-                  data-testid={ `${index}-card-name` }
-                >
-                  { info.strDrink }
-                </p>
-              </div>
-            ))
-        }
-      </div>
-    )
+    && (<MapedRecipes recipe={ searchResults[path].slice(0, magicNumber) } />)
   );
 }
 
