@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import DoneMealCard from './DoneMealCard';
+import DoneMealCard from '../components/DoneMealCard';
 
 export default function DoneRecipes() {
   return (
