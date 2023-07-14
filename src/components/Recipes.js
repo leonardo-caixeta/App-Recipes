@@ -5,7 +5,7 @@ import Categories from './Categories';
 import FoodContext from '../contexts/FoodContext';
 
 function Recipes() {
-  const { recipes } = useContext(FoodContext);
+  const { recipes, toggleRenderFiltered } = useContext(FoodContext);
   const { pathname } = window.location;
 
   const getRecipePath = (recipe) => {
@@ -20,7 +20,7 @@ function Recipes() {
       <Categories />
       <br />
       <br />
-      {recipes.map((recipe, index) => (
+      {toggleRenderFiltered === false && recipes.map((recipe, index) => (
         <Link
           to={ getRecipePath(recipe) }
           key={ index }
