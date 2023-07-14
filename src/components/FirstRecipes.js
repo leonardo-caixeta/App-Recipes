@@ -24,6 +24,7 @@ export default function FirstRecipes({ foodType }) {
 
   return (
     searchResults[path]
+
     && (<MapedRecipes recipe={ searchResults[path].slice(0, magicNumber) } />)
   );
 }

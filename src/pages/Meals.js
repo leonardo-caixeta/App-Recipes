@@ -9,8 +9,8 @@ export default function Meals() {
       <Header haveSearch title="Meals" />
       <SearchBar food="meals" />
 
-      <Footer />
       <Recipes />
+      <Footer />
     </>
   );
 }

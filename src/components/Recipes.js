@@ -5,11 +5,11 @@ import Categories from './Categories';
 import FoodContext from '../contexts/FoodContext';
 
 function Recipes() {
-  const { recipes, toggleRenderFiltered } = useContext(FoodContext);
+  const { recipes, setDetailId } = useContext(FoodContext);
   const { pathname } = window.location;
 
   const getRecipePath = (recipe) => {
-    if (pathname === '/meals') {
+    if (pathname.includes('/meals')) {
       return `/meals/${recipe.idMeal}`;
     }
     return `/drinks/${recipe.idDrink}`;
@@ -26,6 +26,7 @@ function Recipes() {
           key={ index }
           className="recipe-card-link" // Adicione uma classe para estilização
           data-testid={ `${index}-recipe-card` }
+          onClick={ setDetailId(recipe.idMeal || recipe.idDrink) }
         >
           <div className="recipe-card">
             <img
