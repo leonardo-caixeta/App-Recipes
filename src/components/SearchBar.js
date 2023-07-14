@@ -5,12 +5,23 @@ import FoodContext from '../contexts/FoodContext';
 import FetchMeals from '../funcs/FetchMeals';
 import FetchDrinks from '../funcs/FetchDrinks';
 import FirstRecipes from './FirstRecipes';
+import RecomendedRecipes from './RecomendedRecipes';
 
 function SearchBar({ food }) {
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const store = useContext(FoodContext);
-  const { setSearchType, searchInput, searchType, searchResults } = store;
+  const {
+    setSearchType,
+    searchInput,
+    searchType,
+    searchResults } = store;
+
+  useMemo(() => {
+    if (searchResults[food] === null) {
+      global.alert(errorMessage);
+    }
+  }, [searchResults]);
 
   const doFetch = async () => {
     if (searchInput.length > 1 && searchType === 'letter') {
@@ -20,12 +31,6 @@ function SearchBar({ food }) {
       await FetchMeals(store);
     } else await FetchDrinks(store);
   };
-
-  useMemo(() => {
-    if (searchResults[food] === null) {
-      global.alert(errorMessage);
-    }
-  }, [searchResults]);
 
   return (
     <div>
@@ -65,6 +70,7 @@ function SearchBar({ food }) {
       >
         Buscar
       </button>
+      <RecomendedRecipes foodType={ food } />
       { searchResults && <FirstRecipes foodType={ food } /> }
     </div>
   );
