@@ -2,6 +2,9 @@ import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+import logo from '../images/logoRecipesApp.png';
+import tomate from '../images/tomate.png';
+
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -22,37 +25,45 @@ function Login() {
   };
 
   return (
-    <div>
-      <label htmlFor="email-input">
-        Insira o email
+    <section className="login-container">
+      <header>
+        <img src={ logo } alt="App de Receitas" className="login-logo" />
+        <img
+          src={ tomate }
+          alt="Salada com tomates cortados e alface"
+          className="login-banner"
+        />
+      </header>
+      <main className="login-main-container">
+        <h1>Login</h1>
         <input
           type="text"
           id="email-input"
           data-testid="email-input"
           onChange={ ({ target }) => setEmail(target.value) }
           value={ email }
+          placeholder="Email"
         />
-      </label>
-      <label htmlFor="password-input">
-        Insira a senha
         <input
           type="text"
           id="password-input"
           data-testid="password-input"
           onChange={ ({ target }) => setPassword(target.value) }
           value={ password }
+          placeholder="Password"
         />
-      </label>
-      <Link to="/meals">
-        <button
-          data-testid="login-submit-btn"
-          disabled={ isDisable }
-          onClick={ setUserInLocalStorage }
-        >
-          Enter
-        </button>
-      </Link>
-    </div>
+        <Link to="/meals">
+          <button
+            data-testid="login-submit-btn"
+            disabled={ isDisable }
+            onClick={ setUserInLocalStorage }
+            className="defaultBtn"
+          >
+            Enter
+          </button>
+        </Link>
+      </main>
+    </section>
   );
 }
 

@@ -1,19 +1,98 @@
-body {
-  box-sizing: border-box;
-  height: 100vh;
+/* Variáveis */
+:root {
+
+  --main-bg-color: white;
+
+  --dark-purple: #41197f;
+
+  --btn-bg-color: #fcc436;
+
+  --header-bg-color : #fcdc36;
+
+  --dark-pink: #e44343;
 }
 
-.meals {
+/* Global */
+.main-container {
+  background-color: var(--main-bg-color);
+  border-radius: 5px;
+  height: 640px;
+  justify-content: center;
+  max-width: 360px;
+}
+
+input {
+  border: 1px solid var(--dark-purple);
+  border-radius: 5px;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  width: 15rem;
+}
+
+input::placeholder {
+  color: var(--dark-purple);
+  font-weight: 400;
+}
+
+.defaultBtn {
+  background-color: var(--btn-bg-color);
+  border-radius: 5px;
+  color: var(--main-bg-color);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.5rem;
+  text-transform: uppercase;
+  width: 15rem;
+}
+
+.defaultBtn:hover {
+  background-color: var(--header-bg-color);
+  cursor: pointer;
+}
+
+.defaultBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* Login */
+.login-container header {
   align-items: center;
-  background: #0fa36b;
-  color: #464646;
+  background-color: var(--dark-purple);
   display: flex;
   flex-direction: column;
-  font-family: sans-serif;
-  height: 100vh;
-  justify-content: center;
-  width: 100vw;
+  height: 22rem;
 }
+
+.login-logo {
+  height: auto;
+  margin-top: 4rem;
+  width: 12rem;
+}
+
+.login-banner {
+  background: url('./images/tomate.png') , 50% / cover no-repeat;
+  bottom: 3.5rem;
+  position: relative;
+}
+
+.login-main-container {
+  align-items: center;
+  color: var(--dark-purple);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 5rem;
+  width: 100%;
+}
+
+.login-main-container h1 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin: 0 0 1rem;
+  text-transform: uppercase;
+}
+
 
 .rocksGlass {
   animation: shake 1s infinite ease;
@@ -26,7 +105,6 @@ body {
   overflow: hidden;
 }
 
-
 .recipes-container {
   display: flex;
   flex-wrap: wrap;
@@ -35,7 +113,6 @@ body {
   text-align: center;
   width: 100%;
 }
-
 
 .recipe-img {
   border-radius: 50%;
@@ -60,7 +137,7 @@ body {
   justify-content: center;
 }
 
-@media ( max-width : 1080px ) {
+/* @media ( max-width : 1080px ) {
 
   body {
     width: 100vw;
@@ -71,16 +148,16 @@ body {
     height: 150px;
     width: 50%;
   }
-}
+} */
 
-@media screen and ( max-width : 768px ) {
+/* @media screen and ( max-width : 768px ) {
 
   .recipe-img {
     border-radius: 50%;
     height: 100px;
     width: 80%;
   }
-}
+} */
 
 
 /*

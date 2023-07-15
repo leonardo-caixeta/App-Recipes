@@ -1,5 +1,5 @@
 import Header from '../components/Header';
-import DoneRecipesCards from '../components/DoneRecipesCards';
+import RecipesCards from '../components/RecipesCards';
 
 export default function DoneRecipes() {
   return (
@@ -11,7 +11,7 @@ export default function DoneRecipes() {
           <button data-testid="filter-by-meal-btn">Meals</button>
           <button data-testid="filter-by-drink-btn">Drinks</button>
         </section>
-        <DoneRecipesCards />
+        <RecipesCards />
       </main>
     </>
   );

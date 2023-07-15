@@ -42,7 +42,7 @@ export default function RecipeDetails() {
         .then((r) => r.json())
         .then((data) => setApiData(data[path]));
     }
-  }, []);
+  }, [id, path]);
   return (
     <div>
       {
