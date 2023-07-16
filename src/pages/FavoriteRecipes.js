@@ -2,9 +2,9 @@ import Header from '../components/Header';
 
 export default function FavoriteRecipes() {
   return (
-    <div>
+    <section className="page-container">
       FavoriteRecipes
       <Header haveSearch={ false } title="Favorite Recipes" />
-    </div>
+    </section>
   );
 }

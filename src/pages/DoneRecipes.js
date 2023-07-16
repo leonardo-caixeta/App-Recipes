@@ -3,7 +3,7 @@ import RecipesCards from '../components/RecipesCards';
 
 export default function DoneRecipes() {
   return (
-    <>
+    <section className="page-container">
       <Header haveSearch={ false } title="Done Recipes" />
       <main>
         <section>
@@ -13,6 +13,6 @@ export default function DoneRecipes() {
         </section>
         <RecipesCards />
       </main>
-    </>
+    </section>
   );
 }

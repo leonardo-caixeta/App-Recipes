@@ -14,7 +14,7 @@ export default function Profile() {
   };
 
   return (
-    <>
+    <section className="page-container">
       <Header haveSearch={ false } title="Profile" />
       <main>
         <img alt="Imagem do perfil" src={ profileIcon } />
@@ -37,6 +37,6 @@ export default function Profile() {
         </Link>
       </main>
       <Footer />
-    </>
+    </section>
   );
 }

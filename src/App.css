@@ -22,6 +22,10 @@
   max-width: 360px;
 }
 
+.page-container {
+  width: 100%;
+}
+
 input {
   border: 1px solid var(--dark-purple);
   border-radius: 5px;
@@ -110,6 +114,72 @@ footer {
 .footerBtn:hover {
   opacity: 0.8;
 }
+
+/* Header */
+.header-container {
+  color: var(--dark-purple);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.header-container header {
+  align-items: center;
+  background-color: var(--header-bg-color);
+  display: flex;
+  flex-direction: row;
+  height: 4rem;
+  justify-content: space-between;
+}
+
+.logo-container {
+  align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  margin-left: 1rem;
+}
+
+.logo-container img {
+  width: 2.5rem;
+}
+
+.logo-container p {
+  font-size: 1.5rem;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.logo-container p span {
+  font-weight: 900;
+}
+
+.header-icon {
+  border: none;
+  height: 1.5rem;
+  margin: 0 1rem 0 0;
+  padding: 0;
+  width: 1.5rem;
+}
+
+.header-icon:hover {
+  opacity: 0.8;
+}
+
+.page-title {
+  display: block;
+  font-size: 1.25rem;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.page-Icon {
+  align-self: center;
+  margin: 1.5rem 0 1rem;
+  width: 2.5rem;
+}
+
 
 /*  .. */
 .rocksGlass {
