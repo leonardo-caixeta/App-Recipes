@@ -34,54 +34,65 @@ function SearchBar({ food }) {
   };
 
   return (
-    <>
+    <section className=" page-container search-container">
       <input
         type="text"
+        className="search-input"
         data-testid="search-input"
         onChange={ ({ target }) => setSearchInput(target.value) }
         value={ searchInput }
+        placeholder="Search"
       />
-      <div>
-        <label htmlFor="ingredient-search-radio">
-          <input
-            type="radio"
-            id="ingredient-search-radio"
-            data-testid="ingredient-search-radio"
-            value="ingredient"
-            onChange={ ({ target }) => setSearchType(target.value) }
-          />
-          Busca por ingrediente
-        </label>
-        <label htmlFor="name-search-radio">
-          <input
-            type="radio"
-            id="name-search-radio"
-            data-testid="name-search-radio"
-            onChange={ ({ target }) => setSearchType(target.value) }
-            value="name"
-          />
-        </label>
-        Busca por nome
-        <label htmlFor="first-letter-search-radio">
-          <input
-            type="radio"
-            id="first-letter-search-radio"
-            data-testid="first-letter-search-radio"
-            onChange={ ({ target }) => setSearchType(target.value) }
-            value="letter"
-          />
-        </label>
-        Busca pela primeira letra
-        <button
-          data-testid="exec-search-btn"
-          onClick={ () => doFetch() }
-        >
-          Buscar
-        </button>
-        <RecomendedRecipes foodType={ food } />
-        { searchResults && <FirstRecipes foodType={ food } /> }
-      </div>
-    </>
+      <form>
+        <div className="input-wrapper">
+          <label htmlFor="ingredient-search-radio">
+            <input
+              type="radio"
+              id="ingredient-search-radio"
+              data-testid="ingredient-search-radio"
+              value="ingredient"
+              onChange={ ({ target }) => setSearchType(target.value) }
+            />
+            Ingrediente
+          </label>
+        </div>
+
+        <div className="input-wrapper">
+          <label htmlFor="name-search-radio">
+            <input
+              type="radio"
+              id="name-search-radio"
+              data-testid="name-search-radio"
+              onChange={ ({ target }) => setSearchType(target.value) }
+              value="name"
+            />
+            Nome
+          </label>
+        </div>
+
+        <div className="input-wrapper">
+          <label htmlFor="first-letter-search-radio">
+            <input
+              type="radio"
+              id="first-letter-search-radio"
+              data-testid="first-letter-search-radio"
+              onChange={ ({ target }) => setSearchType(target.value) }
+              value="letter"
+            />
+            Primeira letra
+          </label>
+        </div>
+      </form>
+      <button
+        data-testid="exec-search-btn"
+        onClick={ () => doFetch() }
+        className="defaultBtn"
+      >
+        Buscar
+      </button>
+      <RecomendedRecipes foodType={ food } />
+      { searchResults && <FirstRecipes foodType={ food } /> }
+    </section>
   );
 }
 
