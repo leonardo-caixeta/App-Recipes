@@ -13,6 +13,7 @@ function SearchBar({ food }) {
   const store = useContext(FoodContext);
   const {
     setSearchType,
+    setSearchInput,
     searchInput,
     searchType,
     searchResults } = store;
@@ -33,46 +34,54 @@ function SearchBar({ food }) {
   };
 
   return (
-    <div>
-      <label htmlFor="ingredient-search-radio">
-        <input
-          type="radio"
-          id="ingredient-search-radio"
-          data-testid="ingredient-search-radio"
-          value="ingredient"
-          onChange={ ({ target }) => setSearchType(target.value) }
-        />
-        Busca por ingrediente
-      </label>
-      <label htmlFor="name-search-radio">
-        <input
-          type="radio"
-          id="name-search-radio"
-          data-testid="name-search-radio"
-          onChange={ ({ target }) => setSearchType(target.value) }
-          value="name"
-        />
-      </label>
-      Busca por nome
-      <label htmlFor="first-letter-search-radio">
-        <input
-          type="radio"
-          id="first-letter-search-radio"
-          data-testid="first-letter-search-radio"
-          onChange={ ({ target }) => setSearchType(target.value) }
-          value="letter"
-        />
-      </label>
-      Busca pela primeira letra
-      <button
-        data-testid="exec-search-btn"
-        onClick={ () => doFetch() }
-      >
-        Buscar
-      </button>
-      <RecomendedRecipes foodType={ food } />
-      { searchResults && <FirstRecipes foodType={ food } /> }
-    </div>
+    <>
+      <input
+        type="text"
+        data-testid="search-input"
+        onChange={ ({ target }) => setSearchInput(target.value) }
+        value={ searchInput }
+      />
+      <div>
+        <label htmlFor="ingredient-search-radio">
+          <input
+            type="radio"
+            id="ingredient-search-radio"
+            data-testid="ingredient-search-radio"
+            value="ingredient"
+            onChange={ ({ target }) => setSearchType(target.value) }
+          />
+          Busca por ingrediente
+        </label>
+        <label htmlFor="name-search-radio">
+          <input
+            type="radio"
+            id="name-search-radio"
+            data-testid="name-search-radio"
+            onChange={ ({ target }) => setSearchType(target.value) }
+            value="name"
+          />
+        </label>
+        Busca por nome
+        <label htmlFor="first-letter-search-radio">
+          <input
+            type="radio"
+            id="first-letter-search-radio"
+            data-testid="first-letter-search-radio"
+            onChange={ ({ target }) => setSearchType(target.value) }
+            value="letter"
+          />
+        </label>
+        Busca pela primeira letra
+        <button
+          data-testid="exec-search-btn"
+          onClick={ () => doFetch() }
+        >
+          Buscar
+        </button>
+        <RecomendedRecipes foodType={ food } />
+        { searchResults && <FirstRecipes foodType={ food } /> }
+      </div>
+    </>
   );
 }
 
