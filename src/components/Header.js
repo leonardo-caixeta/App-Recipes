@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import FoodContext from '../contexts/FoodContext';
+import SearchBar from './SearchBar';
 
 export default function Header({ haveSearch, title }) {
   const [searchBar, setSearchBar] = useState(false);
@@ -18,16 +19,18 @@ export default function Header({ haveSearch, title }) {
   );
 
   return (
-    <div>
-      <Link to="/profile">
-        <img
-          src={ profileIcon }
-          alt="profile-icon"
-          data-testid="profile-top-btn"
-        />
-      </Link>
+    <header>
 
-      { haveSearch
+      <section>
+        <Link to="/profile">
+          <img
+            src={ profileIcon }
+            alt="profile-icon"
+            data-testid="profile-top-btn"
+          />
+        </Link>
+
+        { haveSearch
         && (
           <label htmlFor="search-top-btn">
             <input
@@ -40,9 +43,9 @@ export default function Header({ haveSearch, title }) {
             />
           </label>
         )}
-      <h1 data-testid="page-title">{ title }</h1>
-      {
-        searchBar
+        <h1 data-testid="page-title">{ title }</h1>
+        {
+          searchBar
         && (
           <input
             type="text"
@@ -51,8 +54,10 @@ export default function Header({ haveSearch, title }) {
             value={ searchInput }
           />
         )
-      }
-    </div>
+        }
+      </section>
+      <SearchBar food="meals" />
+    </header>
   );
 }
 

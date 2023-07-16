@@ -16,6 +16,7 @@
 .main-container {
   background-color: var(--main-bg-color);
   border-radius: 5px;
+  display: flex;
   height: 640px;
   justify-content: center;
   max-width: 360px;
@@ -93,7 +94,24 @@ input::placeholder {
   text-transform: uppercase;
 }
 
+/* Footer */
+footer {
+  align-items: center;
+  background-color: var(--dark-purple);
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  height: 4rem;
+  justify-content: space-around;
+  position: fixed;
+  top: 576px;
+  width: 360px;
+}
 
+.footerBtn:hover {
+  opacity: 0.8;
+}
+
+/*  .. */
 .rocksGlass {
   animation: shake 1s infinite ease;
   max-height: 80vh;
@@ -128,7 +146,8 @@ input::placeholder {
   justify-content: center;
   margin-bottom: 5%;
   text-align: center;
-  width: 90vw;
+
+  /* width: 90vw; */
 }
 
 .recipes-cards-container {
@@ -138,10 +157,6 @@ input::placeholder {
 }
 
 /* @media ( max-width : 1080px ) {
-
-  body {
-    width: 100vw;
-  }
 
   .recipe-img {
     border-radius: 50%;
@@ -179,14 +194,6 @@ input::placeholder {
   font-family: Montserrat , sans-serif;
   font-size: 3em;
   font-weight: 900;
-}
-
-footer {
-  bottom: 0;
-  display: flex;
-  justify-content: space-around;
-  position: fixed;
-  width: 100vw;
 }
 
 @keyframes shake {

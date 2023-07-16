@@ -13,9 +13,7 @@ import RecipeDetails from './pages/RecipeDetails';
 
 function App() {
   return (
-    <div
-      className="main-container"
-    >
+    <div className="main-container">
       <Switch>
         <FoodProvider>
           <Route exact path="/" component={ Login } />
