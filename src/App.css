@@ -188,12 +188,15 @@ footer {
 }
 
 /* SearchBar */
-.search-container {
+.search-container-true {
   background-color: var(--dark-purple);
   border-radius: 5px;
   height: 7rem;
   width: 95%;
+}
 
+.search-container-false {
+  display: none;
 }
 
 .search-input {
@@ -206,7 +209,7 @@ footer {
   color: var(--light-purple);
 }
 
-.search-container form {
+.search-container-true form {
   color: var(--main-bg-color);
   display: grid;
   font-size: 0.7rem;

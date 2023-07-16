@@ -81,12 +81,8 @@ export default function Header({ haveSearch, title }) {
       </header>
       <img className="page-Icon" alt={ `Ícone da página de ${title}` } src={ imgUrl } />
       <h1 className="page-title" data-testid="page-title">{ title }</h1>
-      {
-        searchBar
-        && (
-          <SearchBar />
-        )
-      }
+      <SearchBar food={ title } searchBar={ searchBar } />
+
     </section>
   );
 }
