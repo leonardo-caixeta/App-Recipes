@@ -26,34 +26,32 @@ function Categories() {
   };
 
   return (
-    <>
-      <div className="category-buttons">
-        {categories.map((category, index) => (
-          <button
-            key={ index }
-            data-testid={ `${category.strCategory}-category-filter` }
-            className="category-button"
-            onClick={ () => doFetch(category.strCategory) }
-          >
-            {category.strCategory}
-          </button>
-        ))}
-        {
-          (filterCategories && toggleRenderFiltered)
+    <div className="category-buttons-container">
+      {categories.map((category, index) => (
+        <button
+          key={ index }
+          data-testid={ `${category.strCategory}-category-filter` }
+          className="category-button"
+          onClick={ () => doFetch(category.strCategory) }
+        >
+          {category.strCategory}
+        </button>
+      ))}
+      {
+        (filterCategories && toggleRenderFiltered)
             && (<MapRecipes
               recipe={ filterCategories[path]
                 .slice(0, magicNumber) }
             />)
-        }
-      </div>
+      }
       <button
-        className="category-buttons"
+        className="category-button"
         onClick={ () => setToggleRenderFiltered(false) }
         data-testid="All-category-filter"
       >
         All
       </button>
-    </>
+    </div>
   );
 }
 

@@ -22,7 +22,7 @@ function SearchBar({ food, searchBar }) {
     if (searchResults[food] === null) {
       global.alert(errorMessage);
     }
-  }, [searchResults]);
+  }, [searchResults, food]);
 
   const doFetch = async () => {
     if (searchInput.length > 1 && searchType === 'letter') {

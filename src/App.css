@@ -11,7 +11,7 @@
 
   --header-bg-color : #fcdc36;
 
-  --dark-pink: #e44343;
+  --ligth-grey: #797d86;
 }
 
 /* Global */
@@ -237,6 +237,46 @@ footer {
   width: fit-content;
 }
 
+/* Recipes Page */
+.recipes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+.category-buttons-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-bottom: 1.5rem;
+  width: 95%;
+}
+
+.category-button {
+  background-color: transparent;
+  border: 2px solid var(--btn-bg-color);
+  border-radius: 5px;
+  color: var(--ligth-grey);
+  height: 3rem;
+  padding: 0.5rem;
+}
+
+.category-button:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.recipes-card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: 45vh;
+  justify-items: center;
+  overflow-y: scroll;
+  width: 100%;
+}
 
 /*  .. */
 .rocksGlass {
@@ -250,32 +290,13 @@ footer {
   overflow: hidden;
 }
 
-.recipes-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 5%;
-  text-align: center;
-  width: 100%;
-}
 
 .recipe-img {
   border-radius: 50%;
-  height: 200px;
-  width: 200px;
+  height: 60px;
+  width: 60px;
 }
 
-.category-buttons {
-  align-items: flex-start;
-  display: flex;
-  flex-direction: row;
-  height: 2rem;
-  justify-content: center;
-  margin-bottom: 5%;
-  text-align: center;
-
-  /* width: 90vw; */
-}
 
 .recipes-cards-container {
   display: flex;
