@@ -7,7 +7,7 @@ import FetchDrinks from '../funcs/FetchDrinks';
 import FirstRecipes from './FirstRecipes';
 import RecomendedRecipes from './RecomendedRecipes';
 
-function SearchBar({ food, searchBar }) {
+function SearchBar({ food }) {
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
 
   const store = useContext(FoodContext);
@@ -34,7 +34,7 @@ function SearchBar({ food, searchBar }) {
   };
 
   return (
-    <section className={ `page-container search-container-${searchBar}` }>
+    <section className="page-container search-container">
       <input
         type="text"
         className="search-input"
@@ -98,7 +98,6 @@ function SearchBar({ food, searchBar }) {
 
 SearchBar.propTypes = {
   food: PropTypes.string.isRequired,
-  searchBar: PropTypes.bool.isRequired,
 };
 
 export default SearchBar;

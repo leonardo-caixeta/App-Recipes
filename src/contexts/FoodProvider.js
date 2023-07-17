@@ -15,6 +15,7 @@ function FoodProvider({ children }) {
   const [toggleRenderFiltered, setToggleRenderFiltered] = useState(false);
   const [detailId, setDetailId] = useState();
   const [recomendedFood, setRecomendedFood] = useState([]);
+  const [recipeType, setRecipeType] = useState('Meal');
 
   useEffect(() => {
     async function fetchRecipesData() {
@@ -33,7 +34,7 @@ function FoodProvider({ children }) {
     }
 
     fetchRecipesData();
-  }, []);
+  }, [recipeType]);
 
   useEffect(() => {
     async function fetchCategoriesData() {
@@ -52,7 +53,7 @@ function FoodProvider({ children }) {
     }
 
     fetchCategoriesData();
-  }, []);
+  }, [recipeType]);
 
   const store = useMemo(() => ({
     searchInput,
@@ -71,6 +72,8 @@ function FoodProvider({ children }) {
     setDetailId,
     recomendedFood,
     setRecomendedFood,
+    recipeType,
+    setRecipeType,
   }), [
     searchInput,
     setSearchInput,
@@ -88,6 +91,7 @@ function FoodProvider({ children }) {
     setDetailId,
     recomendedFood,
     setRecomendedFood,
+    recipeType, setRecipeType,
   ]);
 
   return (

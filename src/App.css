@@ -188,15 +188,11 @@ footer {
 }
 
 /* SearchBar */
-.search-container-true {
+.search-container {
   background-color: var(--dark-purple);
   border-radius: 5px;
   height: 7rem;
   width: 95%;
-}
-
-.search-container-false {
-  display: none;
 }
 
 .search-input {

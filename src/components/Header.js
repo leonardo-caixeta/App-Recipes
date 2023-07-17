@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import profileIcon from '../images/profileIcon.svg';
@@ -10,8 +10,11 @@ import doneIcon from '../images/doneIcon.svg';
 import favoritesIcon from '../images/favoritesIcon.svg';
 import headerIcon from '../images/headerRecipesAppIcon.svg';
 import SearchBar from './SearchBar';
+import FoodContext from '../contexts/FoodContext';
 
-export default function Header({ haveSearch, title }) {
+export default function Header({ haveSearch }) {
+  const { recipeType } = useContext(FoodContext);
+
   const [searchBar, setSearchBar] = useState(false);
 
   const [imgUrl, setImgUrl] = useState('');
@@ -21,7 +24,7 @@ export default function Header({ haveSearch, title }) {
   );
 
   useEffect(() => {
-    switch (title) {
+    switch (recipeType) {
     case 'Meals':
       setImgUrl(mealIcon);
       break;
@@ -41,7 +44,7 @@ export default function Header({ haveSearch, title }) {
     default:
       break;
     }
-  }, [title]);
+  }, [recipeType]);
 
   return (
     <section className="header-container">
@@ -79,15 +82,17 @@ export default function Header({ haveSearch, title }) {
         )}
         </nav>
       </header>
-      <img className="page-Icon" alt={ `Ícone da página de ${title}` } src={ imgUrl } />
-      <h1 className="page-title" data-testid="page-title">{ title }</h1>
-      <SearchBar food={ title } searchBar={ searchBar } />
-
+      <img
+        className="page-Icon"
+        alt={ `Ícone da página de ${recipeType}` }
+        src={ imgUrl }
+      />
+      <h1 className="page-title" data-testid="page-title">{ recipeType }</h1>
+      {searchBar && <SearchBar food={ recipeType } /> }
     </section>
   );
 }
 
 Header.propTypes = {
   haveSearch: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
 };
