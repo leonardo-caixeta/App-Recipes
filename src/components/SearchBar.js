@@ -51,7 +51,7 @@ function SearchBar({ food }) {
               name="ingredient-search-radio"
               data-testid="ingredient-search-radio"
               value="ingredient"
-              onChange={ ({ target }) => setSearchType(target.value) && console.log(target.value) }
+              onChange={ ({ target }) => setSearchType(target.value) }
             />
             Ingrediente
           </label>

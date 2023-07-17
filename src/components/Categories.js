@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import FoodContext from '../contexts/FoodContext';
 import { fetchFilterCategories } from '../helper/api';
-import MapRecipes from '../funcs/MapRecipes';
+import MapedRecipes from './MapedRecipes';
 
 const magicNumber = 12;
 
@@ -39,7 +39,7 @@ function Categories() {
       ))}
       {
         (filterCategories && toggleRenderFiltered)
-            && (<MapRecipes
+            && (<MapedRecipes
               recipe={ filterCategories[path]
                 .slice(0, magicNumber) }
             />)
