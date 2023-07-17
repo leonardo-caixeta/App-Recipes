@@ -26,7 +26,6 @@ export default function RecipeDetails() {
   }
 
   const [apiData, setApiData] = useState([]);
-  console.log(apiData);
 
   const id = window.location.pathname.replace(/^\/[^/]+\//, '');
   const path = window.location.pathname.split('/')[1];
@@ -42,6 +41,9 @@ export default function RecipeDetails() {
         .then((data) => setApiData(data[path]));
     }
   }, [id, path]);
+
+  console.log(apiData);
+
   return (
     apiData && apiData.map((info, index) => (
       <main key={ index } className="recipes-details-container">

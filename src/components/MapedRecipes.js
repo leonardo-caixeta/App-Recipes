@@ -2,10 +2,9 @@ export default function MapedRecipes({ recipe }) {
   return (
     recipe.map((info, index) => (
       <div
-        key={ index }
+        key={ info.idMeal }
         className="recipe-card"
         data-testid={ `${index}-recipe-card` }
-
       >
         <img
           src={ info.strMealThumb || info.strDrinkThumb }

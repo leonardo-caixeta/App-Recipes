@@ -27,7 +27,7 @@ function SearchBar({ food }) {
     if (searchInput.length > 1 && searchType === 'letter') {
       return global.alert('Your search must have only 1 (one) character');
     }
-    if (food === 'meals') {
+    if (food === 'Meals') {
       await FetchMeals(store);
     } else await FetchDrinks(store);
   };
@@ -48,9 +48,10 @@ function SearchBar({ food }) {
             <input
               type="radio"
               id="ingredient-search-radio"
+              name="ingredient-search-radio"
               data-testid="ingredient-search-radio"
               value="ingredient"
-              onChange={ ({ target }) => setSearchType(target.value) }
+              onChange={ ({ target }) => setSearchType(target.value) && console.log(target.value) }
             />
             Ingrediente
           </label>
@@ -61,6 +62,7 @@ function SearchBar({ food }) {
             <input
               type="radio"
               id="name-search-radio"
+              name="ingredient-search-radio"
               data-testid="name-search-radio"
               onChange={ ({ target }) => setSearchType(target.value) }
               value="name"
@@ -74,6 +76,7 @@ function SearchBar({ food }) {
             <input
               type="radio"
               id="first-letter-search-radio"
+              name="ingredient-search-radio"
               data-testid="first-letter-search-radio"
               onChange={ ({ target }) => setSearchType(target.value) }
               value="letter"
