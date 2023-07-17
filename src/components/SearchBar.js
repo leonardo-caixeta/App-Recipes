@@ -24,12 +24,14 @@ function SearchBar({ food }) {
   }, [searchResults, food]);
 
   const doFetch = async () => {
+    console.log(searchInput);
     if (searchInput.length > 1 && searchType === 'letter') {
       return global.alert('Your search must have only 1 (one) character');
     }
     if (food === 'Meals') {
       await FetchMeals(store);
-    } else await FetchDrinks(store);
+    } else { await FetchDrinks(store); }
+    setSearchInput('');
   };
 
   return (

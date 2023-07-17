@@ -272,6 +272,7 @@ footer {
   height: 45vh;
   justify-items: center;
   overflow-y: scroll;
+  padding-bottom: 1rem;
   width: 100%;
 }
 

@@ -1,7 +1,13 @@
+import { useContext, useEffect } from 'react';
 import Header from '../components/Header';
 import RecipesCards from '../components/DoneRecipesCards';
+import FoodContext from '../contexts/FoodContext';
 
 export default function DoneRecipes() {
+  const { setRecipeType } = useContext(FoodContext);
+  useEffect(() => {
+    setRecipeType('Done Recipes');
+  });
   return (
     <section className="page-container">
       <Header haveSearch={ false } title="Done Recipes" />

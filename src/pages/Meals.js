@@ -12,7 +12,6 @@ export default function Meals() {
   return (
     <section className="page-container">
       <Header haveSearch />
-
       <Recipes />
       <Footer />
     </section>

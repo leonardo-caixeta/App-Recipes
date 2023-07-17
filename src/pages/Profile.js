@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import profileIcon from '../images/profileIcon.svg';
+import FoodContext from '../contexts/FoodContext';
 
 export default function Profile() {
+  const { setRecipeType } = useContext(FoodContext);
+  useEffect(() => {
+    setRecipeType('Profile');
+  });
+
   const loginEmail = JSON.parse(localStorage.getItem('user'));
 
   const handleLogout = () => {
@@ -17,7 +23,6 @@ export default function Profile() {
     <section className="page-container">
       <Header haveSearch={ false } title="Profile" />
       <main>
-        <img alt="Imagem do perfil" src={ profileIcon } />
         <p data-testid="profile-email">{loginEmail && loginEmail.email}</p>
         <section>
           <Link to="./done-recipes" data-testid="profile-done-btn">Done Recipes</Link>
