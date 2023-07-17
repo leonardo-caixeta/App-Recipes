@@ -27,7 +27,6 @@ function renderIngredients(info) {
 
 export default function RecipeDetails() {
   const [apiData, setApiData] = useState([]);
-  console.log(apiData);
 
   const id = window.location.pathname.replace(/^\/[^/]+\//, '');
   const path = window.location.pathname.split('/')[1];

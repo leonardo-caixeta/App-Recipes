@@ -70,8 +70,8 @@ function SearchBar({ food }) {
       >
         Buscar
       </button>
-      <RecomendedRecipes foodType={ food } />
       { searchResults && <FirstRecipes foodType={ food } /> }
+      <RecomendedRecipes foodType={ food } />
     </div>
   );
 }
