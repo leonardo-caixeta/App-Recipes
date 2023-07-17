@@ -5,7 +5,7 @@ import Recipes from '../components/Recipes';
 import FoodContext from '../contexts/FoodContext';
 
 export default function Meals() {
-  const { recipeType, setRecipeType } = useContext(FoodContext);
+  const { setRecipeType } = useContext(FoodContext);
   useEffect(() => {
     setRecipeType('Meals');
   });

@@ -5,13 +5,13 @@ import Recipes from '../components/Recipes';
 import FoodContext from '../contexts/FoodContext';
 
 export default function Drinks() {
-  const { recipeType, setRecipeType } = useContext(FoodContext);
+  const { setRecipeType } = useContext(FoodContext);
   useEffect(() => {
     setRecipeType('Drinks');
   });
   return (
     <section className="page-container">
-      <Header haveSearch title={ recipeType } />
+      <Header haveSearch />
 
       <Recipes />
       <Footer />

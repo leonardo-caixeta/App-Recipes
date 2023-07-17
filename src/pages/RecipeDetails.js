@@ -1,31 +1,30 @@
 import { useEffect, useState } from 'react';
+import RecomendedRecipes from '../components/RecomendedRecipes';
 
 const magicNumber = 20;
 
-function renderIngredients(info) {
-  const ingredients = [];
+export default function RecipeDetails() {
+  function renderIngredients(info) {
+    const ingredients = [];
 
-  for (let i = 1; i <= magicNumber; i += 1) {
-    const ingredientKey = `strIngredient${i}`;
-    const measureKey = `strMeasure${i}`;
+    for (let i = 1; i <= magicNumber; i += 1) {
+      const ingredientKey = `strIngredient${i}`;
+      const measureKey = `strMeasure${i}`;
 
-    if (info[ingredientKey] && info[measureKey]) {
-      const ingredientName = info[ingredientKey];
-      const ingredientMeasure = info[measureKey];
-      ingredients.push(
-        <div key={ i } data-testid={ `${i - 1}-ingredient-name-and-measure` }>
-          <span style={ { marginLeft: '5px' } }>{ `${ingredientName} -` }</span>
-
-          <span style={ { marginLeft: '5px' } }>{ `${ingredientMeasure}` }</span>
-        </div>,
-      );
+      if (info[ingredientKey] && info[measureKey]) {
+        const ingredientName = info[ingredientKey];
+        const ingredientMeasure = info[measureKey];
+        ingredients.push(
+          <li key={ i } data-testid={ `${i - 1}-ingredient-name-and-measure` }>
+            { `${ingredientName} - ${ingredientMeasure}` }
+          </li>,
+        );
+      }
     }
+
+    return ingredients;
   }
 
-  return ingredients;
-}
-
-export default function RecipeDetails() {
   const [apiData, setApiData] = useState([]);
   console.log(apiData);
 
@@ -44,34 +43,55 @@ export default function RecipeDetails() {
     }
   }, [id, path]);
   return (
-    <div>
-      {
-        apiData && apiData.map((info, index) => (
-          <div key={ index }>
-            <img
-              src={ info.strMealThumb || info.strDrinkThumb }
-              alt={ info.strMeal || info.strDrink }
-              data-testid="recipe-photo"
-            />
-            <h2 data-testid="recipe-title">{info.strMeal || info.strDrink}</h2>
-            <p data-testid="recipe-category">{ info.strAlcoholic || info.strCategory }</p>
-            <section
-              data-testid={ `${index}-ingredient-name-and-measure` }
+    apiData && apiData.map((info, index) => (
+      <main key={ index } className="recipes-details-container">
+        <header>
+          <img
+            src={ info.strMealThumb || info.strDrinkThumb }
+            alt={ info.strMeal || info.strDrink }
+            data-testid="recipe-photo"
+            className="recipe-photo"
+          />
+          <div>
+            <p
+              data-testid="recipe-category"
+              className="recipe-category"
             >
-              {
-                renderIngredients(info)
-              }
-            </section>
+              { info.strAlcoholic || info.strCategory }
+
+            </p>
+            <h2 data-testid="recipe-title">{info.strMeal || info.strDrink}</h2>
+          </div>
+        </header>
+        <section className="instructions-container">
+          <h3>Ingredients:</h3>
+          <section
+            data-testid={ `${index}-ingredient-name-and-measure` }
+          >
+            {
+              renderIngredients(info)
+            }
+          </section>
+          <h3>Instructions:</h3>
+          <section>
             <p data-testid="instructions">{info.strInstructions}</p>
+          </section>
+          <h3>Video:</h3>
+          <section>
             <video
               src={ info.strYoutube }
               data-testid="video"
             >
               <track src="" kind="captions" srcLang="en" label="English" default />
             </video>
-          </div>
-        ))
-      }
-    </div>
+          </section>
+          {/* Implementar lógica para botão. Corrigir tipo da receita recomendada */}
+          <h3>Recomended:</h3>
+          <RecomendedRecipes />
+          <button className="defaultBtn">Finish Recipe</button>
+        </section>
+      </main>
+    ))
+
   );
 }

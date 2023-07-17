@@ -3,13 +3,13 @@ import FoodContext from '../contexts/FoodContext';
 
 const magicNumber = 6;
 
-export default function RecomendedRecipes({ foodType }) {
-  const { recomendedFood, setRecomendedFood } = useContext(FoodContext);
+export default function RecomendedRecipes() {
+  const { recomendedFood, setRecomendedFood, recipeType } = useContext(FoodContext);
   const dataUsed = recomendedFood && Object.values(recomendedFood).slice(0, magicNumber);
   console.log(dataUsed);
 
   useEffect(() => {
-    if (foodType === 'meals') {
+    if (recipeType === /meals/i) {
       fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
         .then((r) => r.json())
         .then((data) => setRecomendedFood(data.drinks));

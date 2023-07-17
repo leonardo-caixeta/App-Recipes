@@ -5,7 +5,6 @@ import FoodContext from '../contexts/FoodContext';
 import FetchMeals from '../funcs/FetchMeals';
 import FetchDrinks from '../funcs/FetchDrinks';
 import FirstRecipes from './FirstRecipes';
-import RecomendedRecipes from './RecomendedRecipes';
 
 function SearchBar({ food }) {
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
@@ -90,7 +89,6 @@ function SearchBar({ food }) {
       >
         Buscar
       </button>
-      <RecomendedRecipes foodType={ food } />
       { searchResults && <FirstRecipes foodType={ food } /> }
     </section>
   );
