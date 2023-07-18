@@ -20,8 +20,15 @@ export default function FirstRecipes() {
 
   return (
     searchResults[path]
-
-    && (<MapedRecipes recipe={ searchResults[path].slice(0, magicNumber) } />
+    && (
+      <MapedRecipes
+        recipe={
+          searchResults[path]
+          && searchResults[path].length > magicNumber
+            ? searchResults[path].slice(0, magicNumber)
+            : searchResults[path]
+        }
+      />
     )
   );
 }

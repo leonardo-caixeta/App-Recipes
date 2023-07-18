@@ -2,7 +2,7 @@ export default function MapedRecipes({ recipe }) {
   return (
     recipe.map((info, index) => (
       <div
-        key={ info.idMeal }
+        key={ info.idMeal || info.idDrink }
         className="recipe-card"
         data-testid={ `${index}-recipe-card` }
       >
@@ -15,7 +15,6 @@ export default function MapedRecipes({ recipe }) {
         <p data-testid={ `${index}-card-name` }>
           {info.strMeal || info.strDrink}
         </p>
-        {console.log(info)}
       </div>
     ))
   );

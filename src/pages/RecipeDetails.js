@@ -173,19 +173,20 @@ export default function RecipeDetails() {
           </section>
           {
             doneRecipes && (
-              <Link to={ `/${recipeType.toLowerCase()}/${info.idMeal || info.idDrink}` }>
+              <Link
+                to={ `/${recipeType.toLowerCase()}/${info.idMeal
+                  || info.idDrink}/in-progress` }
+              >
                 <button
                   className="defaultBtn"
                   data-testid="start-recipe-btn"
                 >
-                  Start Recipe
+                  {
+                    inProgressRecipes ? 'Continue Recipes' : 'Start Recipe'
+                  }
                 </button>
               </Link>
             )
-          }
-          {
-            inProgressRecipes
-          && <button>Continue Recipes</button>
           }
         </section>
       </main>
