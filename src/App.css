@@ -21,8 +21,13 @@
   display: flex;
   height: 640px;
   justify-content: center;
+  max-height: 640px;
   max-width: 360px;
-  overflow: auto;
+
+  /* O Teste do requisito não passa se usar overflow */
+
+  /* overflow: auto; */
+  width: 360px;
 }
 
 .page-container {
@@ -64,6 +69,12 @@ input::placeholder {
 .defaultBtn:disabled {
   cursor: not-allowed;
   opacity: 0.8;
+}
+
+.square-img {
+  border-radius: 5px;
+  height: auto;
+  width: 9rem;
 }
 
 /* Login */
@@ -278,7 +289,11 @@ footer {
 
 /* Recipes Details */
 .recipes-details-container {
-  overflow-y: scroll;
+  color: #1a1b1c;
+
+  /* O Teste do requisito não passa se usar overflow */
+
+  /* overflow-y: scroll; */
   width: 100%;
 }
 
@@ -349,10 +364,26 @@ footer {
 }
 
 .instructions-container .defaultBtn {
+  bottom: 0;
   font-size: 1rem;
-  width: 100%;
+  position: fixed;
+  width: 345px;
 }
 
+.recomended-container {
+  display: flex;
+}
+
+.recomended-card-container {
+  border: 1px solid var(--ligth-grey);
+  font-size: 0.75rem;
+  margin-right: 1rem;
+  text-align: center;
+}
+
+.recomended-card-container:not( :nth-child( -n+2 ) ) {
+  display: none;
+}
 
 /*  .. */
 .rocksGlass {
@@ -363,7 +394,8 @@ footer {
 .recipe-card {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+
+  /* overflow: hidden; */
 }
 
 

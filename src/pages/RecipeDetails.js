@@ -89,8 +89,13 @@ export default function RecipeDetails() {
           </section>
           {/* Implementar lógica para botão. Corrigir tipo da receita recomendada */}
           <h3>Recomended:</h3>
-          <RecomendedRecipes />
-          <button className="defaultBtn">Finish Recipe</button>
+          <RecomendedRecipes path={ path } />
+          <button
+            className="defaultBtn"
+            data-testid="start-recipe-btn"
+          >
+            Start Recipe
+          </button>
         </section>
       </main>
     ))
