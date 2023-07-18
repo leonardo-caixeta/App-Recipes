@@ -1,13 +1,44 @@
-import { useContext, useEffect } from 'react';
-import Slider from 'react-slick';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import FoodContext from '../contexts/FoodContext';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeart from '../images/whiteHeartIcon.svg';
+import blackHeart from '../images/blackHeartIcon.svg';
+
+const copy = require('clipboard-copy');
 
 const magicNumber = 6;
+const copyMessage = 'Link copied!';
+
+// Vem futuramente do LocalStorage
+const doneRecipes = [{
+  id: 'id-da-receita',
+  type: 'meal-ou-drink',
+  nationality: 'nacionalidade-da-receita-ou-texto-vazio',
+  category: 'categoria-da-receita-ou-texto-vazio',
+  alcoholicOrNot: 'alcoholic-ou-non-alcoholic-ou-texto-vazio',
+  name: 'nome-da-receita',
+  image: 'imagem-da-receita',
+  doneDate: 'quando-a-receita-foi-concluida',
+  tags: 'array-de-tags-da-receita-ou-array-vazio',
+}];
+
+const inProgressRecipes = {
+  drinks: {
+    idDaBebida: 'lista-de-ingredientes-utilizados',
+
+  },
+  meals: {
+    idDaComida: 'lista-de-ingredientes-utilizados',
+  },
+};
 
 export default function RecomendedRecipes({ path }) {
   const { recomendedFood, setRecomendedFood, recipeType } = useContext(FoodContext);
   const dataUsed = recomendedFood && Object.values(recomendedFood).slice(0, magicNumber);
-  console.log(dataUsed);
+  const [wasCopy, setWasCopy] = useState(false);
+  const [favoriteIcon, setFavoriteIcon] = useState(false);
 
   useEffect(() => {
     // if (recipeType === 'Meals') {
@@ -28,36 +59,82 @@ export default function RecomendedRecipes({ path }) {
         .then((r) => r.json())
         .then((data) => setRecomendedFood(data.meals));
     }
-  }, [recipeType]);
+  }, []);
 
-  const settings = {
-    infinite: true,
-    slidesToShow: 2,
-    slidesToScroll: 2,
-    arrows: true, // Exibe as setas de navegação
+  const favoriteRecipe = (info) => {
+    setFavoriteIcon(!favoriteIcon);
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipe')) || [];
+    const favoriteIDs = favorites.map((data) => data.id);
+    const conditional = !favoriteIDs.includes(String(info.idDrink || info.idMeal));
 
+    if (favorites.lenght > 1 || conditional) {
+      localStorage.setItem('favoriteRecipe', JSON.stringify([...favorites, {
+        id: info.idDrink || info.idMeal,
+        type: foodType,
+        nationality: info.strArea || null,
+        category: info.strCategory || null,
+        alcoholicOrNot: info.strAlcoholic || null,
+        name: info.strDrink || info.strMeal,
+        image: info.strMealThumb || info.strDrinkThumb,
+      }]));
+    }
   };
 
   return (
-    <section { ...settings } className="recomended-container">
-      {recomendedFood && dataUsed.map((info, index) => (
-        <div
-          data-testid={ `${index}-recommendation-card` }
-          className="recomended-card-container"
-          key={ index }
+    recomendedFood && dataUsed.map((info, index) => (
+      <div key={ index } data-testid={ `${index}-recommendation-card` }>
+        <p
+          data-testid={ `${index}-recommendation-title` }
         >
-          <img
-            className="square-img"
-            alt={ info.strDrink || info.strMeal }
-            src={ info.strMealThumb || info.strDrinkThumb }
+          {info.strDrink || info.strMeal}
+        </p>
+        <img
+          src={ info.strMealThumb || info.strDrinkThumb }
+          alt="Food"
+        />
+        {
+          doneRecipes && (
+            <Link to={ `/${foodType}/${info.idMeal || info.idDrink}` }>
+              <button
+                data-testid="start-recipe-btn"
+              >
+                Start Recipe
+              </button>
+            </Link>
+          )
+        }
+        {
+          inProgressRecipes
+          && <button>Continue Recipes</button>
+        }
+        <label htmlFor="share-btn">
+          <input
+            type="image"
+            alt="share-icon"
+            data-testid="share-btn"
+            id="share-btn"
+            src={ shareIcon }
+            onClick={ () => {
+              copy(`/${foodType}/${info.idMeal || info.idDrink}`);
+              setWasCopy(true);
+            } }
+
           />
-          <p
-            data-testid={ `${index}-recommendation-title` }
-          >
-            {info.strDrink || info.strMeal}
-          </p>
-        </div>
-      ))}
-    </section>
+        </label>
+        {
+          wasCopy && <p>{ copyMessage }</p>
+        }
+        <label htmlFor="favorite-btn">
+          <input
+            type="image"
+            data-testid="favorite-btn"
+            id="favorite-btn"
+            alt="favorite-icon"
+            src={ favoriteIcon ? blackHeart : whiteHeart }
+            onClick={ () => favoriteRecipe(info) }
+          />
+        </label>
+      </div>
+    ))
   );
 }
