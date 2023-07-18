@@ -18,13 +18,12 @@ function SearchBar({ food }) {
     searchResults } = store;
 
   useMemo(() => {
-    if (searchResults[food] === null) {
+    if (searchResults[food.toLowerCase()] === null) {
       global.alert(errorMessage);
     }
   }, [searchResults, food]);
 
   const doFetch = async () => {
-    console.log(searchInput);
     if (searchInput.length > 1 && searchType === 'letter') {
       return global.alert('Your search must have only 1 (one) character');
     }
@@ -94,7 +93,7 @@ function SearchBar({ food }) {
       >
         Buscar
       </button>
-      { searchResults && <FirstRecipes foodType={ food } /> }
+      { searchResults && <FirstRecipes /> }
     </section>
   );
 }

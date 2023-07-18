@@ -1,12 +1,11 @@
 import { useHistory } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import FoodContext from '../contexts/FoodContext';
 import MapedRecipes from './MapedRecipes';
 
 const magicNumber = 12;
 
-export default function FirstRecipes({ foodType }) {
+export default function FirstRecipes() {
   const { searchResults } = useContext(FoodContext);
 
   const path = Object.keys(searchResults)[0];
@@ -14,11 +13,8 @@ export default function FirstRecipes({ foodType }) {
 
   useEffect(() => {
     if (searchResults[path] && searchResults[path].length === 1) {
-      history.push(`/${path}/${
-        foodType === 'meals'
-          ? searchResults[path][0].idMeal
-          : searchResults[path][0].idDrink
-      }`);
+      history.push(`/${path}/${searchResults[path][0].idMeal
+        || searchResults[path][0].idDrink}`);
     }
   }, [searchResults]);
 
@@ -29,7 +25,3 @@ export default function FirstRecipes({ foodType }) {
     )
   );
 }
-
-FirstRecipes.propTypes = {
-  foodType: PropTypes.string.isRequired,
-};
