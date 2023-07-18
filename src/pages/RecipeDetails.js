@@ -1,9 +1,43 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import RecomendedRecipes from '../components/RecomendedRecipes';
+import shareIcon from '../images/shareIcon.svg';
+import whiteHeart from '../images/whiteHeartIcon.svg';
+import blackHeart from '../images/blackHeartIcon.svg';
+import FoodContext from '../contexts/FoodContext';
 
 const magicNumber = 20;
 
+const copy = require('clipboard-copy');
+
+const copyMessage = 'Link copied!';
+
+const inProgressRecipes = {
+  drinks: {
+    idDaBebida: 'lista-de-ingredientes-utilizados',
+  },
+  meals: {
+    idDaComida: 'lista-de-ingredientes-utilizados',
+  },
+};
+
+const doneRecipes = [{
+  id: 'id-da-receita',
+  type: 'meal-ou-drink',
+  nationality: 'nacionalidade-da-receita-ou-texto-vazio',
+  category: 'categoria-da-receita-ou-texto-vazio',
+  alcoholicOrNot: 'alcoholic-ou-non-alcoholic-ou-texto-vazio',
+  name: 'nome-da-receita',
+  image: 'imagem-da-receita',
+  doneDate: 'quando-a-receita-foi-concluida',
+  tags: 'array-de-tags-da-receita-ou-array-vazio',
+}];
+
 export default function RecipeDetails() {
+  const [wasCopy, setWasCopy] = useState(false);
+  const [favoriteIcon, setFavoriteIcon] = useState(false);
+  const { recipeType } = useContext(FoodContext);
+
   function renderIngredients(info) {
     const ingredients = [];
 
@@ -24,6 +58,26 @@ export default function RecipeDetails() {
 
     return ingredients;
   }
+
+  const favoriteRecipe = (informations) => {
+    setFavoriteIcon(!favoriteIcon);
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipe')) || [];
+    const favoriteIDs = favorites.map((data) => data.id);
+    const conditional = !favoriteIDs
+      .includes(String(informations.idDrink || informations.idMeal));
+
+    if (favorites.lenght > 1 || conditional) {
+      localStorage.setItem('favoriteRecipe', JSON.stringify([...favorites, {
+        id: informations.idDrink || informations.idMeal,
+        type: recipeType,
+        nationality: informations.strArea || null,
+        category: informations.strCategory || null,
+        alcoholicOrNot: informations.strAlcoholic || null,
+        name: informations.strDrink || informations.strMeal,
+        image: informations.strMealThumb || informations.strDrinkThumb,
+      }]));
+    }
+  };
 
   const [apiData, setApiData] = useState([]);
 
@@ -62,6 +116,32 @@ export default function RecipeDetails() {
               { info.strAlcoholic || info.strCategory }
 
             </p>
+            <section className="utilsBtns-container">
+              <input
+                type="image"
+                alt="share-icon"
+                data-testid="share-btn"
+                id="share-btn"
+                className="utilsBtns"
+                src={ shareIcon }
+                onClick={ () => {
+                  copy(`/${recipeType}/${info.idMeal || info.idDrink}`);
+                  setWasCopy(true);
+                } }
+              />
+              {
+                wasCopy && <p>{ copyMessage }</p>
+              }
+              <input
+                type="image"
+                data-testid="favorite-btn"
+                id="favorite-btn"
+                className="utilsBtns"
+                alt="favorite-icon"
+                src={ favoriteIcon ? blackHeart : whiteHeart }
+                onClick={ () => favoriteRecipe(info) }
+              />
+            </section>
             <h2 data-testid="recipe-title">{info.strMeal || info.strDrink}</h2>
           </div>
         </header>
@@ -87,17 +167,26 @@ export default function RecipeDetails() {
               <track src="" kind="captions" srcLang="en" label="English" default />
             </video>
           </section>
-          {/* Implementar lógica para botão. Corrigir tipo da receita recomendada */}
           <h3>Recomended:</h3>
           <section className="recomended-container">
             <RecomendedRecipes path={ path } />
           </section>
-          <button
-            className="defaultBtn"
-            data-testid="start-recipe-btn"
-          >
-            Start Recipe
-          </button>
+          {
+            doneRecipes && (
+              <Link to={ `/${recipeType.toLowerCase()}/${info.idMeal || info.idDrink}` }>
+                <button
+                  className="defaultBtn"
+                  data-testid="start-recipe-btn"
+                >
+                  Start Recipe
+                </button>
+              </Link>
+            )
+          }
+          {
+            inProgressRecipes
+          && <button>Continue Recipes</button>
+          }
         </section>
       </main>
     ))
