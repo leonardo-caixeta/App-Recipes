@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import FoodContext from '../contexts/FoodContext';
 import shareIcon from '../images/shareIcon.svg';
@@ -41,20 +42,12 @@ export default function RecomendedRecipes({ path }) {
   const [favoriteIcon, setFavoriteIcon] = useState(false);
 
   useEffect(() => {
-    // if (recipeType === 'Meals') {
     if (path.includes('meals')) {
-      console.log(recipeType);
-      console.log('usei meal');
-
       fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
         .then((r) => r.json())
         .then((data) => setRecomendedFood(data.drinks));
     }
-    // if (recipeType === 'Drinks') {
     if (path.includes('drinks')) {
-      console.log(recipeType);
-      console.log('usei drink');
-
       fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
         .then((r) => r.json())
         .then((data) => setRecomendedFood(data.meals));
@@ -70,7 +63,7 @@ export default function RecomendedRecipes({ path }) {
     if (favorites.lenght > 1 || conditional) {
       localStorage.setItem('favoriteRecipe', JSON.stringify([...favorites, {
         id: info.idDrink || info.idMeal,
-        type: foodType,
+        type: recipeType,
         nationality: info.strArea || null,
         category: info.strCategory || null,
         alcoholicOrNot: info.strAlcoholic || null,
@@ -82,19 +75,24 @@ export default function RecomendedRecipes({ path }) {
 
   return (
     recomendedFood && dataUsed.map((info, index) => (
-      <div key={ index } data-testid={ `${index}-recommendation-card` }>
+      <div
+        data-testid={ `${index}-recommendation-card` }
+        className="recomended-card-container"
+        key={ index }
+      >
+        <img
+          className="square-img"
+          alt={ info.strDrink || info.strMeal }
+          src={ info.strMealThumb || info.strDrinkThumb }
+        />
         <p
           data-testid={ `${index}-recommendation-title` }
         >
           {info.strDrink || info.strMeal}
         </p>
-        <img
-          src={ info.strMealThumb || info.strDrinkThumb }
-          alt="Food"
-        />
         {
           doneRecipes && (
-            <Link to={ `/${foodType}/${info.idMeal || info.idDrink}` }>
+            <Link to={ `/${recipeType}/${info.idMeal || info.idDrink}` }>
               <button
                 data-testid="start-recipe-btn"
               >
@@ -115,7 +113,7 @@ export default function RecomendedRecipes({ path }) {
             id="share-btn"
             src={ shareIcon }
             onClick={ () => {
-              copy(`/${foodType}/${info.idMeal || info.idDrink}`);
+              copy(`/${recipeType}/${info.idMeal || info.idDrink}`);
               setWasCopy(true);
             } }
 
@@ -138,3 +136,7 @@ export default function RecomendedRecipes({ path }) {
     ))
   );
 }
+
+RecomendedRecipes.propTypes = {
+  path: PropTypes.string.isRequired,
+};
