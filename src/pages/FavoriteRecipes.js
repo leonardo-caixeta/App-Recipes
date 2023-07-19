@@ -39,7 +39,7 @@ export default function FavoriteRecipes() {
         haveSearch={ false }
       />
 
-      <div>
+      <section className="page-container">
         <button
           data-testid="filter-by-all-btn"
           onClick={ () => setFilter('all') }
@@ -139,7 +139,7 @@ export default function FavoriteRecipes() {
               {
                 copiedLink && <p>Link copied!</p>
               }
-            </div>
+            </section>
           ))
         )
       }

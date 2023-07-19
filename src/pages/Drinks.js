@@ -1,14 +1,20 @@
+import { useContext, useEffect } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
-import SearchBar from '../components/SearchBar';
+import Recipes from '../components/Recipes';
+import FoodContext from '../contexts/FoodContext';
 
 export default function Drinks() {
+  const { setRecipeType } = useContext(FoodContext);
+  useEffect(() => {
+    setRecipeType('drinks');
+  }, []);
   return (
-    <>
-      <Header haveSearch title="Drinks" />
-      <SearchBar food="drink" />
+    <section className="page-container">
+      <Header haveSearch />
 
+      <Recipes />
       <Footer />
-    </>
+    </section>
   );
 }

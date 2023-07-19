@@ -1,16 +1,12 @@
-import { Redirect } from 'react-router-dom';
-
 export default async function FetchMeals(store) {
   const {
     searchType,
     searchInput,
-    searchResults,
+    setSearchInput,
     setSearchResults,
   } = store;
 
-  if (searchInput.length > 1 && searchType === 'letter') {
-    global.alert('Your search must have only 1 (one) character');
-  } else {
+  if (searchInput) {
     switch (searchType) {
     case 'ingredient':
       await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`)
@@ -19,7 +15,7 @@ export default async function FetchMeals(store) {
       break;
 
     case 'name':
-      await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`)
+      await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${`${searchInput}`}`)
         .then((response) => response.json())
         .then((data) => setSearchResults(data));
       break;
@@ -34,10 +30,5 @@ export default async function FetchMeals(store) {
       break;
     }
   }
-  console.log(searchResults);
-
-  if (searchResults.meals && searchResults.meals.length === 1) {
-    <Redirect to="/profile" />;
-    console.log('entrou');
-  }
+  setSearchInput('');
 }
