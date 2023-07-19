@@ -1,12 +1,11 @@
 // TELA DE DETALHES
 
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecomendedRecipes from '../components/RecomendedRecipes';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeart from '../images/whiteHeartIcon.svg';
 import blackHeart from '../images/blackHeartIcon.svg';
-import FoodContext from '../contexts/FoodContext';
 
 const magicNumber = 20;
 
@@ -35,11 +34,9 @@ const doneRecipes = [{
   tags: 'array-de-tags-da-receita-ou-array-vazio',
 }];
 
-export default function RecipeDetails() {
+export default function RecipeDetails({ foodType }) {
   const [wasCopy, setWasCopy] = useState(false);
   const [favoriteIcon, setFavoriteIcon] = useState(false);
-  const { recipeType } = useContext(FoodContext);
-  console.log(recipeType);
 
   function renderIngredients(info) {
     const ingredients = [];
@@ -72,7 +69,7 @@ export default function RecipeDetails() {
     if (favorites.lenght > 1 || conditional) {
       localStorage.setItem('favoriteRecipe', JSON.stringify([...favorites, {
         id: informations.idDrink || informations.idMeal,
-        type: recipeType,
+        type: foodType,
         nationality: informations.strArea || null,
         category: informations.strCategory || null,
         alcoholicOrNot: informations.strAlcoholic || null,
@@ -98,8 +95,6 @@ export default function RecipeDetails() {
         .then((data) => setApiData(data[path]));
     }
   }, [id, path]);
-
-  console.log(apiData);
 
   return (
     apiData && apiData.map((info, index) => (
@@ -128,7 +123,7 @@ export default function RecipeDetails() {
                 className="utilsBtns"
                 src={ shareIcon }
                 onClick={ () => {
-                  copy(`/${recipeType}/${info.idMeal
+                  copy(`http://localhost:3000/${foodType}/${info.idMeal
                     || info.idDrink}`);
                   setWasCopy(true);
                 } }
@@ -178,7 +173,7 @@ export default function RecipeDetails() {
           {
             doneRecipes && (
               <Link
-                to={ `/${recipeType.toLowerCase()}/${info.idMeal
+                to={ `/${foodType}/${info.idMeal
                   || info.idDrink}/in-progress` }
               >
                 <button

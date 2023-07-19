@@ -22,9 +22,16 @@ function App() {
           <Route path="/profile" component={ Profile } />
           <Route path="/done-recipes" component={ DoneRecipes } />
           <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-          <Route path="/meals/:id" component={ RecipeDetails } />
-          <Route path="/drinks/:id" component={ RecipeDetails } />
-          <Route path="/done-recipes" component={ DoneRecipes } />
+          <Route
+            path="/meals/:id"
+            render={ () => <RecipeDetails foodType="meals" /> }
+          />
+          <Route
+            path="/drinks/:id"
+            render={
+              () => <RecipeDetails foodType="drinks" />
+            }
+          />
         </FoodProvider>
       </Switch>
     </div>
