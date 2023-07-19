@@ -105,10 +105,6 @@ export default function RecipeDetails({ foodType }) {
     }
   }, [id, path]);
 
-  useEffect(() => {
-    handleFavoriteIcon();
-  }, []);
-
   return (
     apiData && apiData.map((info, index) => (
       <main key={ index } className="recipes-details-container">
