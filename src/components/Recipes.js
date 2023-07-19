@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Categories from './Categories';
 import FoodContext from '../contexts/FoodContext';
 import FirstRecipes from './FirstRecipes';
+import { getRecipePath } from '../funcs/getRecipePath';
 
 function Recipes() {
   const { recipes,
@@ -15,12 +16,12 @@ function Recipes() {
     searchResults } = useContext(FoodContext);
   const { pathname } = window.location;
 
-  const getRecipePath = (recipe) => {
-    if (pathname.includes('/meals')) {
-      return `/meals/${recipe.idMeal}`;
-    }
-    return `/drinks/${recipe.idDrink}`;
-  };
+  // const getRecipePath = (recipe) => {
+  //   if (pathname.includes('/meals')) {
+  //     return `/meals/${recipe.idMeal}`;
+  //   }
+  //   return `/drinks/${recipe.idDrink}`;
+  // };
 
   return (
     <main className="recipes-container">
@@ -29,7 +30,7 @@ function Recipes() {
         {(toggleRenderFiltered === false
         && toggleRenderRecomended) && recipes.map((recipe, index) => (
           <Link
-            to={ getRecipePath(recipe) }
+            to={ getRecipePath(recipe, pathname) }
             key={ index }
             className="recipe-card-link" // Adicione uma classe para estilização
             data-testid={ `${index}-recipe-card` }
