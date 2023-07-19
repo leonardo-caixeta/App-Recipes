@@ -2,11 +2,14 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 
-import { fetchRecipes } from '../helper/api';
 import FoodProvider from '../contexts/FoodProvider';
 import Recipes from '../components/Recipes';
 import Meals from '../pages/Meals';
 import Drinks from '../pages/Drinks';
+
+const search = 'search-input';
+const bar = 'search-top-btn';
+const button = 'exec-search-btn';
 
 describe('Recipe Componente', () => {
   test('renderiza corretamente os cards de receita ao utilizar a barra de busca na página /meals', async () => {
@@ -20,12 +23,12 @@ describe('Recipe Componente', () => {
       </BrowserRouter>,
     );
     screen.debug();
-    const searchBarElement = screen.getByTestId('search-top-btn');
+    const searchBarElement = screen.getByTestId(bar);
     fireEvent.click(searchBarElement);
 
-    const searchBar = screen.getByTestId('search-input');
+    const searchBar = screen.getByTestId(search);
     const radioIngredientElement = screen.getByTestId('ingredient-search-radio');
-    const searchButton = screen.getByTestId('exec-search-btn');
+    const searchButton = screen.getByTestId(button);
 
     fireEvent.change(searchBar, { target: { value: 'chicken' } });
     fireEvent.click(radioIngredientElement);
@@ -48,12 +51,12 @@ describe('Recipe Componente', () => {
       </BrowserRouter>,
     );
     screen.debug();
-    const searchBarElement = screen.getByTestId('search-top-btn');
+    const searchBarElement = screen.getByTestId(bar);
     fireEvent.click(searchBarElement);
 
-    const searchBar = screen.getByTestId('search-input');
+    const searchBar = screen.getByTestId(search);
     const radioName = screen.getByTestId('name-search-radio');
-    const searchButton = screen.getByTestId('exec-search-btn');
+    const searchButton = screen.getByTestId(button);
 
     fireEvent.change(searchBar, { target: { value: 'blood' } });
     fireEvent.click(radioName);
@@ -79,12 +82,12 @@ describe('Recipe Componente', () => {
 
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
-    const searchBarElement = screen.getByTestId('search-top-btn');
+    const searchBarElement = screen.getByTestId(bar);
     fireEvent.click(searchBarElement);
 
-    const searchBar = screen.getByTestId('search-input');
+    const searchBar = screen.getByTestId(search);
     const radioName = screen.getByTestId('name-search-radio');
-    const searchButton = screen.getByTestId('exec-search-btn');
+    const searchButton = screen.getByTestId(button);
 
     fireEvent.change(searchBar, { target: { value: 'xablau' } });
     fireEvent.click(radioName);
