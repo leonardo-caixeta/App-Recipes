@@ -19,9 +19,7 @@
   background-color: var(--main-bg-color);
   border-radius: 5px;
   display: flex;
-  height: 640px;
   justify-content: center;
-  max-height: 640px;
   max-width: 360px;
 
   /* O Teste do requisito não passa se usar overflow */
@@ -383,6 +381,10 @@ footer {
 
 .recomended-card-container:not( :nth-child( -n+2 ) ) {
   display: none;
+}
+
+.utilsBtns {
+  width: 2rem;
 }
 
 /*  .. */

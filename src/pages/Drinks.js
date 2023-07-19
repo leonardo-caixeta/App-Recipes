@@ -7,11 +7,11 @@ import FoodContext from '../contexts/FoodContext';
 export default function Drinks() {
   const { setRecipeType } = useContext(FoodContext);
   useEffect(() => {
-    setRecipeType('Drinks');
-  });
+    setRecipeType('drinks');
+  }, []);
   return (
     <section className="page-container">
-      <Header haveSearch />
+      <Header haveSearch title="Drinks" />
 
       <Recipes />
       <Footer />

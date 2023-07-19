@@ -12,7 +12,7 @@ import headerIcon from '../images/headerRecipesAppIcon.svg';
 import SearchBar from './SearchBar';
 import FoodContext from '../contexts/FoodContext';
 
-export default function Header({ haveSearch }) {
+export default function Header({ haveSearch, title }) {
   const { recipeType } = useContext(FoodContext);
 
   const [searchBar, setSearchBar] = useState(false);
@@ -25,19 +25,19 @@ export default function Header({ haveSearch }) {
 
   useEffect(() => {
     switch (recipeType) {
-    case 'Meals':
+    case 'meals':
       setImgUrl(mealIcon);
       break;
-    case 'Drinks':
+    case 'drinks':
       setImgUrl(drinkIcon);
       break;
-    case 'Profile':
+    case 'profile':
       setImgUrl(profileIcon);
       break;
-    case 'Favorites':
+    case 'favorite':
       setImgUrl(favoritesIcon);
       break;
-    case 'Done Recipes':
+    case 'done':
       setImgUrl(doneIcon);
       break;
 
@@ -87,7 +87,7 @@ export default function Header({ haveSearch }) {
         alt={ `Ícone da página de ${recipeType}` }
         src={ imgUrl }
       />
-      <h1 className="page-title" data-testid="page-title">{ recipeType }</h1>
+      <h1 className="page-title" data-testid="page-title">{ title }</h1>
       {searchBar && <SearchBar food={ recipeType } /> }
     </section>
   );
@@ -95,4 +95,5 @@ export default function Header({ haveSearch }) {
 
 Header.propTypes = {
   haveSearch: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
 };

@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
+import FoodContext from '../contexts/FoodContext';
 
 function RecipesCards() {
+  const { recipeType } = useContext(FoodContext);
   // Valores mock para construção do componente
   const meals = [
     {
@@ -120,7 +122,6 @@ function RecipesCards() {
     },
   ];
   const tagNames = ['Pasta', 'Curry'];
-  const recipeType = 'meal';
 
   // Biblioteca toastfy para notificações
   const notify = () => (
@@ -141,7 +142,7 @@ function RecipesCards() {
       {
         meals.map(({ idMeal, strMeal, strCategory, strArea, strMealThumb }, index) => (
           <section key={ idMeal }>
-            <Link to={ `/${recipeType}s/${idMeal}` }>
+            <Link to={ `/${recipeType}/${idMeal}` }>
               <img
                 className="recipe-img"
                 alt={ strMeal }
@@ -150,7 +151,7 @@ function RecipesCards() {
               />
             </Link>
             <div>
-              <Link to={ `/${recipeType}s/${idMeal}` }>
+              <Link to={ `/${recipeType}/${idMeal}` }>
                 <h2 data-testid={ `${index}-horizontal-name` }>{strMeal}</h2>
               </Link>
               <p data-testid={ `${index}-horizontal-top-text` }>{strCategory}</p>
