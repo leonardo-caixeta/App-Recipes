@@ -39,6 +39,7 @@ export default function RecipeDetails() {
   const [wasCopy, setWasCopy] = useState(false);
   const [favoriteIcon, setFavoriteIcon] = useState(false);
   const { recipeType } = useContext(FoodContext);
+  console.log(recipeType);
 
   function renderIngredients(info) {
     const ingredients = [];
@@ -127,7 +128,8 @@ export default function RecipeDetails() {
                 className="utilsBtns"
                 src={ shareIcon }
                 onClick={ () => {
-                  copy(`/${recipeType}/${info.idMeal || info.idDrink}`);
+                  copy(`/${recipeType}/${info.idMeal
+                    || info.idDrink}`);
                   setWasCopy(true);
                 } }
               />

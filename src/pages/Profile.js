@@ -7,8 +7,8 @@ import FoodContext from '../contexts/FoodContext';
 export default function Profile() {
   const { setRecipeType } = useContext(FoodContext);
   useEffect(() => {
-    setRecipeType('Profile');
-  });
+    setRecipeType('profile');
+  }, []);
 
   const loginEmail = JSON.parse(localStorage.getItem('user'));
 

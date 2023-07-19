@@ -25,19 +25,19 @@ export default function Header({ haveSearch }) {
 
   useEffect(() => {
     switch (recipeType) {
-    case 'Meals':
+    case 'meals':
       setImgUrl(mealIcon);
       break;
-    case 'Drinks':
+    case 'drinks':
       setImgUrl(drinkIcon);
       break;
-    case 'Profile':
+    case 'profile':
       setImgUrl(profileIcon);
       break;
-    case 'Favorites':
+    case 'favorites':
       setImgUrl(favoritesIcon);
       break;
-    case 'Done Recipes':
+    case 'done':
       setImgUrl(doneIcon);
       break;
 
