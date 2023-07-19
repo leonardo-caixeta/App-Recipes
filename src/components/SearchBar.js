@@ -33,7 +33,7 @@ function SearchBar({ food }) {
     if (searchInput.length > 1 && searchType === 'letter') {
       return global.alert('Your search must have only 1 (one) character');
     }
-    if (food === 'Meals') {
+    if (food === 'meals') {
       await FetchMeals(store);
     } else { await FetchDrinks(store); }
     setSearchInput('');
