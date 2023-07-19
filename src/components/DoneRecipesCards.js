@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import FoodContext from '../contexts/FoodContext';
+import { getRecipeDonePath } from '../funcs/getRecipePath';
 
 function DoneRecipesCards() {
   const { recipeType } = useContext(FoodContext);
@@ -50,7 +51,6 @@ function DoneRecipesCards() {
   };
 
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-  console.log(doneRecipes);
 
   return (
     <>
@@ -58,7 +58,7 @@ function DoneRecipesCards() {
         doneRecipes
           .map((food, index) => (
             <section key={ food.idMeal || food.idDrink }>
-              <Link to={ `/${recipeType}/${food.idMeal || food.idDrink}` }>
+              <Link to={ getRecipeDonePath(food) }>
                 <img
                   className="recipe-img"
                   alt={ food.strMeal || food.strDrink }
@@ -67,7 +67,7 @@ function DoneRecipesCards() {
                 />
               </Link>
               <div>
-                <Link to={ `/${recipeType}/${food.idMeal || food.idDrink}` }>
+                <Link to={ getRecipeDonePath(food) }>
                   <h2 data-testid={ `${index}-horizontal-name` }>
                     {food.strMeal || food.strDrink}
                   </h2>
