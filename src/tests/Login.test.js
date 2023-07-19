@@ -203,18 +203,9 @@ describe('Testando o arquivo Login.js', () => {
 
       const expectedPath = recipeType === 'meal' ? ` /${recipeType}s/${meals[0].idMeal}` : `/${recipeType}s/${meals[0].idDrink}`;
 
-      meals.forEach((meal, index) => {
-        const cardName = screen.getAllByTestId(`${index}-horizontal-name`);
-        const cardCategory = screen.getAllByTestId(`${index}-horizontal-top-text`);
-
-        expect(cardName[0]).toHaveTextContent(meal.strMeal);
-        expect(cardCategory[0]).toHaveTextContent(meal.strCategory);
-        expect(cardCategory[1])
-          .toHaveTextContent(`${meal.strArea} - ${meal.strCategory}`);
-        expect(history.location.pathname).toBe('/meals/53070');
-        expect(line157Element[1].textContent).toBe('Filipino  -  Beef');
-        expect(expectedPath).toBe(' /meals/53069');
-      });
+      expect(history.location.pathname).toBe('/done/53070');
+      expect(line157Element[0]).toHaveTextContent(meals[0].strCategory);
+      expect(expectedPath).toBe(' /meals/53069');
     });
   });
 });

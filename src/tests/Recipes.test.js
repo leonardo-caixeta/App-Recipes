@@ -1,60 +1,128 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { createMemoryHistory } from 'history';
+
+import { fetchRecipes } from '../helper/api';
 import FoodProvider from '../contexts/FoodProvider';
 import Recipes from '../components/Recipes';
-import Categories from '../components/Categories';
-import * as api from '../helper/api';
+import Meals from '../pages/Meals';
+import Drinks from '../pages/Drinks';
 
 describe('Recipe Componente', () => {
-  test('renderiza corretamente os cards de receita e redireciona para a página de detalhes', async () => {
-    const recipes = [
-      {
-        idMeal: '1',
-        strMeal: 'Meal 1',
-        strMealThumb: 'thumb1.jpg',
-      },
-      {
-        idMeal: '2',
-        strMeal: 'Meal 2',
-        strMealThumb: 'thumb2.jpg',
-      },
-    ];
-
-    jest.spyOn(api, 'fetchCategories').mockImplementationOnce(() => Promise.resolve([
-      { strCategory: 'Category 1' },
-      { strCategory: 'Category 2' },
-      { strCategory: 'Category 3' },
-      { strCategory: 'Category 4' },
-    ]));
-
-    jest.spyOn(api, 'fetchRecipes').mockImplementationOnce(() => Promise.resolve(recipes));
-
-    const history = createMemoryHistory({ initialEntries: ['/drinks'] });
+  test('renderiza corretamente os cards de receita ao utilizar a barra de busca na página /meals', async () => {
     render(
-      <BrowserRouter history={ history }>
+      <BrowserRouter>
         <FoodProvider>
-          <Categories />
-          <Recipes />
+          <Meals>
+            <Recipes />
+          </Meals>
         </FoodProvider>
       </BrowserRouter>,
     );
+    screen.debug();
+    const searchBarElement = screen.getByTestId('search-top-btn');
+    fireEvent.click(searchBarElement);
 
-    // // Verifica se os cards de receitas foram renderizados corretamente
-    // const recipeCards = await screen.findAllByTestId(/-recipe-card/);
-    // screen.debug();
-    // expect(recipeCards).toHaveLength(recipes.length);
-    // // Simula o clique no primeiro card de receita (Recipe 1)
-    // fireEvent.click(recipeCards[0]);
+    const searchBar = screen.getByTestId('search-input');
+    const radioIngredientElement = screen.getByTestId('ingredient-search-radio');
+    const searchButton = screen.getByTestId('exec-search-btn');
 
-    // // Verifica se o redirecionamento ocorreu para a rota /meals/1 (id da primeira receita)
-    // expect(window.location.pathname).toBe('/meals/1');
+    fireEvent.change(searchBar, { target: { value: 'chicken' } });
+    fireEvent.click(radioIngredientElement);
+    fireEvent.click(searchButton);
 
-    // // Simula o clique no segundo card de receita (Recipe 2)
-    // fireEvent.click(recipeCards[1]);
+    await waitFor(() => {
+      const recipeCards = screen.getAllByTestId(/card-name/);
+      expect(recipeCards).toHaveLength(11);
+      expect(recipeCards[1]).toHaveTextContent('Chicken & mushroom Hotpot');
+    });
+  });
+  test('renderiza corretamente os cards de receita ao utilizar a barra de busca na página /drinks', async () => {
+    render(
+      <BrowserRouter>
+        <FoodProvider>
+          <Drinks>
+            <Recipes />
+          </Drinks>
+        </FoodProvider>
+      </BrowserRouter>,
+    );
+    screen.debug();
+    const searchBarElement = screen.getByTestId('search-top-btn');
+    fireEvent.click(searchBarElement);
 
-    // // Verifica se o redirecionamento ocorreu para a rota /meals/2 (id da segunda receita)
-    // expect(window.location.pathname).toBe('/meals/2');
+    const searchBar = screen.getByTestId('search-input');
+    const radioName = screen.getByTestId('name-search-radio');
+    const searchButton = screen.getByTestId('exec-search-btn');
+
+    fireEvent.change(searchBar, { target: { value: 'blood' } });
+    fireEvent.click(radioName);
+    fireEvent.click(searchButton);
+
+    await waitFor(() => {
+      const recipeCards = screen.getAllByTestId(/card-name/);
+      expect(recipeCards).toHaveLength(3);
+      expect(recipeCards[0]).toHaveTextContent('Bloody Mary');
+    });
+  });
+  test('Testando parâmetro de busca invlálido', async () => {
+    render(
+      <BrowserRouter>
+        <FoodProvider>
+          <Meals>
+            <Recipes />
+          </Meals>
+        </FoodProvider>
+      </BrowserRouter>,
+    );
+    screen.debug();
+
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    const searchBarElement = screen.getByTestId('search-top-btn');
+    fireEvent.click(searchBarElement);
+
+    const searchBar = screen.getByTestId('search-input');
+    const radioName = screen.getByTestId('name-search-radio');
+    const searchButton = screen.getByTestId('exec-search-btn');
+
+    fireEvent.change(searchBar, { target: { value: 'xablau' } });
+    fireEvent.click(radioName);
+    fireEvent.click(searchButton);
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledTimes(1);
+    });
+    alertSpy.mockRestore();
+  });
+  test('Testando parâmetro de busca invlálido', async () => {
+    render(
+      <BrowserRouter>
+        <FoodProvider>
+          <Meals>
+            <Recipes />
+          </Meals>
+        </FoodProvider>
+      </BrowserRouter>,
+    );
+    screen.debug();
+
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+
+    const searchBarElement = screen.getByTestId('search-top-btn');
+    fireEvent.click(searchBarElement);
+
+    const searchBar = screen.getByTestId('search-input');
+    const radioFirstLetter = screen.getByTestId('first-letter-search-radio');
+    const searchButton = screen.getByTestId('exec-search-btn');
+
+    fireEvent.change(searchBar, { target: { value: 'abc' } });
+    fireEvent.click(radioFirstLetter);
+    fireEvent.click(searchButton);
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledTimes(1);
+    });
+    alertSpy.mockRestore();
   });
 });
