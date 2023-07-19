@@ -1,3 +1,5 @@
+// MAP DE RECEITAS
+
 export default function MapedRecipes({ recipe }) {
   return (
     recipe.map((info, index) => (

@@ -1,3 +1,5 @@
+// RECEITAS RECOMENDADAS (PARA O RECIPE DETAIL (???))
+
 import { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 

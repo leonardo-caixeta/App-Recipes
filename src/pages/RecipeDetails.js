@@ -1,3 +1,5 @@
+// TELA DE DETALHES
+
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RecomendedRecipes from '../components/RecomendedRecipes';

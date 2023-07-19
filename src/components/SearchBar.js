@@ -1,3 +1,5 @@
+// BARRA DE BUSCA
+
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
@@ -26,7 +28,7 @@ function SearchBar({ food }) {
   }, [searchResults, food]);
 
   const doFetch = async () => {
-    setToggleRenderRecomended(false);
+    setToggleRenderRecomended(!toggleRenderRecomended);
     console.log(toggleRenderRecomended);
     if (searchInput.length > 1 && searchType === 'letter') {
       return global.alert('Your search must have only 1 (one) character');

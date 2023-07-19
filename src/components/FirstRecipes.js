@@ -1,3 +1,5 @@
+// PRIMEIRAS RECEITAS RECOMENDADAS
+
 import { useHistory } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import FoodContext from '../contexts/FoodContext';
