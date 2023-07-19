@@ -60,14 +60,20 @@ export default function RecipeDetails({ foodType }) {
     return ingredients;
   }
 
+  const handleFavoriteIcon = () => {
+    const favoriteHeart = JSON.parse(localStorage.getItem('favoriteHeart'));
+    setFavoriteIcon(favoriteHeart);
+  };
+
   const favoriteRecipe = (informations) => {
-    setFavoriteIcon(!favoriteIcon);
+    localStorage.setItem('favoriteHeart', JSON.stringify(!favoriteIcon));
+
     const favorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     const favoriteIDs = favorites.map((data) => data.id);
-    const conditional = !favoriteIDs
+    const conditional = favoriteIDs
       .includes(String(informations.idDrink || informations.idMeal));
 
-    if (favorites.lenght > 1 || conditional) {
+    if (favorites.lenght > 1 || !conditional) {
       localStorage.setItem('favoriteRecipes', JSON.stringify([...favorites, {
         id: informations.idDrink || informations.idMeal,
         type: foodType.slice(0, secondMagicNumber),
@@ -78,9 +84,9 @@ export default function RecipeDetails({ foodType }) {
         image: informations.strMealThumb || informations.strDrinkThumb,
       }]));
     }
+    handleFavoriteIcon();
   };
-
-  console.log(JSON.parse(localStorage.getItem('favoriteRecipes')));
+  console.log(!favoriteIcon);
 
   const [apiData, setApiData] = useState([]);
 
@@ -98,6 +104,10 @@ export default function RecipeDetails({ foodType }) {
         .then((data) => setApiData(data[path]));
     }
   }, [id, path]);
+
+  useEffect(() => {
+    handleFavoriteIcon();
+  }, []);
 
   return (
     apiData && apiData.map((info, index) => (
