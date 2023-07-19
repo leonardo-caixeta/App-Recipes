@@ -99,8 +99,6 @@ export default function RecipeDetails() {
     }
   }, [id, path]);
 
-  console.log(apiData);
-
   return (
     apiData && apiData.map((info, index) => (
       <main key={ index } className="recipes-details-container">
