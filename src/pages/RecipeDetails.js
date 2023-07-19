@@ -8,6 +8,7 @@ import whiteHeart from '../images/whiteHeartIcon.svg';
 import blackHeart from '../images/blackHeartIcon.svg';
 
 const magicNumber = 20;
+const secondMagicNumber = -1;
 
 const copy = require('clipboard-copy');
 
@@ -61,23 +62,25 @@ export default function RecipeDetails({ foodType }) {
 
   const favoriteRecipe = (informations) => {
     setFavoriteIcon(!favoriteIcon);
-    const favorites = JSON.parse(localStorage.getItem('favoriteRecipe')) || [];
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     const favoriteIDs = favorites.map((data) => data.id);
     const conditional = !favoriteIDs
       .includes(String(informations.idDrink || informations.idMeal));
 
     if (favorites.lenght > 1 || conditional) {
-      localStorage.setItem('favoriteRecipe', JSON.stringify([...favorites, {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([...favorites, {
         id: informations.idDrink || informations.idMeal,
-        type: foodType,
-        nationality: informations.strArea || null,
-        category: informations.strCategory || null,
-        alcoholicOrNot: informations.strAlcoholic || null,
+        type: foodType.slice(0, secondMagicNumber),
+        nationality: informations.strArea || '',
+        category: informations.strCategory || '',
+        alcoholicOrNot: informations.strAlcoholic || '',
         name: informations.strDrink || informations.strMeal,
         image: informations.strMealThumb || informations.strDrinkThumb,
       }]));
     }
   };
+
+  console.log(JSON.parse(localStorage.getItem('favoriteRecipes')));
 
   const [apiData, setApiData] = useState([]);
 
