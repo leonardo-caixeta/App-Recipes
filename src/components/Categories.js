@@ -1,3 +1,5 @@
+// CATEGORIAS PARA FILTRAR RECEITAS
+
 import React, { useContext, useState } from 'react';
 import FoodContext from '../contexts/FoodContext';
 import { fetchFilterCategories } from '../helper/api';
@@ -9,15 +11,16 @@ function Categories() {
   const {
     categories,
     toggleRenderFiltered,
-    setToggleRenderFiltered } = useContext(FoodContext);
+    setToggleRenderFiltered,
+    toggleRenderRecomended,
+    setToggleRenderRecomended } = useContext(FoodContext);
   const [filterCategories, setFilterCategories] = useState();
 
   const path = window.location.pathname.replace(/\//g, '');
 
   const doFetch = async (category) => {
-    if (toggleRenderFiltered) {
-      setToggleRenderFiltered(false);
-    } else setToggleRenderFiltered(true);
+    setToggleRenderFiltered(!toggleRenderFiltered);
+    setToggleRenderRecomended(true);
     if (path === 'meals') {
       setFilterCategories(await fetchFilterCategories(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`));
     } else {
@@ -38,7 +41,7 @@ function Categories() {
         </button>
       ))}
       {
-        (filterCategories && toggleRenderFiltered)
+        (filterCategories && toggleRenderFiltered && toggleRenderRecomended)
             && (<MapedRecipes
               recipe={ filterCategories[path]
                 .slice(0, magicNumber) }

@@ -6,8 +6,8 @@ import FoodContext from '../contexts/FoodContext';
 export default function DoneRecipes() {
   const { setRecipeType } = useContext(FoodContext);
   useEffect(() => {
-    setRecipeType('Done Recipes');
-  });
+    setRecipeType('done');
+  }, []);
   return (
     <section className="page-container">
       <Header haveSearch={ false } title="Done Recipes" />

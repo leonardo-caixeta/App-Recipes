@@ -1,10 +1,12 @@
+// BARRA DE BUSCA
+
 import React, { useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import FoodContext from '../contexts/FoodContext';
 import FetchMeals from '../funcs/FetchMeals';
 import FetchDrinks from '../funcs/FetchDrinks';
-import FirstRecipes from './FirstRecipes';
+// import FirstRecipes from './FirstRecipes';
 
 function SearchBar({ food }) {
   const errorMessage = 'Sorry, we haven\'t found any recipes for these filters.';
@@ -15,16 +17,19 @@ function SearchBar({ food }) {
     setSearchInput,
     searchInput,
     searchType,
-    searchResults } = store;
+    searchResults,
+    toggleRenderRecomended,
+    setToggleRenderRecomended } = store;
 
   useMemo(() => {
-    if (searchResults[food] === null) {
+    if (searchResults[food.toLowerCase()] === null) {
       global.alert(errorMessage);
     }
   }, [searchResults, food]);
 
   const doFetch = async () => {
-    console.log(searchInput);
+    setToggleRenderRecomended(!toggleRenderRecomended);
+    console.log(toggleRenderRecomended);
     if (searchInput.length > 1 && searchType === 'letter') {
       return global.alert('Your search must have only 1 (one) character');
     }
@@ -94,7 +99,7 @@ function SearchBar({ food }) {
       >
         Buscar
       </button>
-      { searchResults && <FirstRecipes foodType={ food } /> }
+      {/* { (searchResults && toggleRenderRecomended === false) && <FirstRecipes /> } */}
     </section>
   );
 }

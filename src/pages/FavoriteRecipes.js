@@ -5,8 +5,8 @@ import FoodContext from '../contexts/FoodContext';
 export default function FavoriteRecipes() {
   const { setRecipeType } = useContext(FoodContext);
   useEffect(() => {
-    setRecipeType('Favorite Recipes');
-  });
+    setRecipeType('favorite');
+  }, []);
   return (
     <section className="page-container">
       FavoriteRecipes

@@ -1,11 +1,18 @@
+// RENDERIZA RECOMENDADOS PELAS CATEGORIAS
+
 // import React, { useContext } from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Categories from './Categories';
 import FoodContext from '../contexts/FoodContext';
+import FirstRecipes from './FirstRecipes';
 
 function Recipes() {
-  const { recipes, setDetailId, toggleRenderFiltered } = useContext(FoodContext);
+  const { recipes,
+    setDetailId,
+    toggleRenderFiltered,
+    toggleRenderRecomended,
+    searchResults } = useContext(FoodContext);
   const { pathname } = window.location;
 
   const getRecipePath = (recipe) => {
@@ -19,7 +26,8 @@ function Recipes() {
     <main className="recipes-container">
       <Categories />
       <section className="recipes-card-container">
-        {toggleRenderFiltered === false && recipes.map((recipe, index) => (
+        {(toggleRenderFiltered === false
+        && toggleRenderRecomended) && recipes.map((recipe, index) => (
           <Link
             to={ getRecipePath(recipe) }
             key={ index }
@@ -38,8 +46,12 @@ function Recipes() {
                 {recipe.strMeal || recipe.strDrink}
               </p>
             </div>
-          </Link>
+          </Link> // MapedRecipe / Aqui se renderiza as receitas recomendadas por filtro
         ))}
+        {
+          (!toggleRenderRecomended && searchResults)
+            && <FirstRecipes recipe={ searchResults } />
+        }
       </section>
     </main>
   );
