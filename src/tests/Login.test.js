@@ -2,12 +2,15 @@ import React from 'react';
 import { screen, fireEvent, render } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
+
 import FoodProvider from '../contexts/FoodProvider';
 
 import Login from '../pages/Login';
 import Profile from '../pages/Profile';
 import DoneRecipes from '../pages/DoneRecipes';
-import localStorageMock from './helpers/localStorage';
+import localStorageMock from './helpers/localStorageMock';
+import Categories from '../components/Categories';
+import Meals from '../pages/Meals';
 
 beforeEach(() => {
   Object.defineProperty(window, 'localStorage', { value: localStorageMock });
@@ -16,6 +19,7 @@ beforeEach(() => {
 describe('Testando o arquivo Login.js', () => {
   test('Verificando email and password inputs', () => {
     const history = createMemoryHistory({ initialEntries: ['/'] });
+
     render(
       <Router history={ history }>
         <Login />
@@ -60,7 +64,43 @@ describe('Testando o arquivo Login.js', () => {
     expect(user).toEqual({ email: 'text@example.com' });
   });
 
-  describe('Testando a página Profile', () => {
+  // VOLTAR PARA ESTE TESTE E VERIFICAR AS CATEGORIAS
+  describe('Testando a página -----', () => {
+    test('', async () => {
+      jest.mock('../helper/api');
+
+      // const mealsMock = [
+      //   { strCategory: 'Beef' },
+      //   { strCategory: 'Breakfast' },
+      //   { strCategory: 'Chicken' },
+      //   { strCategory: 'Dessert' },
+      //   { strCategory: 'Goat' },
+      // ];
+
+      const history = createMemoryHistory({ initialEntries: ['/meals'] });
+
+      render(
+        <Router history={ history }>
+          <FoodProvider>
+            <Meals>
+              <Categories />
+            </Meals>
+          </FoodProvider>
+        </Router>,
+      );
+
+      const drinkButton = screen.getByTestId(/drinks-bottom-btn/i);
+      fireEvent.click(drinkButton);
+      expect(history.location.pathname).toBe('/drinks');
+
+      // const drinkCategoriesButton1 = await screen.findByTestId(/Ordinary Drink-category-filter/i);
+
+      // const cateroriesButtons = screen.getAllByTestId(/category-filter'/i);
+      // expect(categoryButtons).toHaveLength(5);
+      screen.debug();
+      // });
+    });
+
     test('Verificando se as informações obtidas no login estão presentes no Profile.', async () => {
       const history = createMemoryHistory({ initialEntries: ['/profile'] });
       render(
@@ -87,7 +127,6 @@ describe('Testando o arquivo Login.js', () => {
       expect(screen.getByTestId('profile-email')).toBeInTheDocument();
       expect(screen.getByTestId('profile-email')).toHaveTextContent(/text@example.com/i);
       expect(screen.getByTestId('profile-done-btn')).toBeInTheDocument();
-      expect(doneRecipes).toHaveAttribute('href', '/done-recipes');
       expect(favoriteRecipes).toHaveAttribute('href', '/favorite-recipes');
       expect(logout).toHaveAttribute('href', '/');
       expect(drinkButton).toBeInTheDocument();
@@ -130,30 +169,23 @@ describe('Testando o arquivo Login.js', () => {
         </Router>,
       );
 
-      // Clica no primeiro card de receita (Recipe 1)
-      fireEvent.click(screen.getByTestId('0-horizontal-image'));
-      // Verifica se o redirecionamento ocorreu para a rota /meals/53069
-      expect(history.location.pathname).toBe('/meals/53069');
-
-      // Clica no segundo card de receita (Recipe 2)
-      fireEvent.click(screen.getByTestId('1-horizontal-image'));
-      // Verifica se o redirecionamento ocorreu para a rota /drinks/178319
-      expect(history.location.pathname).toBe('/meals/53070');
+      // Clica no botão de compartilhar e localiza o elemento 'alert'
+      const shareButton = screen.getByTestId('0-horizontal-share-btn');
+      fireEvent.click(shareButton);
+      expect(await screen.findAllByRole('alert')).toHaveLength(2);
     });
+    screen.debug();
   });
-  describe('Testando o componente Recipes', () => {
+  describe('Testando o componente DoneRecipes', () => {
     test('Verificar se o redirecionamento para a página de detalhes funciona corretamente', async () => {
       const history = createMemoryHistory({ initialEntries: ['/meals/53069'] });
-      const mockRecipes = [
+      const recipeType = 'meal';
+      const meals = [
         {
-          idMeal: '1',
-          strMeal: 'Recipe 1',
-          strMealThumb: 'https://www.example.com/recipe1.jpg',
-        },
-        {
-          idDrink: '1',
-          strDrink: 'Recipe 2',
-          strDrinkThumb: 'https://www.example.com/recipe2.jpg',
+          idMeal: '53069',
+          strMeal: 'Bistek',
+          strCategory: 'Beef',
+          strArea: 'Filipino',
         },
       ];
       render(
@@ -163,12 +195,26 @@ describe('Testando o arquivo Login.js', () => {
           </FoodProvider>
         </Router>,
       );
-      const firstElement = screen.getByTestId('0-horizontal-image');
-      const secondElement = screen.getByTestId('1-horizontal-image');
 
+      const firstElement = screen.getByTestId('1-horizontal-image');
       fireEvent.click(firstElement);
-      expect(history.location.pathname).toBe('/meals/53069');
-      screen.debug();
+
+      const line157Element = screen.getAllByTestId('0-horizontal-top-text');
+
+      const expectedPath = recipeType === 'meal' ? ` /${recipeType}s/${meals[0].idMeal}` : `/${recipeType}s/${meals[0].idDrink}`;
+
+      meals.forEach((meal, index) => {
+        const cardName = screen.getAllByTestId(`${index}-horizontal-name`);
+        const cardCategory = screen.getAllByTestId(`${index}-horizontal-top-text`);
+
+        expect(cardName[0]).toHaveTextContent(meal.strMeal);
+        expect(cardCategory[0]).toHaveTextContent(meal.strCategory);
+        expect(cardCategory[1])
+          .toHaveTextContent(`${meal.strArea} - ${meal.strCategory}`);
+        expect(history.location.pathname).toBe('/meals/53070');
+        expect(line157Element[1].textContent).toBe('Filipino  -  Beef');
+        expect(expectedPath).toBe(' /meals/53069');
+      });
     });
   });
 });

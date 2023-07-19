@@ -1,16 +1,15 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { screen, render, fireEvent } from '@testing-library/react';
+import { BrowserRouter, Router } from 'react-router-dom';
 import { act } from 'react-dom/test-utils';
-import Recipes from '../components/Recipes';
-import FoodContext from '../contexts/FoodContext';
+import { createMemoryHistory } from 'history';
 import FoodProvider from '../contexts/FoodProvider';
-import Meals from '../pages/Meals';
+import Recipes from '../components/Recipes';
 import Categories from '../components/Categories';
 import * as api from '../helper/api';
 
-describe('Recipes', () => {
-  test('renderiza corretamente os cards de receita', async () => {
+describe('Recipe Componente', () => {
+  test('renderiza corretamente os cards de receita e redireciona para a página de detalhes', async () => {
     const recipes = [
       {
         idMeal: '1',
@@ -24,100 +23,39 @@ describe('Recipes', () => {
       },
     ];
 
-    jest.spyOn(api, 'fetchFilterCategories').mockResolvedValue([
+    jest.spyOn(api, 'fetchCategories').mockImplementationOnce(() => Promise.resolve([
       { strCategory: 'Category 1' },
       { strCategory: 'Category 2' },
       { strCategory: 'Category 3' },
       { strCategory: 'Category 4' },
-    ]);
+    ]));
 
-    jest.spyOn(api, 'fetchFilterCategories').mockImplementation({
-      meals: [
-        { idMeal: '1', strMeal: 'Meal 1', strMealThumb: 'thumb1.jpg' },
-        { idMeal: '2', strMeal: 'Meal 2', strMealThumb: 'thumb2.jpg' },
-      ],
-      drinks: [],
-    });
+    jest.spyOn(api, 'fetchRecipes').mockImplementationOnce(() => Promise.resolve(recipes));
 
-    const toggleRenderFiltered = false;
-
+    const history = createMemoryHistory({ initialEntries: ['/drinks'] });
     render(
-      <BrowserRouter>
-        <FoodProvider value={ { recipes, toggleRenderFiltered } }>
+      <BrowserRouter history={ history }>
+        <FoodProvider>
+          <Categories />
           <Recipes />
-          <Meals />
         </FoodProvider>
-
       </BrowserRouter>,
     );
 
-    screen.debug();
+    // // Verifica se os cards de receitas foram renderizados corretamente
+    // const recipeCards = await screen.findAllByTestId(/-recipe-card/);
+    // screen.debug();
+    // expect(recipeCards).toHaveLength(recipes.length);
+    // // Simula o clique no primeiro card de receita (Recipe 1)
+    // fireEvent.click(recipeCards[0]);
 
-    recipes.forEach((recipe, index) => {
-      if (recipe) {
-        act(async () => {
-          const recipeCardLink = await screen.findByTestId(`${index}-recipe-ca3rd`);
-        });
-      }
-      //   const recipeCardLink = screen.getByTestId(`${index}-recipe-card`);
-      //   expect(recipeCardLink).toBeInTheDocument();
-      //   expect(recipeCardLink).toHaveAttribute('href', `/meals/${recipe.idMeal}`);
+    // // Verifica se o redirecionamento ocorreu para a rota /meals/1 (id da primeira receita)
+    // expect(window.location.pathname).toBe('/meals/1');
 
-      //   const recipeCardImage = screen.getByTestId(`${index}-card-img`);
-      //   expect(recipeCardImage).toBeInTheDocument();
-      //   expect(recipeCardImage).toHaveAttribute('src', recipe.strMealThumb);
-      //   expect(recipeCardImage).toHaveAttribute('alt', 'Recipe');
+    // // Simula o clique no segundo card de receita (Recipe 2)
+    // fireEvent.click(recipeCards[1]);
 
-    //   const recipeCardName = screen.getByTestId(`${index}-card-name`);
-    //   expect(recipeCardName).toBeInTheDocument();
-    //   expect(recipeCardName).toHaveTextContent(recipe.strMeal);
-    // });
-    });
-
-    // test('não renderiza os cards de receita quando toggleRenderFiltered é true', () => {
-    //   const recipes = [
-    //     {
-    //       idMeal: '1',
-    //       strMeal: 'Meal 1',
-    //       strMealThumb: 'thumb1.jpg',
-    //     },
-    //     {
-    //       idMeal: '2',
-    //       strMeal: 'Meal 2',
-    //       strMealThumb: 'thumb2.jpg',
-    //     },
-    //   ];
-
-    //   const toggleRenderFiltered = true;
-
-    //   render(
-    //     <BrowserRouter>
-    //       <FoodContext.Provider value={ { recipes, toggleRenderFiltered } }>
-    //         <Recipes />
-    //       </FoodContext.Provider>
-    //     </BrowserRouter>,
-    //   );
-
-    //   recipes.forEach((recipe, index) => {
-    //     const recipeCardLink = screen.queryByTestId(`${index}-recipe-card`);
-    //     expect(recipeCardLink).not.toBeInTheDocument();
-    //   });
-    // });
-
-    // test('não renderiza os cards de receita quando não há receitas', () => {
-    //   const recipes = [];
-    //   const toggleRenderFiltered = false;
-
-    //   render(
-    //     <BrowserRouter>
-    //       <FoodContext.Provider value={ { recipes, toggleRenderFiltered } }>
-    //         <Recipes />
-    //       </FoodContext.Provider>
-    //     </BrowserRouter>,
-    //   );
-
-  //   const recipeCardLinks = screen.queryAllByTestId(/-recipe-card/i);
-  //   expect(recipeCardLinks).toHaveLength(0);
-  // });
+    // // Verifica se o redirecionamento ocorreu para a rota /meals/2 (id da segunda receita)
+    // expect(window.location.pathname).toBe('/meals/2');
   });
 });
