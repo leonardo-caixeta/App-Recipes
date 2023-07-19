@@ -1,7 +1,6 @@
 import React from 'react';
-import { screen, render, fireEvent } from '@testing-library/react';
-import { BrowserRouter, Router } from 'react-router-dom';
-import { act } from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import FoodProvider from '../contexts/FoodProvider';
 import Recipes from '../components/Recipes';
