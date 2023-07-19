@@ -39,28 +39,26 @@ export default function FavoriteRecipes() {
         haveSearch={ false }
       />
 
-      <section className="page-container">
-        <button
-          data-testid="filter-by-all-btn"
-          onClick={ () => setFilter('all') }
-        >
-          All
-        </button>
+      <button
+        data-testid="filter-by-all-btn"
+        onClick={ () => setFilter('all') }
+      >
+        All
+      </button>
 
-        <button
-          data-testid="filter-by-meal-btn"
-          onClick={ () => setFilter('meals') }
-        >
-          Meals
-        </button>
+      <button
+        data-testid="filter-by-meal-btn"
+        onClick={ () => setFilter('meals') }
+      >
+        Meals
+      </button>
 
-        <button
-          data-testid="filter-by-drink-btn"
-          onClick={ () => setFilter('drinks') }
-        >
-          Drinks
-        </button>
-      </div>
+      <button
+        data-testid="filter-by-drink-btn"
+        onClick={ () => setFilter('drinks') }
+      >
+        Drinks
+      </button>
 
       {
         favoriteData && (
@@ -139,7 +137,7 @@ export default function FavoriteRecipes() {
               {
                 copiedLink && <p>Link copied!</p>
               }
-            </section>
+            </div>
           ))
         )
       }
