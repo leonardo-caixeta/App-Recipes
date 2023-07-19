@@ -16,13 +16,6 @@ function Recipes() {
     searchResults } = useContext(FoodContext);
   const { pathname } = window.location;
 
-  // const getRecipePath = (recipe) => {
-  //   if (pathname.includes('/meals')) {
-  //     return `/meals/${recipe.idMeal}`;
-  //   }
-  //   return `/drinks/${recipe.idDrink}`;
-  // };
-
   return (
     <main className="recipes-container">
       <Categories />

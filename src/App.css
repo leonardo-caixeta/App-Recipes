@@ -251,7 +251,7 @@ footer {
   width: 100%;
 }
 
-.category-buttons-container {
+.category-buttons-container, .filter-btns-container {
   align-items: flex-start;
   display: flex;
   flex-direction: row;
@@ -291,10 +291,6 @@ footer {
 /* Recipes Details */
 .recipes-details-container {
   color: #1a1b1c;
-
-  /* O Teste do requisito não passa se usar overflow */
-
-  /* overflow-y: scroll; */
   width: 100%;
 }
 
@@ -391,6 +387,16 @@ footer {
 
 .utilsBtns {
   width: 2rem;
+}
+
+/* Done Recipes */
+.filter-btns-container {
+  gap: 1rem;
+  justify-content: center;
+}
+
+.filter-btns-container .category-button {
+  width: 5rem;
 }
 
 /*  .. */

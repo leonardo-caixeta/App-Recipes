@@ -1,13 +1,16 @@
 import React, { useContext } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 import FoodContext from '../contexts/FoodContext';
 import { getRecipeDonePath } from '../funcs/getRecipePath';
 
-function DoneRecipesCards() {
+const copy = require('clipboard-copy');
+
+function DoneRecipesCards({ typeOfFilter }) {
   const { recipeType } = useContext(FoodContext);
   // Valores mock para construção do componente
   const meals = [
@@ -46,28 +49,44 @@ function DoneRecipesCards() {
     })
   );
 
-  const handleShareBtn = () => {
+  // Biblioteca clipboard-copy
+
+  const handleShareBtn = (info) => {
     notify();
+    const url = getRecipeDonePath(info);
+    copy(`http://localhost:3000${url}`);
   };
 
   const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
 
+  const filteredRecipes = doneRecipes
+    .filter((recipe) => Object.keys(recipe).includes(typeOfFilter));
+
   return (
     <>
       {
-        doneRecipes
+        (typeOfFilter ? filteredRecipes : doneRecipes)
           .map((food, index) => (
-            <section key={ food.idMeal || food.idDrink }>
-              <Link to={ getRecipeDonePath(food) }>
+            <section
+              key={ food.idMeal || food.idDrink }
+              className="recipes-card-container"
+            >
+              <Link
+                to={ getRecipeDonePath(food) }
+                className="recipe-card-link"
+              >
                 <img
-                  className="recipe-img"
+                  className="info-img"
                   alt={ food.strMeal || food.strDrink }
                   src={ food.strMealThumb || food.strDrinkThumb }
                   data-testid={ `${index}-horizontal-image` }
                 />
               </Link>
               <div>
-                <Link to={ getRecipeDonePath(food) }>
+                <Link
+                  to={ getRecipeDonePath(food) }
+                  className="recipe-card-link"
+                >
                   <h2 data-testid={ `${index}-horizontal-name` }>
                     {food.strMeal || food.strDrink}
                   </h2>
@@ -93,7 +112,7 @@ function DoneRecipesCards() {
               <div>
                 <button
                   id={ [food.idMeal || food.idDrink, recipeType] }
-                  onClick={ handleShareBtn }
+                  onClick={ () => handleShareBtn(food) }
                 >
                   <img
                     src={ shareIcon }
@@ -114,5 +133,9 @@ function DoneRecipesCards() {
     </>
   );
 }
+
+DoneRecipesCards.propTypes = {
+  typeOfFilter: PropTypes.string.isRequired,
+};
 
 export default DoneRecipesCards;
