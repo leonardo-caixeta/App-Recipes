@@ -11,7 +11,7 @@ export default function Meals() {
   }, []);
   return (
     <section className="page-container">
-      <Header haveSearch />
+      <Header haveSearch title="Meals" />
       <Recipes />
       <Footer />
     </section>

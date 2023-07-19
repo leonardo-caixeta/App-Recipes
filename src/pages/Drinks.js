@@ -11,7 +11,7 @@ export default function Drinks() {
   }, []);
   return (
     <section className="page-container">
-      <Header haveSearch />
+      <Header haveSearch title="Drinks" />
 
       <Recipes />
       <Footer />

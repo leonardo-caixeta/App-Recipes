@@ -7,7 +7,7 @@ import shareIcon from '../images/shareIcon.svg';
 import FoodContext from '../contexts/FoodContext';
 
 function RecipesCards() {
-  const [recipeType] = useContext(FoodContext);
+  const { recipeType } = useContext(FoodContext);
   // Valores mock para construção do componente
   const meals = [
     {
