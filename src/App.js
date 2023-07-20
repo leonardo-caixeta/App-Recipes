@@ -10,6 +10,7 @@ import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import FoodProvider from './contexts/FoodProvider';
 import RecipeDetails from './pages/RecipeDetails';
+import RecipeInProgress from './pages/RecipeInProgress';
 
 function App() {
   return (
@@ -23,17 +24,21 @@ function App() {
           <Route path="/done-recipes" component={ DoneRecipes } />
           <Route path="/favorite-recipes" component={ FavoriteRecipes } />
           <Route
+            exact
             path="/meals/:id"
             render={
               () => <RecipeDetails foodType="meals" />
             }
           />
           <Route
+            exact
             path="/drinks/:id"
             render={
               () => <RecipeDetails foodType="drinks" />
             }
           />
+          <Route path="/meals/:id/in-progress" component={ RecipeInProgress } />
+          <Route path="/drinks/:id/in-progress" component={ RecipeInProgress } />
         </FoodProvider>
       </Switch>
     </div>

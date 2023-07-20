@@ -14,6 +14,8 @@ const copy = require('clipboard-copy');
 
 const copyMessage = 'Link copied!';
 
+// futuramente vem do localStorage
+
 const inProgressRecipes = {
   drinks: {
     idDaBebida: 'lista-de-ingredientes-utilizados',
