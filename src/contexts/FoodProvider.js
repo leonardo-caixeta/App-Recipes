@@ -27,7 +27,6 @@ function FoodProvider({ children }) {
       } else if (window.location.pathname.includes('/drinks')) {
         endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       }
-      console.log(endpoint);
       const recipeList = await fetchRecipes(endpoint); // Use a função fetchRecipes do arquivo api.js
 
       const magicNumber = 12;

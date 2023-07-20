@@ -24,7 +24,6 @@ export default function FavoriteRecipes() {
 
   const goToDetails = (type, id) => {
     history.push(`/${type}s/${id}`);
-    console.log('goTo');
   };
 
   const copyLink = (type, id) => {

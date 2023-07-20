@@ -87,13 +87,11 @@ export default function RecipeDetails({ foodType }) {
     }
     handleFavoriteIcon();
   };
-  // console.log(!favoriteIcon);
 
   const [apiData, setApiData] = useState([]);
 
   const id = location.pathname.replace(/^\/[^/]+\//, '');
   const path = location.pathname.split('/')[1];
-  console.log(path);
 
   useEffect(() => {
     if (path === 'meals') {
