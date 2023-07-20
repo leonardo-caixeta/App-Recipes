@@ -1,6 +1,7 @@
 // CATEGORIAS PARA FILTRAR RECEITAS
 
 import React, { useContext, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import FoodContext from '../contexts/FoodContext';
 import { fetchFilterCategories } from '../helper/api';
 import MapedRecipes from './MapedRecipes';
@@ -8,6 +9,7 @@ import MapedRecipes from './MapedRecipes';
 const magicNumber = 12;
 
 function Categories() {
+  const { pathname } = useLocation();
   const {
     categories,
     toggleRenderFiltered,
@@ -16,7 +18,7 @@ function Categories() {
     setToggleRenderRecomended } = useContext(FoodContext);
   const [filterCategories, setFilterCategories] = useState();
 
-  const path = window.location.pathname.replace(/\//g, '');
+  const path = pathname.replace(/\//g, '');
 
   const doFetch = async (category) => {
     setToggleRenderFiltered(!toggleRenderFiltered);

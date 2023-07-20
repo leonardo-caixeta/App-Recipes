@@ -1,16 +1,14 @@
 // MAP DE RECEITAS
 
-import { Link } from 'react-router-dom';
-import { getRecipePath } from '../funcs/getRecipePath';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function MapedRecipes({ recipe }) {
-  const { pathname } = window.location;
+  const { pathname } = useLocation();
 
   return (
     recipe.map((info, index) => (
       <Link
-      // link retorna undefined error
-        to={ getRecipePath(recipe, pathname) }
+        to={ `${pathname}/${info.idMeal || info.idDrink}` }
         key={ info.idMeal || info.idDrink }
         className="recipe-card-link"
         data-testid={ `${index}-recipe-card` }

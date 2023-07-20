@@ -6,7 +6,6 @@ import { Link } from 'react-router-dom';
 import Categories from './Categories';
 import FoodContext from '../contexts/FoodContext';
 import FirstRecipes from './FirstRecipes';
-import { getRecipePath } from '../funcs/getRecipePath';
 
 function Recipes() {
   const { recipes,
@@ -23,7 +22,7 @@ function Recipes() {
         {(toggleRenderFiltered === false
         && toggleRenderRecomended) && recipes.map((recipe, index) => (
           <Link
-            to={ getRecipePath(recipe, pathname) }
+            to={ `${pathname}/${recipe.idMeal || recipe.idDrink}` }
             key={ index }
             className="recipe-card-link" // Adicione uma classe para estilização
             data-testid={ `${index}-recipe-card` }
