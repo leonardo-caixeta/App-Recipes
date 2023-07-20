@@ -1,7 +1,7 @@
 // TELA DE DETALHES
 
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import RecomendedRecipes from '../components/RecomendedRecipes';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeart from '../images/whiteHeartIcon.svg';
@@ -38,6 +38,7 @@ const doneRecipes = [{
 export default function RecipeDetails({ foodType }) {
   const [wasCopy, setWasCopy] = useState(false);
   const [favoriteIcon, setFavoriteIcon] = useState(false);
+  const location = useLocation();
 
   function renderIngredients(info) {
     const ingredients = [];
@@ -86,12 +87,13 @@ export default function RecipeDetails({ foodType }) {
     }
     handleFavoriteIcon();
   };
-  console.log(!favoriteIcon);
+  // console.log(!favoriteIcon);
 
   const [apiData, setApiData] = useState([]);
 
-  const id = window.location.pathname.replace(/^\/[^/]+\//, '');
-  const path = window.location.pathname.split('/')[1];
+  const id = location.pathname.replace(/^\/[^/]+\//, '');
+  const path = location.pathname.split('/')[1];
+  console.log(path);
 
   useEffect(() => {
     if (path === 'meals') {

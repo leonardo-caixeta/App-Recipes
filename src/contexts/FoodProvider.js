@@ -22,12 +22,12 @@ function FoodProvider({ children }) {
     async function fetchRecipesData() {
       let endpoint = '';
 
-      if (window.location.pathname === '/meals') {
+      if (window.location.pathname.includes('meals')) {
         endpoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
-      } else if (window.location.pathname === '/drinks') {
+      } else if (window.location.pathname.includes('/drinks')) {
         endpoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       }
-
+      console.log(endpoint);
       const recipeList = await fetchRecipes(endpoint); // Use a função fetchRecipes do arquivo api.js
 
       const magicNumber = 12;
@@ -41,9 +41,9 @@ function FoodProvider({ children }) {
     async function fetchCategoriesData() {
       let categoryEndpoint = '';
 
-      if (window.location.pathname === '/meals') {
+      if (window.location.pathname.includes('meals')) {
         categoryEndpoint = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
-      } else if (window.location.pathname === '/drinks') {
+      } else if (window.location.pathname.includes('/drinks')) {
         categoryEndpoint = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
       }
 
