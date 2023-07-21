@@ -40,9 +40,8 @@ describe('Testando o página de Login.js', () => {
   });
 
   test('salva o email do usuário no localStorage quando o botão de envio é clicado', () => {
-    const history = createMemoryHistory({ initialEntries: ['/'] });
     render(
-      <Router history={ history }>
+      <Router history={ createMemoryHistory({ initialEntries: ['/'] }) }>
         <Login />
       </Router>,
 
@@ -65,9 +64,8 @@ describe('Testando o página de Login.js', () => {
   // VOLTAR PARA ESTE TESTE E VERIFICAR AS CATEGORIAS
   describe('Testando a página Profile', () => {
     test('Verificando se as informações obtidas no login estão presentes no Profile.', async () => {
-      const history = createMemoryHistory({ initialEntries: ['/profile'] });
       render(
-        <Router history={ history }>
+        <Router history={ createMemoryHistory({ initialEntries: ['/profile'] }) }>
           <FoodProvider>
             <Profile />
           </FoodProvider>
@@ -95,10 +93,8 @@ describe('Testando o página de Login.js', () => {
       expect(mealsButton).toBeInTheDocument();
     });
     test('Verificar se handleLogout limpa o localStorage corretamente', () => {
-      const history = createMemoryHistory({ initialEntries: ['/profile'] });
-
       render(
-        <Router history={ history }>
+        <Router history={ createMemoryHistory({ initialEntries: ['/profile'] }) }>
           <FoodProvider>
             <Profile />
           </FoodProvider>
