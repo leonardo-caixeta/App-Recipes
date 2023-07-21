@@ -22,7 +22,6 @@ describe('Recipe Componente', () => {
         </FoodProvider>
       </BrowserRouter>,
     );
-    screen.debug();
     const searchBarElement = screen.getByTestId(bar);
     fireEvent.click(searchBarElement);
 
@@ -50,7 +49,6 @@ describe('Recipe Componente', () => {
         </FoodProvider>
       </BrowserRouter>,
     );
-    screen.debug();
     const searchBarElement = screen.getByTestId(bar);
     fireEvent.click(searchBarElement);
 
@@ -78,7 +76,6 @@ describe('Recipe Componente', () => {
         </FoodProvider>
       </BrowserRouter>,
     );
-    screen.debug();
 
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
@@ -108,7 +105,6 @@ describe('Recipe Componente', () => {
         </FoodProvider>
       </BrowserRouter>,
     );
-    screen.debug();
 
     const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
 
@@ -122,7 +118,6 @@ describe('Recipe Componente', () => {
     fireEvent.change(searchBar, { target: { value: 'abc' } });
     fireEvent.click(radioFirstLetter);
     fireEvent.click(searchButton);
-
     await waitFor(() => {
       expect(alertSpy).toHaveBeenCalledTimes(1);
     });

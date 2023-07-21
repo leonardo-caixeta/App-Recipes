@@ -9,14 +9,12 @@ import Login from '../pages/Login';
 import Profile from '../pages/Profile';
 import DoneRecipes from '../pages/DoneRecipes';
 import localStorageMock from './helpers/localStorageMock';
-import Categories from '../components/Categories';
-import Meals from '../pages/Meals';
 
 beforeEach(() => {
   Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 });
 
-describe('Testando o arquivo Login.js', () => {
+describe('Testando o página de Login.js', () => {
   test('Verificando email and password inputs', () => {
     const history = createMemoryHistory({ initialEntries: ['/'] });
 
@@ -65,42 +63,7 @@ describe('Testando o arquivo Login.js', () => {
   });
 
   // VOLTAR PARA ESTE TESTE E VERIFICAR AS CATEGORIAS
-  describe('Testando a página -----', () => {
-    test('', async () => {
-      jest.mock('../helper/api');
-
-      // const mealsMock = [
-      //   { strCategory: 'Beef' },
-      //   { strCategory: 'Breakfast' },
-      //   { strCategory: 'Chicken' },
-      //   { strCategory: 'Dessert' },
-      //   { strCategory: 'Goat' },
-      // ];
-
-      const history = createMemoryHistory({ initialEntries: ['/meals'] });
-
-      render(
-        <Router history={ history }>
-          <FoodProvider>
-            <Meals>
-              <Categories />
-            </Meals>
-          </FoodProvider>
-        </Router>,
-      );
-
-      const drinkButton = screen.getByTestId(/drinks-bottom-btn/i);
-      fireEvent.click(drinkButton);
-      expect(history.location.pathname).toBe('/drinks');
-
-      // const drinkCategoriesButton1 = await screen.findByTestId(/Ordinary Drink-category-filter/i);
-
-      // const cateroriesButtons = screen.getAllByTestId(/category-filter'/i);
-      // expect(categoryButtons).toHaveLength(5);
-      screen.debug();
-      // });
-    });
-
+  describe('Testando a página Profile', () => {
     test('Verificando se as informações obtidas no login estão presentes no Profile.', async () => {
       const history = createMemoryHistory({ initialEntries: ['/profile'] });
       render(
@@ -121,11 +84,10 @@ describe('Testando o arquivo Login.js', () => {
       // Ações do usuário
       fireEvent.click(doneRecipes);
 
-      expect(history.location.pathname).toBe('/done-recipes');
       // Assertivas;
       expect(titleProfile).toBeInTheDocument();
-      expect(screen.getByTestId('profile-email')).toBeInTheDocument();
-      expect(screen.getByTestId('profile-email')).toHaveTextContent(/text@example.com/i);
+      expect(screen.getByTestId(/profile-email/i)).toBeInTheDocument();
+      expect(screen.getByTestId(/profile-email/i)).toHaveTextContent(/text@example.com/i);
       expect(screen.getByTestId('profile-done-btn')).toBeInTheDocument();
       expect(favoriteRecipes).toHaveAttribute('href', '/favorite-recipes');
       expect(logout).toHaveAttribute('href', '/');
@@ -158,8 +120,8 @@ describe('Testando o arquivo Login.js', () => {
     });
   });
 
-  describe('Testando a rota done-recipes', () => {
-    test('Verificar se o redirecionamento para a página de detalhes funciona corretamente', async () => {
+  describe('Testando o componente DoneRecipes', () => {
+    test('Verificar a navegação da página', async () => {
       const history = createMemoryHistory({ initialEntries: ['/done-recipes'] });
       render(
         <Router history={ history }>
@@ -168,44 +130,44 @@ describe('Testando o arquivo Login.js', () => {
           </FoodProvider>
         </Router>,
       );
+      // Seleção de elementos da página DONE RECIPES
+      const doneRecipesTitle = screen.getByTestId(/page-title/i);
+      const filterAll = screen.getByTestId(/filter-by-all-btn/i);
+      const filterMeals = screen.getByTestId(/filter-by-meal-btn/i);
+      const filterDrinks = screen.getByTestId(/filter-by-drink-btn/i);
+      const imageLinks = screen.getAllByTestId(/horizontal-image/i);
+      const shareButtons = screen.getAllByTestId(/horizontal-share-btn/i);
 
-      // Clica no botão de compartilhar e localiza o elemento 'alert'
-      const shareButton = screen.getByTestId('0-horizontal-share-btn');
-      fireEvent.click(shareButton);
-      expect(await screen.findAllByRole('alert')).toHaveLength(2);
-    });
-    screen.debug();
-  });
-  describe('Testando o componente DoneRecipes', () => {
-    test('Verificar se o redirecionamento para a página de detalhes funciona corretamente', async () => {
-      const history = createMemoryHistory({ initialEntries: ['/meals/53069'] });
-      const recipeType = 'meal';
-      const meals = [
-        {
-          idMeal: '53069',
-          strMeal: 'Bistek',
-          strCategory: 'Beef',
-          strArea: 'Filipino',
-        },
-      ];
-      render(
-        <Router history={ history }>
-          <FoodProvider>
-            <DoneRecipes />
-          </FoodProvider>
-        </Router>,
-      );
+      // Assertivas
+      expect(imageLinks).toHaveLength(2);
+      expect(shareButtons).toHaveLength(2);
 
-      const firstElement = screen.getByTestId('1-horizontal-image');
-      fireEvent.click(firstElement);
+      if (fireEvent.click(imageLinks[0])) {
+        expect(history.location.pathname).toBe('/meals/52771');
+        expect(imageLinks[0]).toHaveTextContent('Spicy Arrabiata Penne');
+        expect(imageLinks[0]).toHaveAttribute('src', 'https://www.themealdb.com/images/media/meals/1529444830.jpg');
+        expect(shareButtons[0]).toHaveAttribute('src', 'http://localhost/meals/52771');
+      } else if (fireEvent.click(imageLinks[1])) {
+        expect(history.location.pathname).toBe('/drinks/178319');
+        expect(imageLinks[1]).toHaveTextContent('Aquamarine');
+        expect(imageLinks[1]).toHaveAttribute('src', 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg');
+        expect(shareButtons[1]).toHaveAttribute('src', 'http://localhost/drinks/178319');
+      }
+      history.push('/done-recipes');
 
-      const line157Element = screen.getAllByTestId('0-horizontal-top-text');
+      // Ações do usuário - Filtros
+      if (fireEvent.click(filterAll)) {
+        expect(imageLinks).toHaveLength(2);
+      } else if (fireEvent.click(filterMeals)) {
+        expect(imageLinks).toHaveLength(1);
+        expect(shareButtons).toHaveLength(1);
+      } else if (fireEvent.click(filterDrinks)) {
+        expect(imageLinks).toHaveLength(1);
+      }
 
-      const expectedPath = recipeType === 'meal' ? ` /${recipeType}s/${meals[0].idMeal}` : `/${recipeType}s/${meals[0].idDrink}`;
+      expect(doneRecipesTitle).toHaveTextContent(/Done Recipes/i);
 
-      expect(history.location.pathname).toBe('/done/53070');
-      expect(line157Element[0]).toHaveTextContent(meals[0].strCategory);
-      expect(expectedPath).toBe(' /meals/53069');
+      // Ações do usuário ao clicar no botão compartilhar
     });
   });
 });

@@ -5,7 +5,6 @@ import Footer from '../components/Footer';
 describe('Testando o arquivo Footer.js', () => {
   test('Teste se o arquivo Footer.js renderiza corretamente', () => {
     renderWithRouter(<Footer />);
-    screen.debug();
 
     // Seleção
     const drinkBtn = screen.getByTestId('drinks-bottom-btn');

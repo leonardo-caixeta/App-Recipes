@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
@@ -37,5 +37,4 @@ test('Renderiza o componente SearchBar', async () => {
   userEvent.click(searchButton);
   userEvent.click(radioFirstLetter);
   userEvent.click(searchButton);
-  screen.debug();
 });
