@@ -37,8 +37,18 @@ function App() {
               () => <RecipeDetails foodType="drinks" />
             }
           />
-          <Route path="/meals/:id/in-progress" component={ RecipeInProgress } />
-          <Route path="/drinks/:id/in-progress" component={ RecipeInProgress } />
+          <Route
+            path="/meals/:id/in-progress"
+            render={
+              () => <RecipeInProgress foodType="meals" />
+            }
+          />
+          <Route
+            path="/drinks/:id/in-progress"
+            render={
+              () => <RecipeInProgress foodType="meals" />
+            }
+          />
         </FoodProvider>
       </Switch>
     </div>

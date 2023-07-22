@@ -17,6 +17,8 @@ function FoodProvider({ children }) {
   const [recomendedFood, setRecomendedFood] = useState([]);
   const [recipeType, setRecipeType] = useState('');
   const [toggleRenderRecomended, setToggleRenderRecomended] = useState(true);
+  // Dados de uma receita específica
+  const [apiData, setApiData] = useState([]);
 
   useEffect(() => {
     async function fetchRecipesData() {
@@ -76,6 +78,8 @@ function FoodProvider({ children }) {
     setRecipeType,
     toggleRenderRecomended,
     setToggleRenderRecomended,
+    apiData,
+    setApiData,
   }), [
     searchInput,
     setSearchInput,
@@ -97,6 +101,8 @@ function FoodProvider({ children }) {
     setRecipeType,
     toggleRenderRecomended,
     setToggleRenderRecomended,
+    apiData,
+    setApiData,
   ]);
 
   return (
