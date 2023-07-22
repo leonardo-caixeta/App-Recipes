@@ -98,13 +98,13 @@ describe('Componente Categories', () => {
     ];
 
     render(
-      <BrowserRouter history={ createMemoryHistory({ initialEntries: ['/drinks'] }) }>
+      <Router history={ createMemoryHistory({ initialEntries: ['/drinks'] }) }>
         <FoodProvider>
           <Drinks>
             <Categories recipes={ recipesList } />
           </Drinks>
         </FoodProvider>
-      </BrowserRouter>,
+      </Router>,
     );
 
     await waitFor(() => {
