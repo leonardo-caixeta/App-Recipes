@@ -28,7 +28,7 @@ export default function DoneRecipes() {
           <button
             data-testid="filter-by-drink-btn"
             className="category-button"
-            onClick={ () => setRecipeType('idDrink') }
+            onClick={ () => setTypeOfFilter('idDrink') }
           >
             Drinks
           </button>

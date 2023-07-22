@@ -3,14 +3,18 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
+import { act } from 'react-dom/test-utils';
 import FoodProvider from '../contexts/FoodProvider';
 
 import Meals from '../pages/Meals';
 import Drinks from '../pages/Drinks';
 import Categories from '../components/Categories';
+import renderWithRouter from '../renderWithRouter';
+
+/*  Testar as receitas que aparecem na tela. Testar caso true e false de filterCategories, toggleRenderFiltered, toggleRenderRecomended */
 
 describe('Componente Categories', () => {
-  test.skip('Deve fazer a busca quando um botão de categoria é selecionado na pagina meals', async () => {
+  test('Deve fazer a busca quando um botão de categoria é selecionado na pagina meals', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: jest.fn().mockResolvedValue({
         meals: [
@@ -19,23 +23,33 @@ describe('Componente Categories', () => {
         ],
       }),
     });
-    render(
-      <BrowserRouter history={ createMemoryHistory({ initialEntries: ['/meals'] }) }>
-        <FoodProvider>
-          <Meals>
-            <Categories />
-          </Meals>
-        </FoodProvider>
-      </BrowserRouter>,
+
+    const breakfastCategory = 'Breakfast-category-filter';
+    const { history } = renderWithRouter(
+      <FoodProvider>
+        <Meals>
+          <Categories />
+        </Meals>
+      </FoodProvider>,
+
     );
+
+    act(() => {
+      history.push('/meals');
+    });
+    expect(screen.queryByTestId(breakfastCategory)).not.toBeInTheDocument();
+
     await waitFor(() => {
-      expect(screen.getByTestId(/Beef-category-filter/i)).toBeInTheDocument();
-      screen.debug();
-      fireEvent.click(screen.getByTestId(/Beef-category-filter/i));
+      // screen.debug();
+      expect(history.location.pathname).toBe('/meals');
+      expect(screen.getByTestId(breakfastCategory)).toBeInTheDocument();
+      fireEvent.click(screen.getByTestId(breakfastCategory));
       expect(global.fetch).toHaveBeenCalled();
+      expect(global.fetch).toHaveBeenCalledWith('https://www.themealdb.com/api/json/v1/1/filter.php?c=breakfast');
     });
   });
-  test.skip('Deve fazer a busca quando um botão de categoria é selecionado na pagina drinks', async () => {
+
+  test('Deve fazer a busca quando um botão de categoria é selecionado na pagina drinks', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: jest.fn().mockResolvedValue({
         drinks: [
@@ -62,6 +76,7 @@ describe('Componente Categories', () => {
       expect(global.fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=milk-shake');
     });
   });
+
   test('Testa a função toggle no botão ALL', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: jest.fn().mockResolvedValue({

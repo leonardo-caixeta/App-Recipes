@@ -11,6 +11,8 @@ const search = 'search-input';
 const bar = 'search-top-btn';
 const button = 'exec-search-btn';
 
+// Não está sendo testado se ao clicar no card a página é redirecionada para a página de detalhes.
+
 describe('Recipe Componente', () => {
   test('renderiza corretamente os cards de receita ao utilizar a barra de busca na página /meals', async () => {
     render(
@@ -66,7 +68,7 @@ describe('Recipe Componente', () => {
       expect(recipeCards[0]).toHaveTextContent('Bloody Mary');
     });
   });
-  test('Testando parâmetro de busca invlálido', async () => {
+  test('Testando parâmetro de busca inválido', async () => {
     render(
       <BrowserRouter>
         <FoodProvider>
@@ -95,7 +97,7 @@ describe('Recipe Componente', () => {
     });
     alertSpy.mockRestore();
   });
-  test('Testando parâmetro de busca invlálido', async () => {
+  test('Testando parâmetro de busca inválido', async () => {
     render(
       <BrowserRouter>
         <FoodProvider>

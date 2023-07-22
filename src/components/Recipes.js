@@ -24,7 +24,7 @@ function Recipes() {
           <Link
             to={ `${pathname}/${recipe.idMeal || recipe.idDrink}` }
             key={ index }
-            className="recipe-card-link" // Adicione uma classe para estilização
+            className="recipe-card-link"
             data-testid={ `${index}-recipe-card` }
             onClick={ () => setDetailId(recipe.idMeal || recipe.idDrink) }
           >
