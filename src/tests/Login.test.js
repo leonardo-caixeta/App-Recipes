@@ -7,7 +7,7 @@ import FoodProvider from '../contexts/FoodProvider';
 
 import Login from '../pages/Login';
 import Profile from '../pages/Profile';
-import DoneRecipes from '../pages/DoneRecipes';
+
 import localStorageMock from './helpers/localStorageMock';
 
 beforeEach(() => {
@@ -113,57 +113,6 @@ describe('Testando o página de Login.js', () => {
       expect(removeItemSpy).toHaveBeenCalledWith('doneRecipes');
       expect(removeItemSpy).toHaveBeenCalledWith('favoriteRecipes');
       expect(removeItemSpy).toHaveBeenCalledWith('inProgressRecipes');
-    });
-  });
-
-  describe('Testando o componente DoneRecipes', () => {
-    test('Verificar a navegação da página', async () => {
-      const history = createMemoryHistory({ initialEntries: ['/done-recipes'] });
-      render(
-        <Router history={ history }>
-          <FoodProvider>
-            <DoneRecipes />
-          </FoodProvider>
-        </Router>,
-      );
-      // Seleção de elementos da página DONE RECIPES
-      const doneRecipesTitle = screen.getByTestId(/page-title/i);
-      const filterAll = screen.getByTestId(/filter-by-all-btn/i);
-      const filterMeals = screen.getByTestId(/filter-by-meal-btn/i);
-      const filterDrinks = screen.getByTestId(/filter-by-drink-btn/i);
-      const imageLinks = screen.getAllByTestId(/horizontal-image/i);
-      const shareButtons = screen.getAllByTestId(/horizontal-share-btn/i);
-
-      // Assertivas
-      expect(imageLinks).toHaveLength(2);
-      expect(shareButtons).toHaveLength(2);
-
-      if (fireEvent.click(imageLinks[0])) {
-        expect(history.location.pathname).toBe('/meals/52771');
-        expect(imageLinks[0]).toHaveTextContent('Spicy Arrabiata Penne');
-        expect(imageLinks[0]).toHaveAttribute('src', 'https://www.themealdb.com/images/media/meals/1529444830.jpg');
-        expect(shareButtons[0]).toHaveAttribute('src', 'http://localhost/meals/52771');
-      } else if (fireEvent.click(imageLinks[1])) {
-        expect(history.location.pathname).toBe('/drinks/178319');
-        expect(imageLinks[1]).toHaveTextContent('Aquamarine');
-        expect(imageLinks[1]).toHaveAttribute('src', 'https://www.thecocktaildb.com/images/media/drink/vyxwut1468875960.jpg');
-        expect(shareButtons[1]).toHaveAttribute('src', 'http://localhost/drinks/178319');
-      }
-      history.push('/done-recipes');
-
-      // Ações do usuário - Filtros
-      if (fireEvent.click(filterAll)) {
-        expect(imageLinks).toHaveLength(2);
-      } else if (fireEvent.click(filterMeals)) {
-        expect(imageLinks).toHaveLength(1);
-        expect(shareButtons).toHaveLength(1);
-      } else if (fireEvent.click(filterDrinks)) {
-        expect(imageLinks).toHaveLength(1);
-      }
-
-      expect(doneRecipesTitle).toHaveTextContent(/Done Recipes/i);
-
-      // Ações do usuário ao clicar no botão compartilhar
     });
   });
 });

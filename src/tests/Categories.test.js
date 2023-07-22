@@ -1,6 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
 import { act } from 'react-dom/test-utils';
@@ -17,6 +17,7 @@ describe('Componente Categories', () => {
   test('Deve fazer a busca quando um botão de categoria é selecionado na pagina meals', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: jest.fn().mockResolvedValue({
+
         meals: [
           { strCategory: 'Beef' },
           { strCategory: 'Breakfast' },
@@ -52,6 +53,7 @@ describe('Componente Categories', () => {
   test('Deve fazer a busca quando um botão de categoria é selecionado na pagina drinks', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       json: jest.fn().mockResolvedValue({
+
         drinks: [
           { strCategory: 'vodka' },
           { strCategory: 'milk-shake' },
@@ -60,19 +62,20 @@ describe('Componente Categories', () => {
       }),
     });
     render(
-      <BrowserRouter history={ createMemoryHistory({ initialEntries: ['/drinks'] }) }>
+      <Router history={ createMemoryHistory({ initialEntries: ['/drinks'] }) }>
         <FoodProvider>
           <Drinks>
             <Categories />
           </Drinks>
         </FoodProvider>
-      </BrowserRouter>,
+      </Router>,
     );
     await waitFor(() => {
       expect(screen.getByTestId(/milk-shake-category-filter/i)).toBeInTheDocument();
-      screen.debug();
       fireEvent.click(screen.getByTestId(/milk-shake-category-filter/i));
       expect(global.fetch).toHaveBeenCalled();
+      expect(global.fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=milk-shake');
+      fireEvent.click(screen.getByTestId(/milk-shake-category-filter/i));
       expect(global.fetch).toHaveBeenCalledWith('https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=milk-shake');
     });
   });

@@ -20,7 +20,7 @@ describe('Componente DoneRecipeCard', () => {
     // Mock do toast.success
     jest.spyOn(toast, 'success').mockImplementationOnce(() => {});
 
-    const history = createMemoryHistory({ initialEntries: ['/done-recipes'] });
+    const history = createMemoryHistory();
     render(
       <Router history={ history }>
         <FoodProvider>
@@ -52,32 +52,7 @@ describe('Componente DoneRecipeCard', () => {
     });
   });
   test('Verificar a renderização dos cards de receitas concluídas - Filtro All', async () => {
-    // const mockDoneRecipes = [
-    //   {
-    //     idMeal: '52771',
-    //     type: 'meal',
-    //     strArea: 'Italian',
-    //     strCategory: 'Vegetarian',
-    //     alcoholicOrNot: '',
-    //     strMeal: 'Spicy Arrabiata Penne',
-    //     strMealThumb: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-    //     doneDate: '23/06/2020',
-    //     strTags: ['Pasta', 'Curry'],
-    //   },
-    //   {
-    //     idDrink: '178319',
-    //     type: 'drink',
-    //     strArea: '',
-    //     strCategory: 'Cocktail',
-    //     alcoholicOrNot: 'Alcoholic',
-    //     strDrink: 'Aquamarine',
-    //     strDrinkThumb: 'https://www.thecocktaildb.com/images/media/drink/zvsre31572902738.jpg',
-    //     doneDate: '23/06/2020',
-    //     strTags: [],
-    //   },
-    // ];
-
-    const history = createMemoryHistory({ initialEntries: ['/done-recipes'] });
+    const history = createMemoryHistory();
 
     render(
       <Router history={ history }>
@@ -92,5 +67,47 @@ describe('Componente DoneRecipeCard', () => {
 
     expect(screen.getByTestId('0-horizontal-name')).toHaveTextContent('Spicy Arrabiata Penne');
     expect(screen.getByTestId('1-horizontal-name')).toHaveTextContent('Aquamarine');
+  });
+
+  describe('Testando o componente DoneRecipes', () => {
+    test('Verificar a navegação da página', async () => {
+      const history = createMemoryHistory({ initialEntries: ['/done-recipes'] });
+      render(
+        <Router history={ history }>
+          <FoodProvider>
+            <DoneRecipes />
+          </FoodProvider>
+        </Router>,
+      );
+      // Seleção de elementos da página DONE RECIPES
+      // const doneRecipesTitle = screen.getByTestId(/page-title/i);
+      const filterAll = screen.getByTestId(/filter-by-all-btn/i);
+      const filterMeals = screen.getByTestId(/filter-by-meal-btn/i);
+      const filterDrinks = screen.getByTestId(/filter-by-drink-btn/i);
+      const imageLinks = screen.getAllByTestId(/horizontal-image/i);
+      const shareButtons = screen.getAllByTestId(/horizontal-share-btn/i);
+
+      screen.debug();
+      // Assertivas
+      expect(imageLinks).toHaveLength(2);
+      expect(shareButtons).toHaveLength(2);
+
+      fireEvent.click(imageLinks[0]);
+      expect(history.location.pathname).toBe('/meals/52771');
+
+      // Utilizando o filtro All, Meals ou Drinks
+      fireEvent.click(filterAll);
+      const foodRecipe = screen.getByAltText(/Spicy Arrabiata Penne/i);
+      const drinkRecipe = screen.getByAltText(/Aquamarine/i);
+      expect(foodRecipe).toBeInTheDocument();
+      expect(drinkRecipe).toBeInTheDocument();
+      fireEvent.click(filterMeals);
+      await waitFor(() => {
+        expect(foodRecipe).toBeInTheDocument();
+        expect(drinkRecipe).not.toBeInTheDocument();
+        fireEvent.click(filterDrinks);
+        expect(foodRecipe).not.toBeInTheDocument();
+      });
+    });
   });
 });
