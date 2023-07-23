@@ -17,8 +17,10 @@ function FoodProvider({ children }) {
   const [recomendedFood, setRecomendedFood] = useState([]);
   const [recipeType, setRecipeType] = useState('');
   const [toggleRenderRecomended, setToggleRenderRecomended] = useState(true);
-  // Dados de uma receita específica
-  const [apiData, setApiData] = useState([]);
+  // Lista de ingredientes checados
+  const [checkedList, setCheckedList] = useState([]);
+  // Habilita/desabilita botão de 'Finich'
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
     async function fetchRecipesData() {
@@ -78,8 +80,10 @@ function FoodProvider({ children }) {
     setRecipeType,
     toggleRenderRecomended,
     setToggleRenderRecomended,
-    apiData,
-    setApiData,
+    checkedList,
+    setCheckedList,
+    isFinished,
+    setIsFinished,
   }), [
     searchInput,
     setSearchInput,
@@ -101,8 +105,10 @@ function FoodProvider({ children }) {
     setRecipeType,
     toggleRenderRecomended,
     setToggleRenderRecomended,
-    apiData,
-    setApiData,
+    checkedList,
+    setCheckedList,
+    isFinished,
+    setIsFinished,
   ]);
 
   return (

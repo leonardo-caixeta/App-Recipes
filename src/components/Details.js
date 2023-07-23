@@ -1,15 +1,14 @@
 // TELA DE DETALHES
 
-import { useContext, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import RecomendedRecipes from './RecomendedRecipes';
 import shareIcon from '../images/shareIcon.svg';
 import whiteHeart from '../images/whiteHeartIcon.svg';
 import blackHeart from '../images/blackHeartIcon.svg';
-import FoodContext from '../contexts/FoodContext';
 import { IngredentsList } from './IngredentsList';
 
-const magicNumber = 20;
 const secondMagicNumber = -1;
 
 const copy = require('clipboard-copy');
@@ -20,8 +19,6 @@ const copyMessage = 'Link copied!';
 
 export default function Details({ foodType, info, index }) {
   console.log(info);
-
-  const { apiData, setApiData } = useContext(FoodContext);
 
   const [wasCopy, setWasCopy] = useState(false);
   const [favoriteIcon, setFavoriteIcon] = useState(false);
@@ -60,6 +57,7 @@ export default function Details({ foodType, info, index }) {
 
     const favorites = JSON.parse(localStorage.getItem('favoriteRecipes')) || [];
     const favoriteIDs = favorites.map((data) => data.id);
+    // Checa se o item já existe na lista de favoritos
     const conditional = favoriteIDs
       .includes(String(informations.idDrink || informations.idMeal));
 
@@ -152,6 +150,21 @@ export default function Details({ foodType, info, index }) {
       </section>
     </main>
   );
-
-  // );
 }
+
+Details.propTypes = {
+  index: PropTypes.number.isRequired,
+  info: PropTypes.shape({
+    idDrink: PropTypes.string,
+    idMeal: PropTypes.string,
+    strDrinkThumb: PropTypes.string,
+    strMealThumb: PropTypes.string,
+    strDrink: PropTypes.string,
+    strMeal: PropTypes.string,
+    strInstructions: PropTypes.string,
+    strYoutube: PropTypes.string,
+    strAlcoholic: PropTypes.string,
+    strCategory: PropTypes.string,
+  }).isRequired,
+  foodType: PropTypes.string.isRequired,
+};

@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Details from '../components/Details';
+import FoodContext from '../contexts/FoodContext';
 
 export default function RecipeInProgress() {
+  const { isFinished } = useContext(FoodContext);
+
   const [apiData, setApiData] = useState([]);
 
   const location = useLocation();
@@ -25,30 +28,20 @@ export default function RecipeInProgress() {
   return (
     apiData && apiData.map((info, index) => (
       <section key={ index }>
-        <Details info={ info } index={ index } />
-        <Link
-          to="/done-recipes"
+        <Details info={ info } index={ index } foodType={ path } />
+        <button
+          className="defaultBtn"
+          data-testid="finish-recipe-btn"
+          disabled={ !isFinished }
         >
-          <button
-            className="defaultBtn"
-            data-testid="finish-recipe-btn"
+          <Link
+            to="/done-recipes"
           >
             Finish Recipe
-          </button>
-        </Link>
+          </Link>
+        </button>
 
       </section>
     ))
-    /*
-    <div>
-      <img data-testid="recipe-photo" src="" alt="" />
-      <h2 data-testid="recipe-title">title</h2>
-      <button data-testid="share-btn">share</button>
-      <button data-testid="favorite-btn">favorite</button>
-      <p data-testid="recipe-category">category</p>
-      <p data-testid="instructions">instructions</p>
-      <button data-testid="finish-recipe-btn">finish</button>
-    </div>
-   */
   );
 }
