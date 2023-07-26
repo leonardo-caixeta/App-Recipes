@@ -1,9 +1,8 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { MemoryRouter, Router, Route, useHistory } from 'react-router-dom';
-import { createMemoriHistory } from 'history';
+import { MemoryRouter } from 'react-router-dom';
+
 import localStorageFavoriteMock from './helpers/localStorageFavoriteMock';
-import clipboardy from './helpers/clipboard';
 import renderWithRouter from '../renderWithRouter';
 
 import FavoriteRecipes from '../pages/FavoriteRecipes';
@@ -15,7 +14,18 @@ const recipeImg1 = '1-horizontal-image';
 const filterDrinkBtn = 'filter-by-drink-btn';
 const filterMealBtn = 'filter-by-meal-btn';
 
-jest.mock('clipboardy');
+const mockClipboardWriteText = jest.fn();
+
+beforeAll(() => {
+  // Simula a função navigator.clipboard.writeText
+  Object.defineProperty(navigator, 'clipboard', {
+    value: {
+      writeText: mockClipboardWriteText,
+    },
+    writable: true,
+  });
+});
+
 describe('FavoriteRecipes component', () => {
   beforeEach(() => {
     // Mock do localStorage para retornar dados de teste
@@ -74,7 +84,7 @@ describe('FavoriteRecipes component', () => {
     expect(screen.queryByTestId(recipeImg1)).not.toBeInTheDocument();
   });
 
-  test('Deve filtrar apenas as receitas de bebidas ao clicar no botão "Drinks"', () => {
+  test('Deve filtrar apenas as receitas de bebidas ao clicar no botão "Drinks", verificase se a função do botão copiar se comporta como esperado.', async () => {
     render(
 
       <FoodProvider>
@@ -84,7 +94,9 @@ describe('FavoriteRecipes component', () => {
       </FoodProvider>,
     );
     screen.debug();
+
     fireEvent.click(screen.getByTestId(filterDrinkBtn));
+    fireEvent.click(screen.getByTestId('0-horizontal-share-btn'));
 
     // Verifica se apenas as receitas de bebidas são renderizadas
     expect(screen.queryByText('Recipe 1')).not.toBeInTheDocument();
@@ -92,14 +104,11 @@ describe('FavoriteRecipes component', () => {
     expect(screen.queryByText('Recipe 2')).toBeInTheDocument();
     expect(screen.queryByText('Alcoholic')).toBeInTheDocument();
 
-    // CONTINUAR O PROGRESSO NESTE TESTE
+    if (screen.queryByTestId(recipeImg1)) {
+      expect(screen.queryByTestId(recipeImg0)).not.toBeInTheDocument();
+    }
 
-    // expect(screen.getByText('No favorite recipes found')).toBeInTheDocument();
-    // fireEvent.click(screen.getByTestId('0-horizontal-share-btn'));
-
-    // if (screen.queryByTestId(recipeImg1)) {
-    //   expect(screen.queryByTestId(recipeImg0)).not.toBeInTheDocument();
-    // }
+    expect(mockClipboardWriteText).toHaveBeenCalled();
   });
   test('Deve incluir no localStorage a chave "inProgressRecipes" com o id e a chave "cocktails" com um array vazio ao clicar no botão "Start Recipe"', () => {
     const { history } = renderWithRouter(
@@ -108,11 +117,11 @@ describe('FavoriteRecipes component', () => {
           <FavoriteRecipes />
         </MemoryRouter>
       </FoodProvider>,
-
     );
 
     fireEvent.click(screen.getByTestId('0-horizontal-image'));
     fireEvent.click(screen.getByTestId('0-horizontal-favorite-btn'));
+    fireEvent.click(screen.getByTestId('0-horizontal-share-btn'));
 
     // Verifica se o localStorage foi atualizado corretamente com a chave favoriteRecipes
     const favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
