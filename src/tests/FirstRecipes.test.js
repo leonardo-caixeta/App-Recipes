@@ -61,8 +61,6 @@ describe('FirstRecipes', () => {
       </MemoryRouter>,
     );
 
-    screen.debug();
-
     const recipeCards = screen.getAllByTestId(/recipe-card/i);
     fireEvent.click(recipeCards[0]);
     expect(recipeCards.length).toBe(2);

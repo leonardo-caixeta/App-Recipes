@@ -93,7 +93,6 @@ describe('FavoriteRecipes component', () => {
         </MemoryRouter>
       </FoodProvider>,
     );
-    screen.debug();
 
     fireEvent.click(screen.getByTestId(filterDrinkBtn));
     fireEvent.click(screen.getByTestId('0-horizontal-share-btn'));

@@ -46,7 +46,7 @@ function App() {
           <Route
             path="/drinks/:id/in-progress"
             render={
-              () => <RecipeInProgress foodType="meals" />
+              () => <RecipeInProgress foodType="drinks" /> // Troquei o foodType que das receitas em progresso que estava meals para drinks By => Anthony.
             }
           />
         </FoodProvider>

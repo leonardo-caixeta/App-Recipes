@@ -87,7 +87,6 @@ describe('Componente DoneRecipeCard', () => {
       const imageLinks = screen.getAllByTestId(/horizontal-image/i);
       const shareButtons = screen.getAllByTestId(/horizontal-share-btn/i);
 
-      screen.debug();
       // Assertivas
       expect(imageLinks).toHaveLength(2);
       expect(shareButtons).toHaveLength(2);
