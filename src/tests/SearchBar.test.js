@@ -1,40 +1,138 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import { createMemoryHistory } from 'history';
-import { Router } from 'react-router-dom';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
 
-import Recipes from '../components/Recipes';
-import FoodProvider from '../contexts/FoodProvider';
-import Meals from '../pages/Meals';
+import { MemoryRouter } from 'react-router';
+import SearchBar from '../components/SearchBar';
 
-test('Renderiza o componente SearchBar', async () => {
-  const history = createMemoryHistory({ initialEntries: ['/meals'] });
-  const { getByTestId } = render(
+import FoodContext from '../contexts/FoodContext';
+import FetchDrinks from '../funcs/FetchDrinks';
+import FetchMeals from '../funcs/FetchMeals';
 
-    <Router history={ history }>
-      <FoodProvider>
-        <Meals>
-          <Recipes />
-        </Meals>
-      </FoodProvider>
-      ,
-    </Router>,
-  );
+const mockFetchDrinks = jest.fn();
+const mockFetchMeals = jest.fn();
+jest.mock('../funcs/FetchDrinks', () => jest.fn(() => mockFetchDrinks()));
+jest.mock('../funcs/FetchMeals', () => jest.fn(() => mockFetchMeals()));
 
-  const searchBarElement = getByTestId('search-top-btn');
-  userEvent.click(searchBarElement);
-  const searchBar = getByTestId('search-input');
-  const radioIngredient = getByTestId('ingredient-search-radio');
-  const radioName = getByTestId('name-search-radio');
-  const radioFirstLetter = getByTestId('first-letter-search-radio');
-  const searchButton = getByTestId('exec-search-btn');
+const initialFoodContext = {
+  searchResults: { meals: null },
+  setSearchType: jest.fn(),
+  setSearchInput: jest.fn(),
+  searchInput: '',
+  searchType: '',
+  toggleRenderRecomended: false,
+  setToggleRenderRecomended: jest.fn(),
+};
+describe('Componente SearchBar', () => {
+  let mockFoodContext;
 
-  userEvent.click(searchBarElement);
-  userEvent.type(searchBar, 'chicken');
-  userEvent.click(radioIngredient);
-  userEvent.click(radioName);
-  userEvent.click(searchButton);
-  userEvent.click(radioFirstLetter);
-  userEvent.click(searchButton);
+  beforeEach(() => {
+    mockFoodContext = { ...initialFoodContext };
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  test('renderiza o input de busca', () => {
+    render(
+      <FoodContext.Provider value={ mockFoodContext }>
+        <SearchBar food="meals" />
+      </FoodContext.Provider>,
+    );
+    const searchInput = screen.getByTestId(/search-input/);
+    expect(searchInput).toBeInTheDocument();
+  });
+
+  test('seleciona a opção de busca corretamente', () => {
+    render(
+      <FoodContext.Provider value={ mockFoodContext }>
+        <SearchBar food="meals" />
+      </FoodContext.Provider>,
+    );
+    const nameSearchRadio = screen.getByTestId(/name-search-radio/);
+    fireEvent.click(nameSearchRadio);
+    expect(mockFoodContext.setSearchType).toHaveBeenCalledWith('name');
+  });
+
+  test('executa FetchDrinks quando o food é "drinks"', async () => {
+    render(
+      <FoodContext.Provider value={ mockFoodContext }>
+        <SearchBar food="drinks" />
+      </FoodContext.Provider>,
+    );
+    const execSearchButton = screen.getByText(/Buscar/i);
+    fireEvent.click(execSearchButton);
+    expect(FetchDrinks).toHaveBeenCalledTimes(1);
+    expect(FetchMeals).toHaveBeenCalledTimes(0);
+  });
+
+  test('alerta o usuário quando a busca não encontra correspondência', async () => {
+    const alertMock = jest.fn();
+    global.alert = alertMock;
+
+    render(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <FoodContext.Provider value={ mockFoodContext }>
+          <SearchBar food="meals" />
+        </FoodContext.Provider>
+        ,
+      </MemoryRouter>,
+
+    );
+    screen.debug();
+
+    const execSearchButton = screen.getByText(/Buscar/i);
+    const ingredientRadio = screen.getByTestId(/ingredient-search-radio/i);
+
+    fireEvent.click(ingredientRadio);
+    fireEvent.click(execSearchButton);
+    expect(alertMock).toHaveBeenCalledWith('Sorry, we haven\'t found any recipes for these filters.');
+  });
+
+  test('alerta o usuário quando a busca por primeira letra tem mais de um caracter', () => {
+    const mockFoodContextFirstLetter = {
+      searchResults: { meals: null },
+      setSearchType: jest.fn(),
+      setSearchInput: jest.fn(),
+      searchInput: 'ab', // Definindo searchInput com mais de um caractere
+      searchType: 'letter', // Definindo searchType como 'letter'
+      toggleRenderRecomended: false,
+      setToggleRenderRecomended: jest.fn(),
+    };
+
+    render(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <FoodContext.Provider value={ mockFoodContextFirstLetter }>
+          <SearchBar food="meals" />
+        </FoodContext.Provider>
+        ,
+      </MemoryRouter>,
+
+    );
+
+    const execSearchButton = screen.getByText(/Buscar/i);
+    fireEvent.click(execSearchButton);
+
+    expect(global.alert).toHaveBeenCalledWith('Your search must have only 1 (one) character');
+  });
+  test('altera o tipo de busca corretamente', async () => {
+    render(
+      <FoodContext.Provider value={ mockFoodContext }>
+        <SearchBar food="drinks" />
+      </FoodContext.Provider>,
+    );
+
+    const ingredientRadio = screen.getByTestId(/ingredient-search-radio/i);
+    const nameRadio = screen.getByTestId(/name-search-radio/i);
+    const firstLetterRadio = screen.getByTestId(/first-letter-search-radio/i);
+
+    fireEvent.click(ingredientRadio);
+    expect(mockFoodContext.setSearchType).toHaveBeenCalledWith('ingredient');
+
+    fireEvent.click(nameRadio);
+    expect(mockFoodContext.setSearchType).toHaveBeenCalledWith('name');
+
+    fireEvent.click(firstLetterRadio);
+    expect(mockFoodContext.setSearchType).toHaveBeenCalledWith('letter');
+  });
 });

@@ -114,10 +114,6 @@ describe('Componente Categories', () => {
       fireEvent.click(screen.getByTestId(/cocoa-category-filter/i));
       fireEvent.click(screen.getByTestId(/all-category-filter/i));
       expect(recipes[0]);
-      // const allRecipes = screen.getAllByTestId(/recipe-card/i);
-      // expect(allRecipes[0]).toBeInTheDocument();
-      // expect(allRecipes.length).toBe(3);
-      // fireEvent.click(screen.getByTestId(/all-category-filter/i));
     });
     screen.debug();
   });

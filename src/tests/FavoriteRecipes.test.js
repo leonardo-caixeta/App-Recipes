@@ -28,7 +28,6 @@ beforeAll(() => {
 
 describe('FavoriteRecipes component', () => {
   beforeEach(() => {
-    // Mock do localStorage para retornar dados de teste
     Object.defineProperty(window, 'localStorage', { value: localStorageFavoriteMock });
     localStorage.setItem('favoriteRecipes', JSON.stringify([
       { id: '1', type: 'meal', name: 'Recipe 1', category: category1, image: 'recipe1.jpg' },
@@ -37,7 +36,6 @@ describe('FavoriteRecipes component', () => {
   });
 
   afterEach(() => {
-    // Restaura o localStorage após cada teste
     global.localStorage.clear();
   });
 

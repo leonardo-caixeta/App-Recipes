@@ -5,7 +5,6 @@ import { Router } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import clipboardCopy from 'clipboard-copy';
 import FoodProvider from '../contexts/FoodProvider';
-// import localStorageMock from './helpers/localStorageMock';
 
 import DoneRecipes from '../pages/DoneRecipes';
 import DoneRecipesCards from '../components/DoneRecipesCards';
@@ -79,8 +78,7 @@ describe('Componente DoneRecipeCard', () => {
           </FoodProvider>
         </Router>,
       );
-      // Seleção de elementos da página DONE RECIPES
-      // const doneRecipesTitle = screen.getByTestId(/page-title/i);
+
       const filterAll = screen.getByTestId(/filter-by-all-btn/i);
       const filterMeals = screen.getByTestId(/filter-by-meal-btn/i);
       const filterDrinks = screen.getByTestId(/filter-by-drink-btn/i);
