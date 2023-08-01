@@ -1,128 +1,100 @@
 import React from 'react';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { BrowserRouter } from 'react-router-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 
 import FoodProvider from '../contexts/FoodProvider';
 import Recipes from '../components/Recipes';
-import Meals from '../pages/Meals';
-import Drinks from '../pages/Drinks';
 
-const search = 'search-input';
-const bar = 'search-top-btn';
-const button = 'exec-search-btn';
+const mockMeals = [
+  { idMeal: '52940', strMeal: 'Receita 1', strMealThumb: 'url-1' },
+  { idMeal: '52941', strMeal: 'Receita 2', strMealThumb: 'url-2' },
 
-// Não está sendo testado se ao clicar no card a página é redirecionada para a página de detalhes.
+];
 
+const mockDrinks = [
+  { idDrink: 1, strDrink: 'Bebida 1', strDrinkThumb: 'url-3' },
+  { idDrink: 2, strDrink: 'Bebida 2', strDrinkThumb: 'url-4' },
+];
 describe('Recipe Componente', () => {
-  test('renderiza corretamente os cards de receita ao utilizar a barra de busca na página /meals', async () => {
-    render(
-      <BrowserRouter>
-        <FoodProvider>
-          <Meals>
-            <Recipes />
-          </Meals>
-        </FoodProvider>
-      </BrowserRouter>,
-    );
-    const searchBarElement = screen.getByTestId(bar);
-    fireEvent.click(searchBarElement);
-
-    const searchBar = screen.getByTestId(search);
-    const radioIngredientElement = screen.getByTestId('ingredient-search-radio');
-    const searchButton = screen.getByTestId(button);
-
-    fireEvent.change(searchBar, { target: { value: 'chicken' } });
-    fireEvent.click(radioIngredientElement);
-    fireEvent.click(searchButton);
-
-    await waitFor(() => {
-      const recipeCards = screen.getAllByTestId(/card-name/);
-      expect(recipeCards).toHaveLength(11);
-      expect(recipeCards[1]).toHaveTextContent('Chicken & mushroom Hotpot');
-    });
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
-  test('renderiza corretamente os cards de receita ao utilizar a barra de busca na página /drinks', async () => {
-    render(
-      <BrowserRouter>
-        <FoodProvider>
-          <Drinks>
-            <Recipes />
-          </Drinks>
-        </FoodProvider>
-      </BrowserRouter>,
-    );
-    const searchBarElement = screen.getByTestId(bar);
-    fireEvent.click(searchBarElement);
 
-    const searchBar = screen.getByTestId(search);
-    const radioName = screen.getByTestId('name-search-radio');
-    const searchButton = screen.getByTestId(button);
+  test('renderiza corretamente os cards de receita /meals', async () => {
+    const mockSetDetailId = jest.fn();
 
-    fireEvent.change(searchBar, { target: { value: 'blood' } });
-    fireEvent.click(radioName);
-    fireEvent.click(searchButton);
-
-    await waitFor(() => {
-      const recipeCards = screen.getAllByTestId(/card-name/);
-      expect(recipeCards).toHaveLength(3);
-      expect(recipeCards[0]).toHaveTextContent('Bloody Mary');
+    jest.spyOn(React, 'useContext').mockReturnValue({
+      recipes: mockMeals,
+      setDetailId: mockSetDetailId,
+      toggleRenderFiltered: false,
+      toggleRenderRecomended: true,
+      searchResults: [],
     });
+
+    render(
+      <MemoryRouter>
+        <FoodProvider>
+          <Recipes />
+        </FoodProvider>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByTestId('0-card-name')).toHaveTextContent('Receita 1');
+    expect(screen.getByTestId('1-card-name')).toHaveTextContent('Receita 2');
+
+    fireEvent.click(screen.getByTestId('0-recipe-card'));
+    expect(mockSetDetailId).toHaveBeenCalledWith(mockMeals[0].idMeal);
+
+    fireEvent.click(screen.getByTestId('1-recipe-card'));
+    expect(mockSetDetailId).toHaveBeenCalledWith(mockMeals[1].idMeal);
   });
-  test('Testando parâmetro de busca inválido', async () => {
+
+  test('renderiza corretamente os cards de receita /drinks', () => {
+    const mockSetDetailId = jest.fn();
+
+    jest.spyOn(React, 'useContext').mockReturnValue({
+      recipes: mockDrinks, // Altera a lista de receitas para drinks
+      setDetailId: mockSetDetailId,
+      toggleRenderFiltered: false,
+      toggleRenderRecomended: true,
+      searchResults: [],
+    });
+
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <FoodProvider>
-          <Meals>
-            <Recipes />
-          </Meals>
+          <Recipes />
         </FoodProvider>
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
+    expect(screen.getByTestId('0-card-name')).toHaveTextContent('Bebida 1');
+    expect(screen.getByTestId('1-card-name')).toHaveTextContent('Bebida 2');
 
-    const searchBarElement = screen.getByTestId(bar);
-    fireEvent.click(searchBarElement);
-
-    const searchBar = screen.getByTestId(search);
-    const radioName = screen.getByTestId('name-search-radio');
-    const searchButton = screen.getByTestId(button);
-
-    fireEvent.change(searchBar, { target: { value: 'xablau' } });
-    fireEvent.click(radioName);
-    fireEvent.click(searchButton);
-
-    await waitFor(() => {
-      expect(alertSpy).toHaveBeenCalledTimes(1);
-    });
-    alertSpy.mockRestore();
+    fireEvent.click(screen.getByTestId('0-recipe-card'));
+    expect(mockSetDetailId).toHaveBeenCalledWith(mockDrinks[0].idDrink);
   });
-  test('Testando parâmetro de busca inválido', async () => {
+
+  test('não renderiza os cards de receita quando toggleRenderRecomended é falso', () => {
+    const mockSetDetailId = jest.fn();
+
+    jest.spyOn(React, 'useContext').mockReturnValue({
+      recipes: mockMeals,
+      setDetailId: mockSetDetailId,
+      toggleRenderFiltered: false,
+      toggleRenderRecomended: false, // Definindo o toggleRenderRecomended como falso
+      searchResults: [],
+    });
+
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <FoodProvider>
-          <Meals>
-            <Recipes />
-          </Meals>
+          <Recipes />
         </FoodProvider>
-      </BrowserRouter>,
+      </MemoryRouter>,
     );
 
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation(() => {});
-
-    const searchBarElement = screen.getByTestId('search-top-btn');
-    fireEvent.click(searchBarElement);
-
-    const searchBar = screen.getByTestId('search-input');
-    const radioFirstLetter = screen.getByTestId('first-letter-search-radio');
-    const searchButton = screen.getByTestId('exec-search-btn');
-
-    fireEvent.change(searchBar, { target: { value: 'abc' } });
-    fireEvent.click(radioFirstLetter);
-    fireEvent.click(searchButton);
-    await waitFor(() => {
-      expect(alertSpy).toHaveBeenCalledTimes(1);
-    });
-    alertSpy.mockRestore();
+    // Verifica se o componente não renderiza os cards de receita
+    expect(screen.queryByTestId(/-recipe-card/i)).toBeNull();
   });
 });
