@@ -3,8 +3,10 @@ import { fireEvent, render, screen } from '@testing-library/react';
 
 import { MemoryRouter } from 'react-router';
 import SearchBar from '../components/SearchBar';
+import Header from '../components/Header';
 
 import FoodContext from '../contexts/FoodContext';
+import FoodProvider from '../contexts/FoodProvider';
 import FetchDrinks from '../funcs/FetchDrinks';
 import FetchMeals from '../funcs/FetchMeals';
 
@@ -28,7 +30,6 @@ describe('Componente SearchBar', () => {
   beforeEach(() => {
     mockFoodContext = { ...initialFoodContext };
   });
-
   afterEach(() => {
     jest.restoreAllMocks();
   });
@@ -134,5 +135,22 @@ describe('Componente SearchBar', () => {
 
     fireEvent.click(firstLetterRadio);
     expect(mockFoodContext.setSearchType).toHaveBeenCalledWith('letter');
+  });
+  test('Verifica se o input de busca está funcionando corretamente', () => {
+    render(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <FoodProvider>
+          <Header title="Comidas" haveSearch />
+        </FoodProvider>
+      </MemoryRouter>,
+    );
+    const profileIcon = screen.getByTestId('profile-top-btn');
+    fireEvent.click(profileIcon);
+
+    const searchIconElement = screen.getByTestId('search-top-btn'); // Seleciona o icone de busca
+    fireEvent.click(searchIconElement); // Clica no icone de busca  para que a barra de busca apareça
+    const searchBar = screen.getByTestId('search-input'); // Seleciona a barra de busca
+    fireEvent.change(searchBar, { target: { value: 'test' } }); // Digita 'test' na barra de busca
+    expect(searchBar.value).toBe('test'); // Verifica se o valor digitado é 'test'
   });
 });

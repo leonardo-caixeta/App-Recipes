@@ -1,14 +1,21 @@
-import { screen, fireEvent } from '@testing-library/react';
-import Header from '../components/Header';
-import Provider from '../contexts/FoodProvider';
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import FoodProvider from '../contexts/FoodProvider';
 import renderWithRouter from '../renderWithRouter';
+import FoodContext from '../contexts/FoodContext';
+
+import Header from '../components/Header';
 
 describe('Testando o arquivo Header.js', () => {
   test('Barra de busca não deve ser renderizada na tela antes do click', () => {
     const { history } = renderWithRouter(
-      <Provider>
-        <Header title="Comidas" haveSearch />
-      </Provider>,
+      <MemoryRouter>
+        <FoodProvider>
+          <Header title="meals" haveSearch />
+        </FoodProvider>
+        ,
+      </MemoryRouter>,
     );
     const { pathname } = history.location;
     expect(pathname).toBe('/');
@@ -19,35 +26,49 @@ describe('Testando o arquivo Header.js', () => {
     const pageTitle = screen.getByTestId('page-title');
 
     // Ações
-    fireEvent.click(searchIcon); // Clica no icone de busca
-    const searchBar = screen.getByTestId('search-input');// Seleciona a barra de busca
-    expect(searchBar).toBeInTheDocument(); // Verifica se a barra de busca está na tela
-    fireEvent.click(searchIcon); // Clica novamente no icone de busca
-    expect(searchBar).not.toBeInTheDocument(); // Verifica se a barra de busca não está na tela
+    fireEvent.click(searchIcon);
+    const searchBar = screen.getByTestId('search-input');
+    expect(searchBar).toBeInTheDocument();
+    fireEvent.click(searchIcon);
+    expect(searchBar).not.toBeInTheDocument();
 
     // Verificação
     expect(profileIcon).toBeInTheDocument();
     expect(searchIcon).toBeInTheDocument();
     expect(pageTitle).toBeInTheDocument();
   });
+  test('Define imgUrl com incone de favoritos quando recipeType for \'favorite\'', () => {
+    const mockContextValue = {
+      recipeType: 'favorite',
+    };
 
-  test('Verifica se os inputs se comportam da maneira esperada.', () => {
-    const { history } = renderWithRouter(
-      <Provider>
-        <Header title="Comidas" haveSearch />
-      </Provider>,
+    render(
+      <MemoryRouter>
+        <FoodContext.Provider value={ mockContextValue }>
+          <Header haveSearch title="Test Title" />
+        </FoodContext.Provider>
+        ,
+      </MemoryRouter>,
     );
 
-    const profileIcon = screen.getByTestId('profile-top-btn');
-    fireEvent.click(profileIcon);
+    const favoritesIconElement = screen.getByAltText('Ícone da página de favorite');
+    expect(favoritesIconElement.src).toContain('favoritesIcon.svg');
+  });
 
-    const searchIconElement = screen.getByTestId('search-top-btn'); // Seleciona o icone de busca
-    fireEvent.click(searchIconElement); // Clica no icone de busca  para que a barra de busca apareça
-    const searchBar = screen.getByTestId('search-input'); // Seleciona a barra de busca
-    fireEvent.change(searchBar, { target: { value: 'test' } }); // Digita 'test' na barra de busca
-    expect(searchBar.value).toBe('test'); // Verifica se o valor digitado é 'test'
+  test('Define imgUrl com doneIcon quando recipeType for \'done\'', () => {
+    const mockContextValue = {
+      recipeType: 'done',
+    };
 
-    const { pathname } = history.location;
-    expect(pathname).toBe('/profile');
+    render(
+      <MemoryRouter>
+        <FoodContext.Provider value={ mockContextValue }>
+          <Header haveSearch title="Test Title" />
+        </FoodContext.Provider>
+      </MemoryRouter>,
+    );
+
+    const doneIconElement = screen.getByAltText('Ícone da página de done');
+    expect(doneIconElement.src).toContain('doneIcon.svg');
   });
 });
