@@ -76,7 +76,7 @@ export default function RecipeDetails({ foodType }) {
     const conditional = favoriteIDs
       .includes(String(informations.idDrink || informations.idMeal));
 
-    if (favorites.lenght > 1 || !conditional) {
+    if (favorites.length > 1 || !conditional) { // corrigido o lenght por length - By Anthony
       localStorage.setItem('favoriteRecipes', JSON.stringify([...favorites, {
         id: informations.idDrink || informations.idMeal,
         type: foodType.slice(0, secondMagicNumber),
